@@ -130,3 +130,5 @@ dmypy.json
 *.xml
 *.iml
 *.idea
+*.sqlite3
+*.env
