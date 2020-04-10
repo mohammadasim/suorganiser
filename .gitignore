@@ -131,4 +131,4 @@ dmypy.json
 *.iml
 *.idea
 *.sqlite3
-*.env
+suorganizer/*.env
