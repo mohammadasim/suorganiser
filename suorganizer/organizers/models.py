@@ -9,7 +9,8 @@ class Tag(models.Model):
                             help_text='A label for URL Config')
 
     def __str__(self):
-        return self.name
+        # to capitalise the first Character
+        return self.name.title()
 
     class Meta:
         ordering = ['name']
@@ -28,7 +29,7 @@ class Startup(models.Model):
     tags = models.ManyToManyField(Tag)
 
     def __str__(self):
-        return self.name
+        return self.name.title()
 
     class Meta:
         ordering = ['name']

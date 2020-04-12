@@ -27,19 +27,6 @@ services:
     networks:
       - local
 
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    env_file:
-      - app-env.env
-    volumes:
-      - ~/.docker_db_data/pgadmin:/var/lib/pgadmin
-    networks:
-      - local
-    restart: always
-    ports:
-      - 5050:5050
-
   nginx:
     container_name: nginx
     image: nginx:alpine

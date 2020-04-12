@@ -1,0 +1,15 @@
+<h2>{{ tag.name 3}}</h2>
+<section>
+    <h3>Startups</h3>
+    <ul>
+        {% for startup in tag.startup_set.all %}
+        <li>{{ startup.name }}</li>
+    </ul>
+    {% endfor %}
+</section>
+<section>
+    <h3>Blog Posts</h3>
+    <ul>
+
+    </ul>
+</section>
