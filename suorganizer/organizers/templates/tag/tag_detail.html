@@ -1,15 +1,31 @@
-<h2>{{ tag.name 3}}</h2>
+<h2>{{ tag.name|title }}</h2>
+{% if tag.startup_set.all %}
 <section>
-    <h3>Startups</h3>
+    <h3>Startup{{ tag.startup_set.count|pluralize }}</h3>
+    <p>
+    Tag is associated with
+    {{ tag.startup_set.count }}
+    startup {{ tag.startup_set.count|pluralize }}
+    </p>
     <ul>
         {% for startup in tag.startup_set.all %}
-        <li>{{ startup.name }}</li>
+        <li><a href=""> {{ startup.name }} </a></li>
     </ul>
     {% endfor %}
 </section>
+{% endif %}
+{% if blog_posts.all %}
 <section>
-    <h3>Blog Posts</h3>
+    <h3>Blog Post{{ tag.blog_posts.count|pluralize }}</h3>
     <ul>
-
+        {% for post in blog_posts.all %}
+        <li><a href="">
+            {{ post.title|title }}
+        </a> </li>
+        {% endfor %}
     </ul>
 </section>
+{% endif %}
+{% if not tag.startup_set.all and not tag.blog_posts.all %}
+<p>This tag is not related to any content.</p>
+{% endif %}
