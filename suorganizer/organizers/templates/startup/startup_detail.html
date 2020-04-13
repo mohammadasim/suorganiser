@@ -1,3 +1,8 @@
+{% extends parent_template|default:'organizer/base_organizer.html' %}
+{% block title %}
+{% block.super %} - {{ startup.name }}
+{% endblock %}
+{% block content %}
 <article>
     <h2>{{ startup.name }}</h2>
     <dl>
@@ -46,3 +51,4 @@
     </section>
     {% endif %}
 </article>
+{% endblock %}

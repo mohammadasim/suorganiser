@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        Startup Organizer
+        {% endblock %}
+    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- [if IE]<script
+     src="http://html5shiv.googlecode.come/svn/trunk/html5.js"
+     </script>
+     <! [endif]-->
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+</head>
+<body>
+<div>
+    <header>
+        <h1>Startup Organizer</h1>
+    </header>
+    <main>
+        {% block content %}
+        Thi is the default content.
+        {% endblock %}
+    </main>
+</div>
+<footer>
+    <p>
+        &copy;2020
+        <a href="https://AndresForge.com">
+            Andrew Pinkham
+        </a>
+    </p>
+    <p>
+        Created for
+        <a href="https://Django-Unleashed.com/">
+            Django Unleashed
+        </a>
+    </p>
+</footer>
+
+</body>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+<script src="semantic/dist/semantic.min.js"></script>
+</html>
