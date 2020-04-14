@@ -1,6 +1,6 @@
 {% extends parent_template|default:'organizer/base_organizer.html' %}
 {% block title %}
-{% block.super %} - {{ startup.name }}
+{{ block.super }} - {{ startup.name }}
 {% endblock %}
 {% block content %}
 <article>
@@ -35,7 +35,7 @@
             {% endfor %}
         </ul>
     </section>
-    {% endfor %}
+    {% endif %}
     {% if startup.blog_posts.all %}
     <section>
         <h3>Blog post{{ startup.blog_posts.count|pluralize }}</h3>

@@ -1,3 +1,8 @@
+{% extends parent_template|default:'organizer/base_organizer.html' %}
+{% block title %}
+{{ block.super }} - Startup List
+{% endblock %}
+{% block content %}
 {% for post in post_list %}
 <article>
     <header>
@@ -8,9 +13,9 @@
         </h2>
         <p>
             Written on:
-            <time datetime="{{ post.pub_date|date 'Y-m-d' }}">
+
                 {{ post.pub_date|date:"l, Fj, Y"}}
-            </time>
+
         </p>
     </header>
     <p>{{ post.text|truncatewords:20 }}</p>
@@ -23,3 +28,4 @@
 {% empty %}
 <p><em>No Blog Posts Available</em></p>
 {% endfor %}
+{% endblock %}
