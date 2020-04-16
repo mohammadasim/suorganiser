@@ -1,5 +1,10 @@
 from django.urls import path
-from .views import tag_list, tag_detail, startup_detail, startup_list
+from .views import (
+    tag_list,
+    tag_detail,
+    startup_detail,
+    startup_list
+)
 
 urlpatterns = [
     path('tag/', tag_list, name='organizers_tag_list'),
