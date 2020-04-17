@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Tag(models.Model):
@@ -14,6 +15,9 @@ class Tag(models.Model):
 
     class Meta:
         ordering = ['name']
+
+    def get_absolute_url(self):
+        return reverse('organizers_tag_detail', kwargs={'slug': self.slug})
 
 
 class Startup(models.Model):
@@ -35,6 +39,9 @@ class Startup(models.Model):
         ordering = ['name']
         get_latest_by = 'founded_date'
 
+    def get_absolute_url(self):
+        return reverse('organizers_startup_detail', kwargs={'slug': self.slug})
+
 
 class NewsLink(models.Model):
     title = models.CharField(max_length=63)
@@ -53,3 +60,8 @@ class NewsLink(models.Model):
         verbose_name = 'news article'
         ordering = ['-pub_date']
         get_latest_by = 'pub_date'
+
+    def get_absolute_url(self):
+        return reverse('organizers_startup_detail', kwargs={
+            'slug': self.slug
+        })
