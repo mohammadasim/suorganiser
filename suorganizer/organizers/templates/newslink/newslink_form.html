@@ -1,14 +1,14 @@
 {% extends parent_template|default:'organizer/base_organizer.html' %}
 {% block title %}
-{{ block.super }} - Create Tag
+{{ block.super }} - Link News Article to Startup
 {% endblock title %}
 {% block content %}
 <div>
     <div>
-<form action="{% url 'organizer_tag_create' %}" method="post">
+<form action="{% url 'organizer_newslink_create' %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-outline-success">Create Tag</button>
+    <button type="submit" class="btn btn-outline-success">Link Article</button>
 </form>
         </div>
     </div>

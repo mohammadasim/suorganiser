@@ -1,6 +1,13 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import View
 
 from .models import Tag, Startup
+from .mixins import ObjectCreateMixin
+from .forms import (
+    TagForm,
+    StartupForm,
+    NewsLinkForm
+)
 
 
 def tag_list(request):
@@ -15,6 +22,11 @@ def tag_detail(request, slug):
     return render(request,
                   'tag/tag_detail.html',
                   {'tag': tag})
+
+
+class TagCreate(ObjectCreateMixin, View):
+    form_class = TagForm
+    template_name = 'tag/tag_form.html'
 
 
 def startup_list(request):
@@ -32,3 +44,13 @@ def startup_detail(request, slug):
                   {
                       'startup': startup
                   })
+
+
+class StartupCreate(ObjectCreateMixin, View):
+    form_class = StartupForm
+    template_name = 'startup/startup_form.html'
+
+
+class NewsLinkCreate(ObjectCreateMixin, View):
+    form_class = NewsLinkForm
+    template_name = 'newslink/newslink_form_html'

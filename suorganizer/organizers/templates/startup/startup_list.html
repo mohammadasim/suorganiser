@@ -1,7 +1,7 @@
 {% extends parent_template|default:'organizer/base_organizer.html' %}
 {% block title %}
 {{ block.super }} - Startups
-{% endblock %}
+{% endblock title %}
 {% block content %}
 <h2>Startup List</h2>
 <ul>
@@ -15,4 +15,4 @@
     <li><em>No Startups Available</em></li>
     {% endfor %}
 </ul>
-{% endblock %}
+{% endblock content %}

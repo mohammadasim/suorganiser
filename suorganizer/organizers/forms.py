@@ -1,4 +1,4 @@
-from django.forms import forms
+from django.forms import ModelForm
 
 from .models import (
     Tag,
@@ -9,7 +9,7 @@ from .mixins import SlugCleanMixin
 
 
 class TagForm(SlugCleanMixin,
-              forms.ModelForm):
+              ModelForm):
     class Meta:
         model = Tag
         fields = '__all__'
@@ -18,14 +18,14 @@ class TagForm(SlugCleanMixin,
         return self.cleaned_data['name'].lower()
 
 
-class NewsLinkForm(forms.ModelForm):
+class NewsLinkForm(ModelForm):
     class Meta:
         model = NewsLink
         fields = '__all__'
 
 
 class StartupForm(SlugCleanMixin,
-                  forms.ModelForm):
+                  ModelForm):
     class Meta:
         model = Startup
         fields = '__all__'
