@@ -39,3 +39,11 @@ class Post(models.Model):
                            'year': self.pub_date.year,
                            'month': self.pub_date.month
                        })
+
+    def get_update_url(self):
+        return reverse('blogs_post_update',
+                       kwargs={
+                           'slug': self.slug,
+                           'year': self.pub_date.year,
+                           'month': self.pub_date.month
+                       })
