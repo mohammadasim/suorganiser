@@ -5,7 +5,7 @@
 {% block content %}
 <div>
     <div>
-<form action="{% url 'organizer_tag_create' %}" method="post">
+<form action="{% url 'organizers_tag_create' %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-outline-success">Create Tag</button>

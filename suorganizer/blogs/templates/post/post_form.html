@@ -5,7 +5,7 @@
 {% block content %}
 <div>
     <div>
-<form action="{% url 'blog_post_create' %}" method="post">
+<form action="{% url 'blogs_post_create' %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-outline-success">Create Blog Post</button>

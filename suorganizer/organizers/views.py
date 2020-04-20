@@ -16,9 +16,7 @@ from .forms import (
 
 
 def tag_list(request):
-    return render(request,
-                  'tag/tag_list.html',
-                  {'tag_list': Tag.objects.all()})
+    return render(request, 'tag/tag_list.html', {'tag_list': Tag.objects.all()})
 
 
 def tag_detail(request, slug):
@@ -40,7 +38,7 @@ class TagUpdate(ObjectUpdateMixin, View):
     template_name = 'tag/tag_form_update.html'
 
 
-class TagDelete(ObjectDeleteMixin):
+class TagDelete(ObjectDeleteMixin, View):
     template_name = 'tag/tag_confirm_delete.html'
     model = Tag
     success_url = reverse_lazy('organizers_tag_list')
@@ -74,7 +72,7 @@ class StartupUpdate(ObjectUpdateMixin, View):
     template_name = 'startup/startup_form_update.html'
 
 
-class StartupDelete(ObjectDeleteMixin):
+class StartupDelete(ObjectDeleteMixin, View):
     model = Startup
     template_name = 'startup/startup_confirm_delete.html'
     success_url = reverse_lazy('organizers_startup_list')
