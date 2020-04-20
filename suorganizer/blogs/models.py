@@ -47,3 +47,10 @@ class Post(models.Model):
                            'year': self.pub_date.year,
                            'month': self.pub_date.month
                        })
+
+    def get_delete_url(self):
+        return reverse('blogs_post_delete', kwargs={
+            'slug': self.slug,
+            'year': self.pub_date.year,
+            'month': self.pub_date.month
+        })

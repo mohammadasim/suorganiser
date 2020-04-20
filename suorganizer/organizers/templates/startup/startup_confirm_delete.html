@@ -1,0 +1,18 @@
+{% extends parent_template|default:'organizer/base_organizer.html' %}
+{% block title %}
+{{ block.super }} - Delete Startup
+{% endblock title %}
+{% block content %}
+<div>
+    <div>
+<form action="{{ startup.get_delete_url }}" method="post">
+    {% csrf_token %}
+    <p>
+        Are you sure you want to delete Startup {{ startup.name|title }} ?
+    </p>
+    <a href="{{ startup.get_absolute_url }}">Cancel</a>
+    <button type="submit" class="btn btn-outline-danger">Delete Startup</button>
+</form>
+        </div>
+    </div>
+{% endblock content %}

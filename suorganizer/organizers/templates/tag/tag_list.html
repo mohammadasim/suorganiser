@@ -14,6 +14,9 @@
             {{ tag.name|title }}
         </a>
     </li>
+    <li>
+        <a href="{{ tag.get_update_url }}">Edit Tag</a>
+    </li>
     {% empty %}
     <li><em>There are currently no Tags available.</em></li>
     {% endfor %}

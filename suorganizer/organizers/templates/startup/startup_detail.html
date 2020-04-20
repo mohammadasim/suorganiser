@@ -35,6 +35,9 @@
             <li>
                 <a href="{{ newslink.get_update_url }}">Edit Link</a>
             </li>
+            <li>
+                <a href="{{ newslink.get_delete_url }}">Delete Link</a>
+            </li>
             {% endfor %}
         </ul>
     </section>
@@ -53,5 +56,11 @@
         </ul>
     </section>
     {% endif %}
+    <p>
+        <a href="{{ startup.get_update_url }}">Edit Startup</a>
+    </p>
+    <p>
+        <a href="{{ startup.get_delete_url }}">Delete Startup</a>
+    </p>
 </article>
 {% endblock content %}

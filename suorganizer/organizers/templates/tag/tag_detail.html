@@ -34,4 +34,10 @@
 {% if not tag.startup_set.all and not tag.blog_posts.all %}
 <p>This tag is not related to any content.</p>
 {% endif %}
+<p>
+    <a href="{{ tag.get_update_url }}">Edit Tag</a>
+</p>
+<p>
+    <a href="{{ tag.get_delete_url }}">Delete Tag</a>
+</p>
 {% endblock content %}

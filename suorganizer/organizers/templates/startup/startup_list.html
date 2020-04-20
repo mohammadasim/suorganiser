@@ -11,6 +11,12 @@
             {{ startup.name }}
         </a>
     </li>
+    <li>
+        <a href="{{ startup.get_update_url }}">Edit Startup</a>
+    </li>
+    <li>
+        <a href="{{ startup.get_delete_url }}">Delete Startup</a>
+    </li>
     {% empty %}
     <li><em>No Startups Available</em></li>
     {% endfor %}

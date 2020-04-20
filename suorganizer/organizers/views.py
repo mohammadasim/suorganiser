@@ -1,8 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
 from django.views.generic import View
 
 from .models import Tag, Startup, NewsLink
-from .mixins import ObjectCreateMixin
+from .mixins import (
+    ObjectCreateMixin,
+    ObjectUpdateMixin,
+    ObjectDeleteMixin
+)
 from .forms import (
     TagForm,
     StartupForm,
@@ -29,6 +34,18 @@ class TagCreate(ObjectCreateMixin, View):
     template_name = 'tag/tag_form.html'
 
 
+class TagUpdate(ObjectUpdateMixin, View):
+    form_class = TagForm
+    model = Tag
+    template_name = 'tag/tag_form_update.html'
+
+
+class TagDelete(ObjectDeleteMixin):
+    template_name = 'tag/tag_confirm_delete.html'
+    model = Tag
+    success_url = reverse_lazy('organizers_tag_list')
+
+
 def startup_list(request):
     return render(request,
                   'startup/startup_list.html',
@@ -49,6 +66,18 @@ def startup_detail(request, slug):
 class StartupCreate(ObjectCreateMixin, View):
     form_class = StartupForm
     template_name = 'startup/startup_form.html'
+
+
+class StartupUpdate(ObjectUpdateMixin, View):
+    form_class = StartupForm
+    model = Startup
+    template_name = 'startup/startup_form_update.html'
+
+
+class StartupDelete(ObjectDeleteMixin):
+    model = Startup
+    template_name = 'startup/startup_confirm_delete.html'
+    success_url = reverse_lazy('organizers_startup_list')
 
 
 class NewsLinkCreate(ObjectCreateMixin, View):
@@ -86,3 +115,23 @@ class NewsLinkUpdate(View):
                 'newslink': news_link
             }
             return render(request, self.template_name, context=context)
+
+
+class NewsLinkDelete(View):
+    template_name = 'newslink/newslink_confirm_delete.html'
+    model = NewsLink
+
+    def get(self, request, pk):
+        news_link = get_object_or_404(self.model, pk=pk)
+        context = {
+            'newslink': news_link
+        }
+        return render(request,
+                      self.template_name,
+                      context=context)
+
+    def post(self, request, pk):
+        news_link = get_object_or_404(self.model, pk=pk)
+        startup = news_link.startup
+        news_link.delete()
+        return redirect(startup)
