@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View
 
-from .models import Tag, Startup
+from .models import Tag, Startup, NewsLink
 from .mixins import ObjectCreateMixin
 from .forms import (
     TagForm,
@@ -54,3 +54,35 @@ class StartupCreate(ObjectCreateMixin, View):
 class NewsLinkCreate(ObjectCreateMixin, View):
     form_class = NewsLinkForm
     template_name = 'newslink/newslink_form_html'
+
+
+class NewsLinkUpdate(View):
+    form_class = NewsLinkForm
+    model = NewsLink
+    template_name = 'newslink/newslink_form_update.html'
+
+    def get(self, request, pk):
+        news_link = get_object_or_404(self.model, pk=pk)
+        context = {
+            'form': self.form_class(instance=news_link),
+            'newslink': news_link
+        }
+        return render(request,
+                      self.template_name,
+                      context=context)
+
+    def post(self, request, pk):
+        news_link = get_object_or_404(self.model, pk=pk)
+        bound_form = self.form_class(
+            request.Post,
+            instance=news_link
+        )
+        if bound_form.is_valid():
+            new_newslink = bound_form.save()
+            return redirect(new_newslink)
+        else:
+            context = {
+                'form': bound_form,
+                'newslink': news_link
+            }
+            return render(request, self.template_name, context=context)

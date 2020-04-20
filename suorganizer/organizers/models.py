@@ -65,3 +65,9 @@ class NewsLink(models.Model):
         return reverse('organizers_startup_detail', kwargs={
             'slug': self.slug
         })
+
+    def get_update_url(self):
+        return reverse('organizers_newslink_update',
+                       kwargs={
+                           'pk': self.pk
+                       })

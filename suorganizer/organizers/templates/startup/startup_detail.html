@@ -32,6 +32,9 @@
                     {{ newslink.title|title }}
                 </a>
             </li>
+            <li>
+                <a href="{{ newslink.get_update_url }}">Edit Link</a>
+            </li>
             {% endfor %}
         </ul>
     </section>
