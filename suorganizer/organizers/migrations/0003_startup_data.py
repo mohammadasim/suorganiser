@@ -24,7 +24,7 @@ STARTUPS = [
             'Remote-controlled internet-enabled'
             'internet of things',
         'founded_date': date(2009, 10, 31),
-        'tags': ['mobile', 'django', 'flask'],
+        'tags': ['mobile', 'django'],
         'website':
             'https://frighteneveryone.com'
     }
@@ -34,7 +34,7 @@ STARTUPS = [
 
 def add_startup_data(apps, schema_editor):
     Startup = apps.get_model('organizers', 'Startup')
-    tag = apps.get_model('organizers', 'Tag')
+    Tag = apps.get_model('organizers', 'Tag')
     for startup in STARTUPS:
         startup_object = Startup.objects.create(
             name=startup['name'],
@@ -46,7 +46,7 @@ def add_startup_data(apps, schema_editor):
         )
         for tag_slug in startup['tags']:
             startup_object.tags.add(
-                tag.objects.get(slug=tag_slug)
+                Tag.objects.get(slug=tag_slug)
             )
 
 

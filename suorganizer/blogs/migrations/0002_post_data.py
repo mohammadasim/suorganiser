@@ -84,8 +84,12 @@ def delete_post_data(apps, schema_editor):
 class Migration(migrations.Migration):
     dependencies = [
         ('blogs', '0001_initial'),
-        ('organizers', '0003_startup_data.py'),
+        ('organizers', '0003_startup_data'),
     ]
 
     operations = [
+        migrations.RunPython(
+            add_post_data,
+            delete_post_data
+        )
     ]
