@@ -1,4 +1,5 @@
 {% extends parent_template|default:'organizer/base_organizer.html' %}
+{% load crispy_forms_tags %}
 {% block title %}
 {{ block.super }} - Delete Tag
 {% endblock title %}
@@ -7,11 +8,15 @@
     <div>
 <form action="{{ tag.get_delete_url }}" method="post">
     {% csrf_token %}
-    <p>
+    <p class="text-danger">
         Are you sure you want to delete tag {{ tag.name }} ?
     </p>
+    <p>
     <a href="{{ tag.get_absolute_url }}">Cancel</a>
+    </p>
+    <p>
     <button type="submit" class="btn btn-outline-danger">Delete Tag</button>
+    </p>
 </form>
         </div>
     </div>

@@ -35,9 +35,9 @@
 <p>This tag is not related to any content.</p>
 {% endif %}
 <p>
-    <a href="{{ tag.get_update_url }}">Edit Tag</a>
+    <a href="{{ tag.get_update_url }}" class="text-warning">Edit Tag</a>
 </p>
 <p>
-    <a href="{{ tag.get_delete_url }}">Delete Tag</a>
+    <a href="{{ tag.get_delete_url }}" class="text-danger">Delete Tag</a>
 </p>
 {% endblock content %}

@@ -25,17 +25,17 @@
         </a>
     </p>
     <p>
-        <a href="{{ post.get_update_url }}">Edit Post</a>
+        <a href="{{ post.get_update_url }}" class="text-warning">Edit Post</a>
     </p>
     <p>
-        <a href="{{ post.get_delete_url }}">Delete Post</a>
+        <a href="{{ post.get_delete_url }}" class="text-danger">Delete Post</a>
     </p>
 </article>
 {% empty %}
 <p><em>No Blog Posts Available</em></p>
 {% endfor %}
 <div>
-    <a href="{% url 'blogs_post_create' %}">
+    <a href="{% url 'blogs_post_create' %}" class="text-info">
         Write New Blog
     </a>
 </div>

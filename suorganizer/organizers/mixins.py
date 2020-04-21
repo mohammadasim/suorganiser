@@ -36,7 +36,7 @@ class ObjectCreateMixin:
                       {'form': self.form_class()})
 
     def post(self, request):
-        bound_form = self.template_name(request.POST)
+        bound_form = self.form_class(request.POST)
         if bound_form.is_valid():
             new_object = bound_form.save()
             return redirect(new_object)
@@ -54,13 +54,15 @@ class ObjectUpdateMixin(GetObjectMixin):
     def get(self, request, slug):
         obj = self.get_object(slug=slug)
         context = {
-            'form': self.form_class(obj),
+            'form': self.form_class(instance=obj),
             self.model.__name__.lower(): obj
         }
         return render(request, self.template_name, context=context)
 
     def post(self, request, slug):
         obj = self.get_object(slug=slug)
+        # Create a form to edit an existing Object, but use
+        # POST data to populate the form.
         bound_form = self.form_class(request.POST, instance=obj)
         if bound_form.is_valid():
             new_obj = bound_form.save()

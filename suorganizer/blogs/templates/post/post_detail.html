@@ -14,6 +14,16 @@
         </p>
     </header>
     {{ post.text|linebreaks }}
+    <p>
+        <a href="{{ post.get_update_url }}" class="text-warning">
+                        Edit Post
+                    </a>
+    </p>
+    <p>
+        <a href="{{ post.get_delete_url }}" class="text-danger">
+                        Delete Post
+                    </a>
+    </p>
     {% if post.startups.all or post.tags.all %}
     <footer>
         {% if post.startups.all %}
@@ -24,16 +34,6 @@
                 <li>
                     <a href="{{ startup.get_absolute_url }}">
                         {{ startup.name }}
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ post.get_update_url }}">
-                        Edit Post
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ post.get_delete_url }}">
-                        Delete Post
                     </a>
                 </li>
                 {% endfor %}

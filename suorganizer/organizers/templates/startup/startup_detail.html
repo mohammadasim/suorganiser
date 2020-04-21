@@ -22,6 +22,12 @@
         {% endfor %}
     </dl>
         {{ startup.description|linebreaks }}
+    <p>
+        <a href="{{ startup.get_update_url }}" class="text-warning">Edit Startup</a>
+    </p>
+    <p>
+        <a href="{{ startup.get_delete_url }}" class="text-danger">Delete Startup</a>
+    </p>
     {% if startup.newslink_set.all %}
     <section>
         <h3>Recent News</h3>
@@ -46,7 +52,7 @@
     <section>
         <h3>Blog post{{ startup.blog_posts.count|pluralize }}</h3>
         <ul>
-            {% for post in blog_posts.all %}
+            {% for post in startup.blog_posts.all %}
             <li>
                 <a href="{{ post.get_absolute_url }}">
                     {{ post.title|title }}
@@ -56,11 +62,5 @@
         </ul>
     </section>
     {% endif %}
-    <p>
-        <a href="{{ startup.get_update_url }}">Edit Startup</a>
-    </p>
-    <p>
-        <a href="{{ startup.get_delete_url }}">Delete Startup</a>
-    </p>
 </article>
 {% endblock content %}

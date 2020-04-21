@@ -54,6 +54,8 @@ def startup_list(request):
 
 def startup_detail(request, slug):
     startup = get_object_or_404(Startup, slug__iexact=slug)
+    for blog in startup.blog_posts.all():
+        print(blog.title)
     return render(request,
                   'startup/startup_detail.html',
                   {

@@ -1,4 +1,5 @@
 {% extends parent_template|default:'organizer/base_organizer.html' %}
+{% load crispy_forms_tags %}
 {% block title %}
 {{ block.super }} - Link News Article to Startup
 {% endblock title %}
@@ -7,7 +8,7 @@
     <div>
 <form action="{% url 'organizers_newslink_create' %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form|crispy }}
     <button type="submit" class="btn btn-outline-success">Link Article</button>
 </form>
         </div>

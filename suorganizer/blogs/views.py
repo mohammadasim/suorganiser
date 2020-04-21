@@ -88,6 +88,7 @@ class PostUpdate(GetObjectMixin, View):
 
 class PostDelete(GetObjectMixin, View):
     template_name = 'post/post_confirm_delete.html'
+    model = Post
 
     def get(self, request, slug, year, month):
         post = self.get_object(year=year, month=month, slug=slug)

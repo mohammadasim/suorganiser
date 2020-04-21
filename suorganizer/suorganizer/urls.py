@@ -22,6 +22,3 @@ urlpatterns = [
     path('', include('organizers.urls')),
     path('blogs/', include('blogs.urls')),
 ]
-
-for pattern in urlpatterns:
-    print(pattern)
