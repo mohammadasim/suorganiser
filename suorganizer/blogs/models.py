@@ -17,9 +17,11 @@ class Post(models.Model):
         auto_now_add=True
     )
     tags = models.ManyToManyField(Tag,
-                                  related_name='blog_posts')
+                                  related_name='blog_posts',
+                                  blank=True)
     startups = models.ManyToManyField(Startup,
-                                      related_name='blog_posts')
+                                      related_name='blog_posts',
+                                      blank=True)
 
     def __str__(self):
         return '{} on {}'.format(

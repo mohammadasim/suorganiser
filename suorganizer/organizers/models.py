@@ -36,7 +36,7 @@ class Startup(models.Model):
     founded_date = models.DateField('Date Founded')
     contact = models.EmailField()
     website = models.URLField(max_length=255)
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
 
     def __str__(self):
         return self.name.title()
@@ -61,6 +61,7 @@ class NewsLink(models.Model):
     link = models.URLField(max_length=255)
     startup = models.ForeignKey(Startup,
                                 on_delete=models.CASCADE)
+    slug = models.SlugField(max_length=63)
 
     def __str__(self):
         return '{}:{}'.format(
@@ -72,6 +73,7 @@ class NewsLink(models.Model):
         verbose_name = 'news article'
         ordering = ['-pub_date']
         get_latest_by = 'pub_date'
+        unique_together = ('slug', 'startup')
 
     def get_absolute_url(self):
         return reverse('organizers_startup_detail', kwargs={
