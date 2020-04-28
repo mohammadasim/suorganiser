@@ -14,3 +14,11 @@ DATABASES = {
         'PORT': get_env_variable('PGSQL_DB_PORT')
     }
 }
+# Dev email settings, enables email output to the console
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SERVER_EMAIL = 'contact@django-unleashed.com'
+DEFAULT_FROM_EMAIL = 'no-reply@django-unleashed.com'
+EMAIL_SUBJECT_PREFIX = '[Startup Organizer]'
+MANAGERS = (
+    ('Us', 'ourselves@django-unleashed.com'),
+)

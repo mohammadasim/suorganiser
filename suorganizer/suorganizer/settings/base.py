@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     # local
     'blogs.apps.BlogsConfig',
     'organizers.apps.OrganizersConfig',
+    'contacts.apps.ContactsConfig',
 ]
 
 MIDDLEWARE = [
