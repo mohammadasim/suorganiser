@@ -1,4 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.paginator import (
+    Paginator,
+    PageNotAnInteger,
+    EmptyPage
+)
 from django.urls import reverse_lazy
 from django.views.generic import View
 
@@ -15,8 +20,13 @@ from .forms import (
 )
 
 
-def tag_list(request):
-    return render(request, 'tag/tag_list.html', {'tag_list': Tag.objects.all()})
+class TagList(View):
+    template_name = 'tag/tag_list.html'
+
+    def get(self, request):
+        return render(request,
+                      self.template_name,
+                      {'tag_list': Tag.objects.all()})
 
 
 def tag_detail(request, slug):
@@ -44,12 +54,34 @@ class TagDelete(ObjectDeleteMixin, View):
     success_url = reverse_lazy('organizers_tag_list')
 
 
-def startup_list(request):
-    return render(request,
-                  'startup/startup_list.html',
-                  {
-                      'startup_list': Startup.objects.all()
-                  })
+class StartupList(View):
+    template_name = 'startup/startup_list.html'
+    paginate_by = 5
+    page_kwarg = 'page'
+
+    def get(self, request):
+        startup = Startup.objects.all()
+        paginator = Paginator(startup, self.paginate_by)
+        page_number = request.GET.get(
+            self.page_kwarg
+        )
+        try:
+            page = paginator.page(page_number)
+        except PageNotAnInteger:
+            page = paginator.page(1)
+        except EmptyPage:
+            page = paginator.page(
+                paginator.num_pages
+            )
+
+        context = {
+            'is_paginated': page.has_other_pages(),
+            'startup_list': page,
+            'paginator': paginator
+        }
+        return render(request,
+                      self.template_name,
+                      context)
 
 
 def startup_detail(request, slug):

@@ -27,7 +27,20 @@ STARTUPS = [
         'tags': ['mobile', 'django'],
         'website':
             'https://frighteneveryone.com'
-    }
+    },
+{
+        'name': 'DevTeams',
+        'slug': 'devteams',
+        'contact': 'contact@devteams.com',
+        'description':
+            'Remote-controlled internet-enabled'
+            'internet of things',
+        'founded_date': date(2019, 10, 31),
+        'tags': ['mobile', 'django'],
+        'website':
+            'https://devteams.co.uk'
+    },
+
 
 ]
 

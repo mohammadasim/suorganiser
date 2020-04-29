@@ -1,0 +1,16 @@
+{% extends parent_template|default:'contacts/base_contact.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+{{ block.super }} - Contact Us
+{% endblock %}
+{% block content %}
+<div>
+    <div>
+<form action="{% url 'contact' %}" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-outline-primary">Contact Us</button>
+</form>
+        </div>
+    </div>
+{% endblock %}
