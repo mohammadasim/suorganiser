@@ -18,5 +18,18 @@
     <li><em>There are currently no Tags available.</em></li>
     {% endfor %}
 </ul>
+<div>
+    Page {{ tag_list.number }} of {{ paginator.num_pages }}
+</div>
+<div>
+    {% if is_paginated %}
+    {% if tag_list.has_previous %}
+    <a href="{{ previous_page_url }}">Previous</a>
+    {% endif %}
+    {% if  tag_list.has_next %}
+    <a href="{{ next_page_url }}">Next</a>
+    {% endif %}
+    {% endif %}
+</div>
 {% endblock content %}
 

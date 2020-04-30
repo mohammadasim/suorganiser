@@ -4,11 +4,13 @@ from ..views import (
     TagCreate,
     TagUpdate,
     TagDelete,
-    TagList
+    TagList,
+    TagPageList,
 )
 
 urlpatterns = [
     path('', TagList.as_view(), name='organizers_tag_list'),
+    path('<int:page_number>/', TagPageList.as_view(), name='organizers_tag_page'),
     path('create/', TagCreate.as_view(), name='organizers_tag_create'),
     path('<slug:slug>/', tag_detail, name='organizers_tag_detail'),
     path('<slug:slug>/update/', TagUpdate.as_view(), name='organizers_tag_update'),

@@ -1,6 +1,7 @@
 from django.forms import forms
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render, get_object_or_404
+from django.urls import reverse
 
 
 class SlugCleanMixin:
@@ -91,3 +92,29 @@ class ObjectDeleteMixin(GetObjectMixin):
         obj = self.get_object(slug=slug)
         obj.delete()
         return HttpResponseRedirect(self.success_url)
+
+
+class ObjectPaginateMixin:
+    reverse_url_name = ''
+
+    def get_next_url(self, page):
+        if page.has_next():
+            return reverse(
+                self.reverse_url_name,
+                args=(
+                    page.next_page_number(),
+                )
+            )
+        else:
+            return None
+
+    def get_previous_url(self, page):
+        if page.has_previous():
+            return reverse(
+                self.reverse_url_name,
+                args=(
+                    page.previous_page_number(),
+                )
+            )
+        else:
+            return None
