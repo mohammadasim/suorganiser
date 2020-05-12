@@ -5,13 +5,16 @@ from django.core.paginator import (
     EmptyPage
 )
 from django.urls import reverse_lazy
-from django.views.generic import View
+from django.views.generic import (
+    View,
+    CreateView,
+    DetailView,
+    UpdateView,
+    DeleteView,
+)
 
 from .models import Tag, Startup, NewsLink
 from .mixins import (
-    ObjectCreateMixin,
-    ObjectUpdateMixin,
-    ObjectDeleteMixin,
     ObjectPaginateMixin,
 )
 from .forms import (
@@ -65,26 +68,22 @@ class TagPageList(ObjectPaginateMixin, View):
                       context)
 
 
-def tag_detail(request, slug):
-    tag = get_object_or_404(Tag,
-                            slug__iexact=slug)
-    return render(request,
-                  'tag/tag_detail.html',
-                  {'tag': tag})
+class TagDetail(DetailView):
+    model = Tag
 
 
-class TagCreate(ObjectCreateMixin, View):
+class TagCreate(CreateView):
     form_class = TagForm
     template_name = 'tag/tag_form.html'
 
 
-class TagUpdate(ObjectUpdateMixin, View):
+class TagUpdate(UpdateView):
     form_class = TagForm
     model = Tag
     template_name = 'tag/tag_form_update.html'
 
 
-class TagDelete(ObjectDeleteMixin, View):
+class TagDelete(DeleteView):
     template_name = 'tag/tag_confirm_delete.html'
     model = Tag
     success_url = reverse_lazy('organizers_tag_list')
@@ -120,37 +119,33 @@ class StartupList(View):
                       context)
 
 
-def startup_detail(request, slug):
-    startup = get_object_or_404(Startup, slug__iexact=slug)
-    for blog in startup.blog_posts.all():
-        print(blog.title)
-    return render(request,
-                  'startup/startup_detail.html',
-                  {
-                      'startup': startup
-                  })
+class StartupDetail(DetailView):
+    model = Startup
 
 
-class StartupCreate(ObjectCreateMixin, View):
+class StartupCreate(CreateView):
     form_class = StartupForm
     template_name = 'startup/startup_form.html'
 
 
-class StartupUpdate(ObjectUpdateMixin, View):
+class StartupUpdate(UpdateView):
     form_class = StartupForm
     model = Startup
     template_name = 'startup/startup_form_update.html'
 
 
-class StartupDelete(ObjectDeleteMixin, View):
+class StartupDelete(DeleteView):
     model = Startup
     template_name = 'startup/startup_confirm_delete.html'
     success_url = reverse_lazy('organizers_startup_list')
 
 
-class NewsLinkCreate(ObjectCreateMixin, View):
+class NewsLinkCreate(CreateView):
     form_class = NewsLinkForm
-    template_name = 'newslink/newslink_form_html'
+    template_name = 'newslink/newslink_form.html'
+    # Django by default will use get_absolute_url to redirect to the newly created object detail view
+    # however in our case newslink doesn't have that view
+    success_url = reverse_lazy('organizers_startup_list')
 
 
 class NewsLinkUpdate(View):
