@@ -43,15 +43,14 @@
           <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>
       </li>
         <li class="nav-item dropdown">
-            {% load flatpages %}
-            {% get_flatpages as flatpages %}
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Learn More
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            {% for page in flatpages %}
-          <a class="dropdown-item" href="{{ page.get_absolute_url }}">{{ page.title }}</a>
-         {% endfor %}
+          <a class="dropdown-item" href="{% url 'about_site' %}">About Us</a>
+            <a class="dropdown-item" href="{% url 'site_mission' %}">Our Mission</a>
+            <a class="dropdown-item" href="{% url 'site_work' %}">How We Work</a>
+
         </div>
         </li>
     </ul>

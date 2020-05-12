@@ -2,22 +2,21 @@ from django.shortcuts import (
     render,
     get_object_or_404, redirect
 )
-from django.views.generic import View
+from django.views.generic import (
+    View,
+    CreateView,
+    ListView
+
+)
 
 from .mixins import GetObjectMixin
 from .models import Post
 from .forms import PostForm
 
 
-class PostList(View):
+class PostList(ListView):
+    model = Post
     template_name = 'post/post_list.html'
-
-    def get(self, request):
-        return render(request,
-                      self.template_name,
-                      {
-                          'post_list': Post.objects.all()
-                      })
 
 
 class PostDetail(View):
@@ -35,24 +34,10 @@ class PostDetail(View):
                       })
 
 
-class PostCreate(View):
+class PostCreate(CreateView):
     form_class = PostForm
     template_name = 'post/post_form.html'
-
-    def get(self, request):
-        return render(request,
-                      self.template_name,
-                      {'form': self.form_class()})
-
-    def post(self, request):
-        bound_form = self.form_class(request.POST)
-        if bound_form.is_valid():
-            new_post = bound_form.save()
-            return redirect(new_post)
-        else:
-            return render(request,
-                          self.template_name,
-                          {'form': bound_form})
+    model = Post
 
 
 class PostUpdate(GetObjectMixin, View):

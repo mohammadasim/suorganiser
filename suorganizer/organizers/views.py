@@ -70,6 +70,7 @@ class TagPageList(ObjectPaginateMixin, View):
 
 class TagDetail(DetailView):
     model = Tag
+    template_name = 'tag/tag_detail.html'
 
 
 class TagCreate(CreateView):

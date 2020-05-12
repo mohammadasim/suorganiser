@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView, RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,5 +24,11 @@ urlpatterns = [
     path('newslink/', include('organizers.urls.newslink')),
     path('startup/', include('organizers.urls.startup')),
     path('tag/', include('organizers.urls.tag')),
-    path('', include('django.contrib.flatpages.urls'))
+    path('about/', TemplateView.as_view(template_name='site/about.html'), name='about_site'),
+    path('mission/', TemplateView.as_view(template_name='site/mission.html'), name='site_mission'),
+    path('how/', TemplateView.as_view(template_name='site/work.html'), name='site_work'),
+    path('', RedirectView.as_view(
+        pattern_name='blogs_posts_list',
+        permanent=False
+    ))
 ]
