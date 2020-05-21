@@ -1,0 +1,77 @@
+{% extends parent_template|default:'post/base_blog.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+{{ block.super }} - {{ year|date:'Y' }} Posts
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-4">
+        <h3>Archive by Month</h3>
+        <ul>
+            {% for month in date_list %}
+            <li><a href="{% url 'blogs_post_archive_month' month|date:'Y' month|date:'n' %}">{{ month|date:"F Y" }}</a> </li>
+            {% endfor %}
+        </ul>
+        
+    </div>
+    <div class="col-8">
+        <h2>All Posts for {{ year|date:'Y' }}</h2>
+        {% for post in post_list %}
+        <article>
+            <header>
+                <h3>
+                    <a href="{{ post.get_absolute_url }}">{{ post.title|title }}</a>
+                </h3>
+                ...
+                <p>
+                    Written on:
+                    <time datetime="{{ post.pub_date|date:'Y-m-d'}}">
+                        {{ post.pub_date|date:'l, Fj, Y'}}
+                    </time>
+                </p>
+            </header>
+            <p>{{ post.text|truncatewords:20 }}</p>
+            <p class="read-more">
+                <a href="{{ post.get_absolute_url }}">Read more&hellip;</a>
+            </p>
+        </article>
+        <ul class="inline">
+            <li>
+                <a href="{{ post.get_update_url }}" class="button">Edit Post</a>
+            </li>
+            <li>
+                <a href="{{ post.get_delete_url }}" class="button">Delete Post</a>
+            </li>
+        </ul>
+        {% endfor %}
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if previous_year %}
+            <li class="page-item">
+      <a class="page-link" href="{% url 'blogs_post_archive_year'
+                                    previous_year|date:'Y' %}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+            </li>
+            {% endif %}
+            {% if next_year %}
+            <li class="page-item">
+      <a class="page-link" href="{% url 'blogs_post_archive_year'
+                                         next_year|date:'Y' %}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+            {% endif %}
+        </ul>
+        </nav>
+    </div>
+</div>
+
+{% endblock content %}

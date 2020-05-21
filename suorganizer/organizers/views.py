@@ -122,6 +122,7 @@ class StartupList(View):
 
 class StartupDetail(DetailView):
     model = Startup
+    template_name = 'startup/startup_detail.html'
 
 
 class StartupCreate(CreateView):
@@ -181,21 +182,15 @@ class NewsLinkUpdate(View):
             return render(request, self.template_name, context=context)
 
 
-class NewsLinkDelete(View):
+class NewsLinkDelete(DeleteView):
     template_name = 'newslink/newslink_confirm_delete.html'
     model = NewsLink
 
-    def get(self, request, pk):
-        news_link = get_object_or_404(self.model, pk=pk)
-        context = {
-            'newslink': news_link
-        }
-        return render(request,
-                      self.template_name,
-                      context=context)
-
-    def post(self, request, pk):
-        news_link = get_object_or_404(self.model, pk=pk)
-        startup = news_link.startup
-        news_link.delete()
-        return redirect(startup)
+    def get_success_url(self):
+        """
+        Redirect to the startup that the newslink was associated with,
+        when the newslink is deleted.
+        :return:
+        """
+        return (self.object.startup.
+                get_absolute_url())

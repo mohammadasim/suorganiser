@@ -4,7 +4,9 @@ from .views import (
     PostDetail,
     PostCreate,
     PostUpdate,
-    PostDelete
+    PostDelete,
+    PostArchiveYear,
+    PostArchiveMonth,
 )
 
 urlpatterns = [
@@ -13,4 +15,6 @@ urlpatterns = [
     path('create/', PostCreate.as_view(), name='blogs_post_create'),
     path('<int:year>/<int:month>/<slug:slug>/update/', PostUpdate.as_view(), name='blogs_post_update'),
     path('<int:year>/<int:month>/<slug:slug>/delete/', PostDelete.as_view(), name='blogs_post_delete'),
+    path('<int:year>/', PostArchiveYear.as_view(), name='blogs_post_archive_year'),
+    path('<int:year>/<int:month>/', PostArchiveMonth.as_view(), name='blogs_post_archive_month'),
 ]

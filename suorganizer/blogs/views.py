@@ -5,7 +5,9 @@ from django.shortcuts import (
 from django.views.generic import (
     View,
     CreateView,
-    ListView
+    ListView,
+    YearArchiveView,
+    MonthArchiveView,
 
 )
 
@@ -86,3 +88,17 @@ class PostDelete(GetObjectMixin, View):
         post = self.get_object(year, month, slug)
         post.delete()
         return redirect('blogs_post_list')
+
+
+class PostArchiveYear(YearArchiveView):
+    model = Post
+    date_field = 'pub_date'
+    template_name = 'post/post_archive_year.html'
+    make_object_list = True
+
+
+class PostArchiveMonth(MonthArchiveView):
+    model = Post
+    date_field = 'pub_date'
+    template_name = 'post/post_archive_month.html'
+    month_format = '%m'

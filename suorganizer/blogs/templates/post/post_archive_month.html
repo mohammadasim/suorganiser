@@ -1,0 +1,66 @@
+{% extends parent_template|default:'post/base_blog.html' %}
+{% block title %}
+{{ block.super }} - {{ month|date:'F Y' }} Posts
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-4">
+        <a href="{% url 'blogs_post_create' %}" class="btn btn-info">Write new Blog Post</a>
+        <p>
+            <a href="{% url 'blogs_post_archive_year' month|date:'Y' %}">All Posts from {{ month|date:'Y' }}</a>
+        </p>
+        <p>
+            <a href="{% url 'blogs_posts_list' %}">Latest Posts</a>
+        </p>
+    </div>
+    <div class="col-8">
+        <h2>All Posts for {{ month|date:'F Y'}}</h2>
+        {% for post in post_list %}
+        <article>
+            <header>
+                <h3>
+                    <a href="{{ post.get_absolute_url }}">{{ post.title|title }}</a>
+                </h3>
+                <p>
+                    Written on:
+                    <time datetime="{{ post.pub_date|date:'Y-m-d'}}">
+                        {{ post.pub_date|date:'l, F j, Y'}}
+                    </time>
+                </p>
+                <p>{{ post.text|truncatewords:20 }}</p>
+                <p>
+                    <a href="{{ post.get_absolute_url }}">Read more...</a>
+                </p>
+            </header>
+            <a href="{{ post.get_update_url }}" class="btn btn-warning">Edit Post</a>
+            <a href="{{ post.get_delete_url }}" class="btn btn-danger">Delete Post</a>
+        </article>
+        {% endfor %}
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-12">
+        <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if previous_month %}
+            <li class="page-item">
+      <a class="page-link" href="{% url 'blogs_post_archive_month' previous_month|date:'Y' previous_month|date:'m' %}"
+         aria-label="Previous">
+        <span aria-hidden="true">&laquo; Previous</span>
+      </a>
+            </li>
+            {% endif %}
+            {% if next_month %}
+            <li class="page-item">
+      <a class="page-link" href="{% url 'blogs_post_archive_month' next_month|date:'Y' next_month|date:'m' %}"
+         aria-label="Next">
+        <span aria-hidden="true">Next &raquo;</span>
+      </a>
+    </li>
+            {% endif %}
+        </ul>
+        </nav>
+    </div>
+</div>
+{% endblock content %}
