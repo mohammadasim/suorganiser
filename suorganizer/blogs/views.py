@@ -5,9 +5,9 @@ from django.shortcuts import (
 from django.views.generic import (
     View,
     CreateView,
-    ListView,
     YearArchiveView,
     MonthArchiveView,
+    ArchiveIndexView,
 
 )
 
@@ -16,7 +16,13 @@ from .models import Post
 from .forms import PostForm
 
 
-class PostList(ListView):
+class PostList(ArchiveIndexView):
+    allow_empty = True
+    allow_future = True
+    context_object_name = 'post_list'
+    date_field = 'pub_date'
+    make_object_list = True
+    paginate_by = 5
     model = Post
     template_name = 'post/post_list.html'
 
@@ -102,3 +108,4 @@ class PostArchiveMonth(MonthArchiveView):
     date_field = 'pub_date'
     template_name = 'post/post_archive_month.html'
     month_format = '%m'
+

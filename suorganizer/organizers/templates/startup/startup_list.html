@@ -5,7 +5,7 @@
 {% block content %}
 <h2>Startup List</h2>
 <ul>
-    {% for startup in startup_list %}
+    {% for startup in page_obj %}
     <li>
         <a href="{{ startup.get_absolute_url }}">
             {{ startup.name }}
@@ -16,15 +16,15 @@
     {% endfor %}
 </ul>
 <div>
-    Page {{ startup_list.number }} of {{ paginator.num_pages }}
+    Page {{ page_obj.number }} of {{ paginator.num_pages }}
 </div>
 <div>
     {% if is_paginated %}
-    {% if startup_list.has_previous %}
-    <a href="?page{{ startup_list.previous_page_number }}">Previous</a>
+    {% if page_obj.has_previous %}
+    <a href="?page{{ page_obj.previous_page_number }}">Previous</a>
     {% endif %}
-    {% if  startup_list.has_next %}
-    <a href="?page={{ startup_list.next_page_number }}">Next</a>
+    {% if  page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">Next</a>
     {% endif %}
     {% endif %}
 </div>

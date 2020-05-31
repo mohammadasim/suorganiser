@@ -11,11 +11,13 @@ from django.views.generic import (
     DetailView,
     UpdateView,
     DeleteView,
+    ListView,
 )
 
 from .models import Tag, Startup, NewsLink
 from .mixins import (
     ObjectPaginateMixin,
+    PageLinksMixin,
 )
 from .forms import (
     TagForm,
@@ -90,34 +92,10 @@ class TagDelete(DeleteView):
     success_url = reverse_lazy('organizers_tag_list')
 
 
-class StartupList(View):
+class StartupList(PageLinksMixin, ListView):
     template_name = 'startup/startup_list.html'
     paginate_by = 5
     page_kwarg = 'page'
-
-    def get(self, request):
-        startup = Startup.objects.all()
-        paginator = Paginator(startup, self.paginate_by)
-        page_number = request.GET.get(
-            self.page_kwarg
-        )
-        try:
-            page = paginator.page(page_number)
-        except PageNotAnInteger:
-            page = paginator.page(1)
-        except EmptyPage:
-            page = paginator.page(
-                paginator.num_pages
-            )
-
-        context = {
-            'is_paginated': page.has_other_pages(),
-            'startup_list': page,
-            'paginator': paginator
-        }
-        return render(request,
-                      self.template_name,
-                      context)
 
 
 class StartupDetail(DetailView):
@@ -150,36 +128,10 @@ class NewsLinkCreate(CreateView):
     success_url = reverse_lazy('organizers_startup_list')
 
 
-class NewsLinkUpdate(View):
+class NewsLinkUpdate(UpdateView):
     form_class = NewsLinkForm
     model = NewsLink
     template_name = 'newslink/newslink_form_update.html'
-
-    def get(self, request, pk):
-        news_link = get_object_or_404(self.model, pk=pk)
-        context = {
-            'form': self.form_class(instance=news_link),
-            'newslink': news_link
-        }
-        return render(request,
-                      self.template_name,
-                      context=context)
-
-    def post(self, request, pk):
-        news_link = get_object_or_404(self.model, pk=pk)
-        bound_form = self.form_class(
-            request.Post,
-            instance=news_link
-        )
-        if bound_form.is_valid():
-            new_newslink = bound_form.save()
-            return redirect(new_newslink)
-        else:
-            context = {
-                'form': bound_form,
-                'newslink': news_link
-            }
-            return render(request, self.template_name, context=context)
 
 
 class NewsLinkDelete(DeleteView):
