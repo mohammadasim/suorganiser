@@ -1,12 +1,5 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.core.paginator import (
-    Paginator,
-    PageNotAnInteger,
-    EmptyPage
-)
 from django.urls import reverse_lazy
 from django.views.generic import (
-    View,
     CreateView,
     DetailView,
     UpdateView,
@@ -14,60 +7,21 @@ from django.views.generic import (
     ListView,
 )
 
-from .models import Tag, Startup, NewsLink
-from .mixins import (
-    ObjectPaginateMixin,
-    PageLinksMixin,
-)
 from .forms import (
     TagForm,
     StartupForm,
     NewsLinkForm
 )
+from .mixins import (
+    PageLinksMixin,
+)
+from .models import Tag, Startup, NewsLink
 
 
-class TagList(View):
+class TagList(PageLinksMixin, ListView):
     template_name = 'tag/tag_list.html'
-
-    def get(self, request):
-        return render(request,
-                      self.template_name,
-                      {'tag_list': Tag.objects.all()})
-
-
-class TagPageList(ObjectPaginateMixin, View):
-    template_name = 'tag/tag_list.html'
-    reverse_url_name = 'organizers_tag_page'
     paginate_by = 5
-
-    def get(self, request, page_number):
-        prev_url = None
-        next_url = None
-        tags = Tag.objects.all()
-        paginator = Paginator(tags,
-                              self.paginate_by)
-        try:
-            page = paginator.page(page_number)
-            prev_url = self.get_previous_url(page)
-            next_url = self.get_next_url(page)
-
-        except PageNotAnInteger:
-            page = paginator.page(1)
-            next_url = self.get_next_url(page)
-        except EmptyPage:
-            page = paginator.page(
-                paginator.num_pages
-            )
-        context = {
-            'is_paginated': page.has_next(),
-            'tag_list': page,
-            'paginator': paginator,
-            'next_page_url': next_url,
-            'previous_page_url': prev_url
-        }
-        return render(request,
-                      self.template_name,
-                      context)
+    model = Tag
 
 
 class TagDetail(DetailView):
@@ -96,6 +50,7 @@ class StartupList(PageLinksMixin, ListView):
     template_name = 'startup/startup_list.html'
     paginate_by = 5
     page_kwarg = 'page'
+    model = Startup
 
 
 class StartupDetail(DetailView):

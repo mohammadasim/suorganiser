@@ -12,12 +12,15 @@
         Are you sure you want to delete News Link {{ newslink.title|title }}?
     </p>
     <p>
-    <a href="{{ newslink.get_absolute_url }}">Cancel</a>
+        <a href="{{ newslink.get_absolute_url }}">Cancel</a>
     </p>
     <p>
-    <button type="submit" class="btn btn-outline-delete">Delete Newslink</button>
+        <button class="btn btn-outline-delete" type="submit">Delete Newslink</button>
     </p>
 </form>
-        </div>
     </div>
+    <p>
+        <a href="{{ request.META.HTTP_REFERER}}">Go Back</a>
+    </p>
+</div>
 {% endblock content %}

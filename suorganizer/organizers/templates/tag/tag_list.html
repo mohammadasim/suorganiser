@@ -19,14 +19,14 @@
     {% endfor %}
 </ul>
 <div>
-    Page {{ tag_list.number }} of {{ paginator.num_pages }}
+    Page {{ page_obj.number }} of {{ paginator.num_pages }}
 </div>
 <div>
     {% if is_paginated %}
-    {% if tag_list.has_previous %}
+    {% if page_obj.has_previous %}
     <a href="{{ previous_page_url }}">Previous</a>
     {% endif %}
-    {% if  tag_list.has_next %}
+    {% if page_obj.has_next %}
     <a href="{{ next_page_url }}">Next</a>
     {% endif %}
     {% endif %}

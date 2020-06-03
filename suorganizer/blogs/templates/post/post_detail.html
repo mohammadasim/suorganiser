@@ -9,21 +9,22 @@
         <p>
             Written on
             <time datetime="{{ post.pub_date|date:'Y-m-d' }}">
-            {{ post.pub_date|date:"l, F j, Y" }}
+                {{ post.pub_date|date:"l, F j, Y" }}
             </time>
         </p>
     </header>
-    {{ post.text|linebreaks }}
-    <p>
-        <a href="{{ post.get_update_url }}" class="text-warning">
-                        Edit Post
-                    </a>
+    <p class="body_text">
+        {{ post.text|linebreaks }}
     </p>
-    <p>
-        <a href="{{ post.get_delete_url }}" class="text-danger">
-                        Delete Post
-                    </a>
-    </p>
+    <div class="d-flex justify-content-start">
+        <p>
+            <a class="text-warning" href="{{ post.get_update_url }}" title="Edit"><span
+                    class="material-icons">edit</span></a>
+        </p>
+        <p>
+            <a class="text-danger" href="{{ post.get_delete_url }}" title="Delete"><span class="material-icons">delete_forever</span></a>
+        </p>
+    </div>
     {% if post.startups.all or post.tags.all %}
     <footer>
         {% if post.startups.all %}
@@ -57,4 +58,7 @@
     </footer>
     {% endif %}
 </article>
+<p>
+    <a href="{{ request.META.HTTP_REFERER}}">Go Back</a>
+</p>
 {% endblock %}

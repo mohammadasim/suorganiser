@@ -1,22 +1,25 @@
-from django.shortcuts import (
-    render,
-    get_object_or_404, redirect
-)
+"""
+View file for blogs app
+"""
+from django.urls import reverse_lazy
 from django.views.generic import (
-    View,
     CreateView,
     YearArchiveView,
     MonthArchiveView,
     ArchiveIndexView,
+    DetailView,
+    UpdateView,
+    DeleteView,
 
 )
 
-from .mixins import GetObjectMixin
-from .models import Post
 from .forms import PostForm
+from .mixins import DateObjectMixin
+from .models import Post
 
 
 class PostList(ArchiveIndexView):
+    """List View"""
     allow_empty = True
     allow_future = True
     context_object_name = 'post_list'
@@ -27,76 +30,38 @@ class PostList(ArchiveIndexView):
     template_name = 'post/post_list.html'
 
 
-class PostDetail(View):
+class PostDetail(DateObjectMixin, DetailView):
+    """Detail view"""
     template_name = 'post/post_detail.html'
-
-    def get(self, request, slug, year, month):
-        post = get_object_or_404(Post,
-                                 pub_date__year=year,
-                                 pub_date__month=month,
-                                 slug=slug)
-        return render(request,
-                      self.template_name,
-                      {
-                          'post': post
-                      })
+    date_field = 'pub_date'
+    model = Post
 
 
 class PostCreate(CreateView):
+    """Create view"""
     form_class = PostForm
     template_name = 'post/post_form.html'
     model = Post
 
 
-class PostUpdate(GetObjectMixin, View):
+class PostUpdate(DateObjectMixin, UpdateView):
+    """Update view"""
     form_class = PostForm
+    date_field = 'pub_date'
     model = Post
     template_name = 'post/post_form_update.html'
 
-    def get(self, request, year, month, slug):
-        post = self.get_object(year, month, slug)
-        context = {
-            'form': self.form_class(instance=post),
-            'post': post
-        }
-        return render(request, self.template_name, context=context)
 
-    def post(self, request, year, month, slug):
-        post = self.get_object(year, month, slug)
-        bound_form = self.form_class(
-            request.POST,
-            instance=post
-        )
-        if bound_form.is_valid():
-            new_post = bound_form.save()
-            return redirect(new_post)
-        else:
-            context = {
-                'form': bound_form,
-                'post': post
-            }
-            return render(request,
-                          self.template_name, context=context)
-
-
-class PostDelete(GetObjectMixin, View):
+class PostDelete(DateObjectMixin, DeleteView):
+    """Delete view"""
     template_name = 'post/post_confirm_delete.html'
+    success_url = reverse_lazy('blogs_posts_list')
     model = Post
-
-    def get(self, request, slug, year, month):
-        post = self.get_object(year=year, month=month, slug=slug)
-        context = {
-            'post': post
-        }
-        return render(request, self.template_name, context=context)
-
-    def post(self, request, slug, year, month):
-        post = self.get_object(year, month, slug)
-        post.delete()
-        return redirect('blogs_post_list')
+    date_field = 'pub_date'
 
 
 class PostArchiveYear(YearArchiveView):
+    """View showing posts in a given year"""
     model = Post
     date_field = 'pub_date'
     template_name = 'post/post_archive_year.html'
@@ -104,8 +69,8 @@ class PostArchiveYear(YearArchiveView):
 
 
 class PostArchiveMonth(MonthArchiveView):
+    """View showing posts in a given month"""
     model = Post
     date_field = 'pub_date'
     template_name = 'post/post_archive_month.html'
     month_format = '%m'
-

@@ -1,8 +1,4 @@
-{% extends parent_template|default:'organizer/base_organizer.html' %}
-{% block title %}
-{{ block.super }} - {{ startup.name }}
-{% endblock title %}
-{% block content %}
+{% extends parent_template|default:'organizer/base_organizer.html' %} {% block title %} {{ block.super }} - {{ startup.name }} {% endblock title %} {% block content %}
 <article>
     <h2>{{ startup.name }}</h2>
     <dl>
@@ -21,34 +17,40 @@
         </dd>
         {% endfor %}
     </dl>
-        {{ startup.description|linebreaks }}
-    <p>
-        <a href="{{ startup.get_update_url }}" class="text-warning">Edit Startup</a>
-    </p>
-    <p>
-        <a href="{{ startup.get_delete_url }}" class="text-danger">Delete Startup</a>
-    </p>
+    {{ startup.description|linebreaks }}
+    <div class="d-flex justify-content-start">
+        <p>
+            <a class="text-warning" href="{{ post.get_update_url }}" title="Edit"><span
+                    class="material-icons">edit</span></a>
+        </p>
+        <p>
+            <a class="text-danger" href="{{ post.get_delete_url }}" title="Delete"><span class="material-icons">delete_forever</span></a>
+        </p>
+    </div>
     {% if startup.newslink_set.all %}
     <section>
         <h3>Recent News</h3>
-        <ul>
-            {% for newslink in startup.newslink_set.all %}
-            <li>
-                <a href="{{ newslink.get_absolute_url }}">
-                    {{ newslink.title|title }}
-                </a>
-            </li>
-            <li>
-                <a href="{{ newslink.get_update_url }}">Edit Link</a>
-            </li>
-            <li>
-                <a href="{{ newslink.get_delete_url }}">Delete Link</a>
-            </li>
-            {% endfor %}
-        </ul>
+
+        {% for newslink in startup.newslink_set.all %}
+        <div>
+            <a href="{{ newslink.get_absolute_url }}">
+                {{ newslink.title|title }}
+            </a>
+            <div class="d-flex justify-content-start">
+                <p>
+                    <a class="text-warning" href="{{ post.get_update_url }}" title="Edit Link"><span
+                            class="material-icons">edit</span></a>
+                </p>
+                <p>
+                    <a class="text-danger" href="{{ post.get_delete_url }}" title="Delete Link"><span
+                            class="material-icons">delete_forever</span></a>
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+
     </section>
-    {% endif %}
-    {% if startup.blog_posts.all %}
+    {% endif %} {% if startup.blog_posts.all %}
     <section>
         <h3>Blog post{{ startup.blog_posts.count|pluralize }}</h3>
         <ul>
@@ -63,4 +65,7 @@
     </section>
     {% endif %}
 </article>
+<p>
+    <a href="{{ request.META.HTTP_REFERER}}">Go Back</a>
+</p>
 {% endblock content %}

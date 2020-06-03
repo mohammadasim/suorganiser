@@ -12,13 +12,17 @@
         Are you sure you want to delete blog post {{ post.title|title }}?
     </p>
     <p>
-    <a href="{{ post.get_absolute_url }}">Cancel</a>
-        </p>
+        <a href="{{ post.get_absolute_url }}">Cancel</a>
+    </p>
     <p>
-    <button type="submit" class="btn btn-outline-danger">Delete
-        Blog Post</button>
+        <button class="btn btn-outline-danger" type="submit">Delete
+            Blog Post
+        </button>
     </p>
 </form>
-        </div>
     </div>
+    <p>
+        <a href="{{ request.META.HTTP_REFERER}}">Go Back</a>
+    </p>
+</div>
 {% endblock %}
