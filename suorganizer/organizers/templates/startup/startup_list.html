@@ -3,29 +3,29 @@
 {{ block.super }} - Startups
 {% endblock title %}
 {% block content %}
-<h2>Startup List</h2>
-<ul>
-    {% for startup in page_obj %}
-    <li>
-        <a href="{{ startup.get_absolute_url }}">
-            {{ startup.name }}
-        </a>
-    </li>
-    {% empty %}
-    <li><em>No Startups Available</em></li>
-    {% endfor %}
+<div class="startup_list">
+    <h2>Startup List</h2>
+    <ul>
+        {% for startup in page_obj %}
+        <li>
+            <a href="{{ startup.get_absolute_url }}">
+                {{ startup.name }}
+            </a>
+        </li>
+        {% empty %}
+        <li><em>No Startups Available</em></li>
+        {% endfor %}
 </ul>
-<div>
     Page {{ page_obj.number }} of {{ paginator.num_pages }}
-</div>
-<div>
-    {% if is_paginated %}
-    {% if page_obj.has_previous %}
-    <a href="{{ previous_page_url }}">Previous</a>
-    {% endif %}
-    {% if  page_obj.has_next %}
-    <a href="{{ next_page_url }}">Next</a>
-    {% endif %}
-    {% endif %}
+    <div>
+        {% if is_paginated %}
+        {% if page_obj.has_previous %}
+        <a href="{{ previous_page_url }}">Previous</a>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <a href="{{ next_page_url }}">Next</a>
+        {% endif %}
+        {% endif %}
+    </div>
 </div>
 {% endblock content %}

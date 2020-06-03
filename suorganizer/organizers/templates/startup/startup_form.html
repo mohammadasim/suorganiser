@@ -9,7 +9,7 @@
 <form action="{% url 'organizer_startup_create' %}" method="post">
     {% csrf_token %}
     {{ form|crispy }}
-    <button type="submit" class="btn btn-outline-success">Create Startup</button>
+    <button class="btn btn-outline-success btn-lg btn-block" type="submit">Create Startup</button>
 </form>
         </div>
     </div>

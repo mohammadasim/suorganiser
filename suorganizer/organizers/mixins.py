@@ -96,22 +96,28 @@ class StartupContextMixin:
         :param kwargs:
         :return:
         """
-        startup_slug = self.kwargs.get(
-            self.startup_slug_url_kwarg
-        )
-        startup = get_object_or_404(
-            Startup, slug__iexact=startup_slug
-        )
-        context = {
-            self.startup_context_object_name:
-                startup
-        }
+        if hasattr(self, 'startup'):
+            context = {
+                self.startup_context_object_name:
+                    self.startup
+            }
+        else:
+            startup_slug = self.kwargs.get(
+                self.startup_slug_url_kwarg
+            )
+            startup = get_object_or_404(
+                Startup, slug__iexact=startup_slug
+            )
+            context = {
+                self.startup_context_object_name:
+                    startup
+            }
         # Add the kwargs to the context object just created
         context.update(kwargs)
         return super().get_context_data(**context)
 
 
-class NewsLingGetObjectMixin:
+class NewsLinkGetObjectMixin:
     """
     Class to override the get_object()
     to ensure that the correct newslink object

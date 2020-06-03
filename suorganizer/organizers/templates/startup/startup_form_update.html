@@ -9,7 +9,7 @@
 <form action="{{ startup.get_update_url }}" method="post">
     {% csrf_token %}
     {{ form|crispy }}
-    <button type="submit" class="btn btn-outline-success">Update Startup</button>
+    <button class="btn btn-outline-success btn-lg btn-block" type="submit">Update Startup</button>
 </form>
         </div>
     </div>

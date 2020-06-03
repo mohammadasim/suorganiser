@@ -3,6 +3,7 @@ A module containing form classes
 for organizers app
 """
 from django import forms
+from django.forms import HiddenInput
 
 from .mixins import SlugCleanMixin
 from .models import (
@@ -32,6 +33,7 @@ class NewsLinkForm(
     class Meta:
         model = NewsLink
         fields = '__all__'
+        widgets = {'startup': HiddenInput()}
 
 
 class StartupForm(SlugCleanMixin,

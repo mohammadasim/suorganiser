@@ -9,7 +9,7 @@
 <form action="{% url 'organizers_tag_create' %}" method="post">
     {% csrf_token %}
     {{ form|crispy }}
-    <button type="submit" class="btn btn-outline-success">Create Tag</button>
+    <button class="btn btn-outline-success btn-lg btn-block" type="submit">Create Tag</button>
 </form>
         </div>
     </div>

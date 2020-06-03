@@ -22,11 +22,11 @@
     </div>
     <div class="d-flex justify-content-start">
         <p>
-            <a class="text-warning" href="{{ post.get_update_url }}" title="Edit"><span
+            <a class="text-warning" href="{{ startup.get_update_url }}" title="Edit"><span
                     class="material-icons">edit</span></a>
         </p>
         <p>
-            <a class="text-danger" href="{{ post.get_delete_url }}" title="Delete"><span class="material-icons">delete_forever</span></a>
+            <a class="text-danger" href="{{ startup.get_delete_url }}" title="Delete"><span class="material-icons">delete_forever</span></a>
         </p>
     </div>
     {% if startup.newslink_set.all %}
@@ -47,10 +47,10 @@
                     <td><a href="{{ newslink.get_absolute_url }}">
                         {{ newslink.title|title }}</a>
                     </td>
-                    <td><a class="text-warning" href="{{ post.get_update_url }}" title="Edit Link"><span
+                    <td><a class="text-warning" href="{{ newslink.get_update_url }}" title="Edit Link"><span
                             class="material-icons">edit</span></a>
                     </td>
-                    <td><a class="text-danger" href="{{ post.get_delete_url }}" title="Delete Link"><span
+                    <td><a class="text-danger" href="{{ newslink.get_delete_url }}" title="Delete Link"><span
                             class="material-icons">delete_forever</span></a>
                     </td>
                 </tr>
@@ -58,20 +58,31 @@
                 </tbody>
             </table>
         </div>
-        <a class="btn btn-info btn-lg btn-block" href="{{ startup.get_newslink_create_url }}">Add Article</a>
     </section>
-    {% endif %} {% if startup.blog_posts.all %}
+    {% endif %}
+    <a class="btn btn-info btn-lg btn-block" href="{{ startup.get_newslink_create_url }}">Add Article</a>
+    {% if startup.blog_posts.all %}
     <section>
-        <h3>Blog post{{ startup.blog_posts.count|pluralize }}</h3>
-        <ul>
-            {% for post in startup.blog_posts.all %}
-            <li>
-                <a href="{{ post.get_absolute_url }}">
-                    {{ post.title|title }}
-                </a>
-            </li>
-            {% endfor %}
-        </ul>
+        <h3 class="text-center">Blog post{{ startup.blog_posts.count|pluralize }}</h3>
+        <div>
+            <table class="table table-dark">
+                <thead>
+                <tr>
+                    <th scope="col">Title</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for post in startup.blog_posts.all %}
+                <tr>
+                    <td><a href="{{ post.get_absolute_url }}">
+                        {{ post.title|title }}
+                    </a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </section>
     {% endif %}
 </article>

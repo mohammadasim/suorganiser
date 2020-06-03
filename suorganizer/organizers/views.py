@@ -1,6 +1,7 @@
 """
 view module for organizers app
 """
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -18,7 +19,7 @@ from .forms import (
 from .mixins import (
     PageLinksMixin,
     StartupContextMixin,
-    NewsLingGetObjectMixin,
+    NewsLinkGetObjectMixin,
 )
 from .models import Tag, Startup, NewsLink
 
@@ -90,7 +91,7 @@ class StartupDelete(DeleteView):
     success_url = reverse_lazy('organizers_startup_list')
 
 
-class NewsLinkCreate(NewsLingGetObjectMixin,
+class NewsLinkCreate(NewsLinkGetObjectMixin,
                      StartupContextMixin,
                      CreateView):
     """Newslink create view"""
@@ -102,10 +103,28 @@ class NewsLinkCreate(NewsLingGetObjectMixin,
     success_url = reverse_lazy('organizers_startup_list')
     model = NewsLink
 
+    def get_initial(self):
+        """
+        Overriding method to add startup to
+        the initial.
+        Initial is then passed to the form as initial parameters
+        :return:
+        """
+        startup_slug = self.kwargs.get(
+            self.startup_slug_url_kwarg
+        )
+        self.startup = get_object_or_404(Startup,
+                                         slug__iexact=startup_slug)
+        initial = {
+            self.startup_context_object_name: self.startup,
+        }
+        initial.update(self.initial)
+        return initial
+
 
 class NewsLinkUpdate(
     StartupContextMixin,
-    NewsLingGetObjectMixin,
+    NewsLinkGetObjectMixin,
     UpdateView):
     """Newslink update view"""
     form_class = NewsLinkForm
@@ -118,7 +137,7 @@ class NewsLinkUpdate(
 
 class NewsLinkDelete(
     StartupContextMixin,
-    NewsLingGetObjectMixin,
+    NewsLinkGetObjectMixin,
     DeleteView):
     """Newslink Delete view"""
     template_name = 'newslink/newslink_confirm_delete.html'

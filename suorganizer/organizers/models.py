@@ -84,7 +84,7 @@ class NewsLink(models.Model):
 
     def get_absolute_url(self):
         return reverse('organizers_startup_detail', kwargs={
-            'slug': self.slug
+            'slug': self.startup.slug
         })
 
     def get_update_url(self):
