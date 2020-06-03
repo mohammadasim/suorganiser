@@ -21,7 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('blogs/', include('blogs.urls')),
     path('contact/', include('contacts.urls')),
-    path('newslink/', include('organizers.urls.newslink')),
     path('startup/', include('organizers.urls.startup')),
     path('tag/', include('organizers.urls.tag')),
     path('about/', TemplateView.as_view(template_name='site/about.html'), name='about_site'),

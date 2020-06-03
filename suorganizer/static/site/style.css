@@ -74,6 +74,15 @@ form {
 article .body_text {
     color: #dcdde1;
 }
+article h2 {
+    color: #dcdde1;
+}
+article dl {
+    color: #dcdde1;
+}
+article .description {
+    color: #dcdde1;
+}
 
 section h3 {
     color: #dcdde1;

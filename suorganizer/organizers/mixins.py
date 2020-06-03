@@ -1,4 +1,10 @@
+"""
+Utility module for organizers app
+"""
 from django.forms import forms
+from django.shortcuts import get_object_or_404
+
+from .models import Startup, NewsLink
 
 
 class SlugCleanMixin:
@@ -7,6 +13,10 @@ class SlugCleanMixin:
     """
 
     def clean_slug(self):
+        """
+        Method to check if slug is called create
+        :return:
+        """
         new_slug = self.cleaned_data['slug'].lower()
         if new_slug == 'create':
             raise forms.ValidationError('Slug may not be "create".')
@@ -42,6 +52,11 @@ class PageLinksMixin:
         return None
 
     def next_page(self, page):
+        """
+        A method to return the next page url
+        :param page:
+        :return:
+        """
         if page.has_next():
             return self._page_urls(page.next_page_number())
         return None
@@ -62,3 +77,64 @@ class PageLinksMixin:
                     self.next_page(page)
             })
         return context
+
+
+class StartupContextMixin:
+    """
+    A mixin class to get startup object and
+    add it to the context. All newslink views will
+    inherit this class and their context objects
+    will have a startup object
+    """
+    startup_slug_url_kwarg = 'startup_slug'
+    startup_context_object_name = 'startup'
+
+    def get_context_data(self, **kwargs):
+        """
+        Overriding the method to add
+        startup to the context object
+        :param kwargs:
+        :return:
+        """
+        startup_slug = self.kwargs.get(
+            self.startup_slug_url_kwarg
+        )
+        startup = get_object_or_404(
+            Startup, slug__iexact=startup_slug
+        )
+        context = {
+            self.startup_context_object_name:
+                startup
+        }
+        # Add the kwargs to the context object just created
+        context.update(kwargs)
+        return super().get_context_data(**context)
+
+
+class NewsLingGetObjectMixin:
+    """
+    Class to override the get_object()
+    to ensure that the correct newslink object
+    is retrieved as newslink objects are unique
+    based on startup slug and newslink slug
+    """
+    startup_slug_url_kwarg = 'startup_slug'
+    newslink_slug_url_kwarg = 'newslink_slug'
+
+    def get_object(self, queryset=None):
+        """
+        Overriding get_object method
+        :param queryset:
+        :return:
+        """
+        startup_slug = self.kwargs.get(
+            self.startup_slug_url_kwarg
+        )
+        newslink_slug = self.kwargs.get(
+            self.newslink_slug_url_kwarg
+        )
+        return get_object_or_404(
+            NewsLink,
+            slug__iexact=newslink_slug,
+            startup__slug__iexact=startup_slug
+        )

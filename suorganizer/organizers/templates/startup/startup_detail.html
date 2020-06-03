@@ -17,7 +17,9 @@
         </dd>
         {% endfor %}
     </dl>
-    {{ startup.description|linebreaks }}
+    <div class="description">
+        {{ startup.description|linebreaks }}
+    </div>
     <div class="d-flex justify-content-start">
         <p>
             <a class="text-warning" href="{{ post.get_update_url }}" title="Edit"><span
@@ -29,26 +31,34 @@
     </div>
     {% if startup.newslink_set.all %}
     <section>
-        <h3>Recent News</h3>
-
-        {% for newslink in startup.newslink_set.all %}
+        <h3 class="text-center">Recent News</h3>
         <div>
-            <a href="{{ newslink.get_absolute_url }}">
-                {{ newslink.title|title }}
-            </a>
-            <div class="d-flex justify-content-start">
-                <p>
-                    <a class="text-warning" href="{{ post.get_update_url }}" title="Edit Link"><span
+            <table class="table table-dark">
+                <thead>
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Update</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for newslink in startup.newslink_set.all %}
+                <tr>
+                    <td><a href="{{ newslink.get_absolute_url }}">
+                        {{ newslink.title|title }}</a>
+                    </td>
+                    <td><a class="text-warning" href="{{ post.get_update_url }}" title="Edit Link"><span
                             class="material-icons">edit</span></a>
-                </p>
-                <p>
-                    <a class="text-danger" href="{{ post.get_delete_url }}" title="Delete Link"><span
+                    </td>
+                    <td><a class="text-danger" href="{{ post.get_delete_url }}" title="Delete Link"><span
                             class="material-icons">delete_forever</span></a>
-                </p>
-            </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
-        {% endfor %}
-
+        <a class="btn btn-info btn-lg btn-block" href="{{ startup.get_newslink_create_url }}">Add Article</a>
     </section>
     {% endif %} {% if startup.blog_posts.all %}
     <section>
