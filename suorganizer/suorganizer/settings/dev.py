@@ -1,4 +1,5 @@
 from .base import *
+from ..log_filters import ManagementFilter
 
 DEBUG = True
 
@@ -23,3 +24,38 @@ MANAGERS = (
     ('Us', 'ourselves@django-unleashed.com'),
 )
 SITE_ID = 1
+# Logger settings
+verbose = (
+    "[%(asctime)s] %(levelname)s"
+    "[%(name)s:%(lineno)s] %(message)s"
+)
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'remove_migration_sql': {
+            '()': ManagementFilter
+        },
+    },
+    'handlers': {
+        'console': {
+            'filters': ['remove_migration_sql'],
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': verbose,
+            'datefmt': "%Y-%b-%d %H:%M:%S"
+        },
+
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'formatter': 'verbose'
+        }
+
+    }
+}
