@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+
 from django.core.exceptions import ImproperlyConfigured
 
 
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
     'blogs.apps.BlogsConfig',
     'organizers.apps.OrganizersConfig',
     'contacts.apps.ContactsConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
