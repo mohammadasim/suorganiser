@@ -1,4 +1,4 @@
-{% extends parent_template|default:'post/base_blog.html' %}
+{% extends 'post/base_blog.html' %}
 {% load crispy_forms_tags %}
 {% block title %}
 {{ block.super }} - Delete Blog Post
@@ -6,9 +6,9 @@
 {% block content %}
 <div>
     <div>
-<form action="{{ post.get_delete_url }}" method="post">
-    {% csrf_token %}
-    <p class="text-danger">
+        <form action="{{ post.get_delete_url }}" method="post">
+            {% csrf_token %}
+            <p class="text-danger">
         Are you sure you want to delete blog post {{ post.title|title }}?
     </p>
     <p>
