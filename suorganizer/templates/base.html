@@ -42,6 +42,17 @@
                             <li class="nav-item">
                                 <a class="nav-link" class="nav-link" href="{% url 'contact' %}">Contact Us</a>
                             </li>
+                            {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" class="nav-link"
+                                   href="{% url 'dj-auth:logout' %}?next={{ request.path }}">Log Out</a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" class="nav-link"
+                                   href="{% url 'dj-auth:login' %}?next={{ request.path }}">Log In</a>
+                            </li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>

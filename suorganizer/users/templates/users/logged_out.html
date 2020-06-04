@@ -1,0 +1,12 @@
+{% extends 'users/base_user.html' %}
+{% block title %}
+{{ block.super }} - Logged Out
+{% endblock title %}
+{% block content %}
+<div class="row">
+    <div class="col-5">
+        <p class="text-info">You have successfully logged out.</p>
+        {% include 'users/login_form.html' with login_button='Log Back In' %}
+    </div>
+</div>
+{% endblock %}

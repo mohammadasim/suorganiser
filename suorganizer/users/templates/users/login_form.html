@@ -1,0 +1,10 @@
+<form action="{% url 'dj-auth:login' %}" method="post">
+    {% csrf_token %}
+    {% load crispy_forms_tags %}
+    {{ form|crispy }}
+    {% if next %}
+    <input name="next" type="hidden" value="{{ next }}">
+    {% endif %}
+    <button class="btn btn-outline-primary btn-lg btn-block" type="submit">{{ login_button|default:'Log in'}}</button>
+</form>
+

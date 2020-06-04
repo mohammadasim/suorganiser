@@ -24,6 +24,9 @@ MANAGERS = (
     ('Us', 'ourselves@django-unleashed.com'),
 )
 SITE_ID = 1
+# Auth app settings
+# Redirect to blogs_post_list view
+LOGIN_REDIRECT_URL = 'blogs_posts_list'
 # Logger settings
 verbose = (
     "[%(asctime)s] %(levelname)s"
@@ -53,7 +56,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'formatter': 'verbose'
         }
 

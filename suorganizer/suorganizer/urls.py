@@ -13,21 +13,28 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from blogs import urls as blog_urls
+from contacts import urls as contact_urls
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView, RedirectView
+from organizers.urls import startup as start_urls
+from organizers.urls import tag as tag_urls
+from users import urls as user_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('blogs/', include('blogs.urls')),
-    path('contact/', include('contacts.urls')),
-    path('startup/', include('organizers.urls.startup')),
-    path('tag/', include('organizers.urls.tag')),
+    path('blogs/', include(blog_urls)),
+    path('contact/', include(contact_urls)),
+    path('startup/', include(start_urls)),
+    path('tag/', include(tag_urls)),
     path('about/', TemplateView.as_view(template_name='site/about.html'), name='about_site'),
     path('mission/', TemplateView.as_view(template_name='site/mission.html'), name='site_mission'),
     path('how/', TemplateView.as_view(template_name='site/work.html'), name='site_work'),
     path('', RedirectView.as_view(
         pattern_name='blogs_posts_list',
         permanent=False
-    ))
+    )),
+    path('users/', include(user_urls,
+                           namespace='dj-auth')),
 ]
