@@ -27,6 +27,7 @@ SITE_ID = 1
 # Auth app settings
 # Redirect to blogs_post_list view
 LOGIN_REDIRECT_URL = 'blogs_posts_list'
+LOGIN_URL = 'dj-auth:login'
 # Logger settings
 verbose = (
     "[%(asctime)s] %(levelname)s"

@@ -99,3 +99,6 @@ section h3 {
 hr {
     border-top: 1px solid #2331c7;
 }
+.tag_list .material-icons {
+    font-size: 36px;
+}

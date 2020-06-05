@@ -33,6 +33,10 @@ class Post(models.Model):
         verbose_name = 'blog post'
         ordering = ['-pub_date', 'title']
         get_latest_by = 'pub_date'
+        permissions = (
+            ('view_future_post',
+             'Can view unpublished Post'),
+        )
 
     def get_absolute_url(self):
         return reverse('blogs_post_detail',

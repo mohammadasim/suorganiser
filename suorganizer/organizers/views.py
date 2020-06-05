@@ -1,6 +1,10 @@
 """
 view module for organizers app
 """
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+)
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -37,17 +41,19 @@ class TagDetail(DetailView):
     template_name = 'tag/tag_detail.html'
 
 
-class TagCreate(CreateView):
+class TagCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     """Tag create view"""
     form_class = TagForm
     template_name = 'tag/tag_form.html'
+    permission_required = 'organizers.change_tag'
 
 
-class TagUpdate(UpdateView):
+class TagUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     """Tag update view"""
     form_class = TagForm
     model = Tag
     template_name = 'tag/tag_form_update.html'
+    permission_required = 'organizers.change_tag'
 
 
 class TagDelete(DeleteView):
