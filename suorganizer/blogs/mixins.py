@@ -4,6 +4,22 @@ from django.views.generic.dates import (
     DateMixin, _date_from_string)
 
 
+class AllowFuturePermissionMixin:
+    """
+    Mixin to check if user has
+    'blog.view_future_post' permission
+    """
+
+    def get_allow_future(self):
+        """
+        if user has the permission returns true
+        else returns false
+        :return:
+        """
+        return self.request.user.has_perm(
+            'blog.view_future_post')
+
+
 class MonthMixin(BaseMonthMixin):
     """
     This class overrides the django monthmixin to add
@@ -53,7 +69,10 @@ class YearMixin(BaseYearMixin):
         return year
 
 
-class DateObjectMixin(YearMixin, MonthMixin, DateMixin):
+class DateObjectMixin(YearMixin,
+                      MonthMixin,
+                      DateMixin,
+                      AllowFuturePermissionMixin):
 
     def get_object(self, queryset=None):
         """

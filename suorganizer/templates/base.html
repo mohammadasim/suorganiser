@@ -62,8 +62,25 @@
     </header>
     <main>
         <div class="container">
-        {% block content %} Thi is the default content. {% endblock content %}
+            {% if messages %}
+            <div>
+                <div>
+
+                    {% for message in messages %} {% if message.tags %}
+                    <div class="alert alert-{{message.tags }} text-center text-capitalize" role="alert">
+                        {{ message }}
+                    </div>
+                    {% else %}
+                    <div>
+                        {{ message }} {% endif %}
+                    </div>
+                    {% endfor %}
+
+                </div>
             </div>
+            {% endif %}
+            {% block content %} Thi is the default content. {% endblock content %}
+        </div>
     </main>
     <br>
     <footer>

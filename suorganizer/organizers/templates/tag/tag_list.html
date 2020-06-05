@@ -16,9 +16,8 @@
     {% endfor %}
 </ul>
 <div class="tag_list">
-    <a class="text-info btn btn-outline-info btn-lg btn-block" href="{% url 'organizers_tag_create' %}" title="Add Tag"><span
-            class="material-icons">
-add</span></a>
+    <a class="text-info btn btn-outline-info btn-lg btn-block" href="{% url 'organizers_tag_create' %}" title="Add Tag">
+        <span class="material-icons">add</span></a>
 </div>
 <div>
     Page {{ page_obj.number }} of {{ paginator.num_pages }}

@@ -14,14 +14,15 @@ from django.views.generic import (
 )
 
 from .forms import PostForm
-from .mixins import DateObjectMixin
+from .mixins import DateObjectMixin, AllowFuturePermissionMixin
 from .models import Post
 
 
-class PostList(ArchiveIndexView):
+class PostList(
+    AllowFuturePermissionMixin,
+    ArchiveIndexView):
     """List View"""
     allow_empty = True
-    allow_future = True
     context_object_name = 'post_list'
     date_field = 'pub_date'
     make_object_list = True
@@ -60,7 +61,7 @@ class PostDelete(DateObjectMixin, DeleteView):
     date_field = 'pub_date'
 
 
-class PostArchiveYear(YearArchiveView):
+class PostArchiveYear(AllowFuturePermissionMixin, YearArchiveView):
     """View showing posts in a given year"""
     model = Post
     date_field = 'pub_date'
@@ -68,7 +69,7 @@ class PostArchiveYear(YearArchiveView):
     make_object_list = True
 
 
-class PostArchiveMonth(MonthArchiveView):
+class PostArchiveMonth(AllowFuturePermissionMixin, MonthArchiveView):
     """View showing posts in a given month"""
     model = Post
     date_field = 'pub_date'
