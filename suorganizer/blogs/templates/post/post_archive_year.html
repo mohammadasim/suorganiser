@@ -29,20 +29,27 @@
                         {{ post.pub_date|date:'l, Fj, Y'}}
                     </time>
                 </p>
+
+                <p>{{ post.text|truncatewords:20 }}</p>
+                <p class="read-more">
+                    <a href="{{ post.get_absolute_url }}">Read more&hellip;</a>
+                </p>
+                <div class="d-flex justify-content-start">
+                    {% if perms.blogs.change_post %}
+                    <p>
+                        <a class="text-warning" href="{{ post.get_update_url }}" title="Edit"><span
+                                class="material-icons">edit</span></a>
+                    </p>
+                    {% endif %}
+                    {% if perms.blogs.delete_post %}
+                    <p>
+                        <a class="text-danger" href="{{ post.get_delete_url }}" title="Delete"><span
+                                class="material-icons">delete_forever</span></a>
+                    </p>
+                    {% endif %}
+                </div>
             </header>
-            <p>{{ post.text|truncatewords:20 }}</p>
-            <p class="read-more">
-                <a href="{{ post.get_absolute_url }}">Read more&hellip;</a>
-            </p>
         </article>
-        <ul class="inline">
-            <li>
-                <a href="{{ post.get_update_url }}" class="button">Edit Post</a>
-            </li>
-            <li>
-                <a href="{{ post.get_delete_url }}" class="button">Delete Post</a>
-            </li>
-        </ul>
         {% endfor %}
 
     </div>

@@ -5,17 +5,24 @@
 {% block content %}
 <article>
     <header>
-        <h2>{{ post.title|title }}</h2>
-        <p>
-            Written on:
-            <time datetime="{{ post.pub_date|date:'Y-m-d' }}">
-                {{ post.pub_date|date:"l, F j, Y" }}
-            </time>
-        </p>
+        <h2 class="text-center text-info">{{ post.title|title }}</h2>
+        <div class="d-flex justify-content-between">
+            <p class="text-left font-weight-light text-success written_on">
+                Written on:
+            </p>
+            <p class="text-right text-success font-weight-light">
+                <time datetime="{{ post.pub_date|date:'Y-m-d' }}">
+                    {{ post.pub_date|date:"l, F j, Y" }}
+                </time>
+            </p>
+        </div>
+
     </header>
-    <p class="body_text">
-        {{ post.text|linebreaks }}
-    </p>
+    <div>
+        <p class="body_text font-weight-light">
+            {{ post.text|linebreaks }}
+        </p>
+    </div>
     <div class="d-flex justify-content-start">
         {% if perms.blogs.change_post %}
         <p>

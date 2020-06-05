@@ -102,3 +102,9 @@ hr {
 .tag_list .material-icons {
     font-size: 36px;
 }
+.pagination_nav {
+    background-color: none;
+}
+.written_on {
+    margin-left: -28px;
+}
