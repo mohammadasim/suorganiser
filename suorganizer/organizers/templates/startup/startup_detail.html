@@ -1,32 +1,39 @@
 {% extends 'organizer/base_organizer.html' %} {% block title %} {{ block.super }} - {{ startup.name }} {% endblock title %} {% block content %}
 <article>
-    <h2>{{ startup.name }}</h2>
-    <dl>
-        <dt>Date Founded</dt>
-        <dd>{{ startup.founded_date|date:"F jS, Y" }}</dd>
-        <dt>Website</dt>
-        <dd>{{ startup.website|urlize }}</dd>
-        <dt>Contact</dt>
-        <dd>{{ startup.contact }}</dd>
-        <dt>Tag{{ startup.tags.count|pluralize }}</dt>
-        {% for tag in startup.tags.all %}
-        <dd>
-            <a href="{{ tag.get_absolute_url }}">
-                {{ tag.name|title }}
-            </a>
-        </dd>
-        {% endfor %}
-    </dl>
+    <h2 class="text-center text-info">{{ startup.name }}</h2>
+    <div>
+        <dl class="row">
+            <dt class="col-sm-3">Date Founded</dt>
+            <dd class="col-sm-9">{{ startup.founded_date|date:"F jS, Y" }}</dd>
+            <dt class="col-sm-3">Website</dt>
+            <dd class="col-sm-9">{{ startup.website|urlize }}</dd>
+            <dt class="col-sm-3">Contact</dt>
+            <dd class="col-sm-9">{{ startup.contact }}</dd>
+            <dt class="col-sm-3">Tag{{ startup.tags.count|pluralize }}</dt>
+            <dd class="col-sm-9">
+                {% for tag in startup.tags.all %}
+                <a href="{{ tag.get_absolute_url }}">
+                    {{ tag.name|title }},
+                </a>
+                {% endfor %}
+            </dd>
+        </dl>
+    </div>
     <div class="description">
         {{ startup.description|linebreaks }}
     </div>
     <div class="d-flex justify-content-start">
         <p>
+            {% if perms.organizers.change_startup %}
             <a class="text-warning" href="{{ startup.get_update_url }}" title="Edit"><span
                     class="material-icons">edit</span></a>
+            {% endif %}
         </p>
         <p>
-            <a class="text-danger" href="{{ startup.get_delete_url }}" title="Delete"><span class="material-icons">delete_forever</span></a>
+            {% if perms.organizers.delete_startup %}
+            <a class="text-danger" href="{{ startup.get_delete_url }}" title="Delete">
+                <span class="material-icons">delete_forever</span></a>
+            {% endif %}
         </p>
     </div>
     {% if startup.newslink_set.all %}
@@ -47,11 +54,17 @@
                     <td><a href="{{ newslink.get_absolute_url }}">
                         {{ newslink.title|title }}</a>
                     </td>
-                    <td><a class="text-warning" href="{{ newslink.get_update_url }}" title="Edit Link"><span
-                            class="material-icons">edit</span></a>
+                    <td>
+                        {% if perms.organizers.change_newslink %}
+                        <a class="text-warning" href="{{ newslink.get_update_url }}" title="Edit Link"><span
+                                class="material-icons">edit</span></a>
+                        {% endif %}
                     </td>
-                    <td><a class="text-danger" href="{{ newslink.get_delete_url }}" title="Delete Link"><span
-                            class="material-icons">delete_forever</span></a>
+                    <td>
+                        {% if perms.organizers.delete_newslink %}
+                        <a class="text-danger" href="{{ newslink.get_delete_url }}" title="Delete Link"><span
+                                class="material-icons">delete_forever</span></a>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
@@ -60,7 +73,9 @@
         </div>
     </section>
     {% endif %}
+    {% if perms.organizers.add_newslink %}
     <a class="btn btn-info btn-lg btn-block" href="{{ startup.get_newslink_create_url }}">Add Article</a>
+    {% endif %}
     {% if startup.blog_posts.all %}
     <section>
         <h3 class="text-center">Blog post{{ startup.blog_posts.count|pluralize }}</h3>
