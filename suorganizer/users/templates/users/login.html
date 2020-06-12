@@ -4,8 +4,14 @@
 {% endblock title %}
 {% block content %}
 <div class="row">
-    <div class="col-5">
+    <div class="col-md-5">
         {% include 'users/login_form.html' %}
+        <hr>
+        <a href="{% url 'dj-auth:pw_reset_start' %}">Forgotten your Password?</a>
+    </div>
+    <div class="col-md-7">
+        <img class="rounded img-thumbnail img-fluid"
+             src="{{ STATICFILES_DIRS }}/static/images/christian-wiediger-WkfDrhxDMC8-unsplash.jpg"/>
     </div>
 </div>
 {% endblock content %}

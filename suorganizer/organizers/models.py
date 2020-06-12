@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.db import models
 from django.urls import reverse
 
@@ -24,6 +26,20 @@ class Tag(models.Model):
 
     def get_delete_url(self):
         return reverse('organizers_tag_delete', kwargs={'slug': self.slug})
+
+    def published_posts(self):
+        """
+        Method to return a queryset to
+        filter for published posts only.
+        The method helps with showing future
+        articles only for those users with
+        having the corresponding permission,
+        the template
+        :return:
+        """
+        return self.blog_posts.filter(
+            pub_date__lt=date.today()
+        )
 
 
 class Startup(models.Model):

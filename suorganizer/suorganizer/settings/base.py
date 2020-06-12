@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     # Third party
     'crispy_forms',
+    'storages',
     # local
     'blogs.apps.BlogsConfig',
     'organizers.apps.OrganizersConfig',
@@ -133,12 +134,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
-
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder"
 ]
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_BUCKET_NAME')
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+    'SSEKMSKeyId': os.environ.get('KMS_KEY_ID'),
+}
+AWS_LOCATION = 'static'
+AWS_S3_CUSTOM_DOMAIN = '{}.s3.amazonaws.com'.format(AWS_STORAGE_BUCKET_NAME)
+STATIC_URL = 'https://{}/{}/'.format(AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

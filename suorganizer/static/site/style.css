@@ -108,3 +108,8 @@ hr {
 .written_on {
     margin-left: -28px;
 }
+.col-md-7 img {
+    width: 625px;
+    height: 366px;
+    border: 1px;
+}
