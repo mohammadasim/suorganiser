@@ -1,4 +1,5 @@
 {% extends 'users/base_user.html' %}
+{% load static %}
 {% block title %}
 {{ block.super }} - Login
 {% endblock title %}
@@ -11,7 +12,7 @@
     </div>
     <div class="col-md-7">
         <img class="rounded img-thumbnail img-fluid"
-             src="{{ STATICFILES_DIRS }}/static/images/christian-wiediger-WkfDrhxDMC8-unsplash.jpg"/>
+             src="{% static  'images/christian-wiediger-WkfDrhxDMC8-unsplash.jpg' %}">
     </div>
 </div>
 {% endblock content %}

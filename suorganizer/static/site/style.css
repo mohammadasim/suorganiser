@@ -36,7 +36,7 @@
 
 body {
     position: relative;
-    background-image: url("../images/harpal-singh-eY9nCR7G0xw-unsplash.jpg");
+    background-image: url("{% static 'images/harpal-singh-eY9nCR7G0xw-unsplash.jpg' %}");
     font-family: 'Nanum Myeongjo', serif;
     background-repeat: no-repeat;
     min-height: 100vh;

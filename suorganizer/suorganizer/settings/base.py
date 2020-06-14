@@ -148,8 +148,14 @@ AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_BUCKET_NAME')
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
     'SSEKMSKeyId': os.environ.get('KMS_KEY_ID'),
+    'ServerSideEncryption': 'aws:kms',
 }
+
 AWS_LOCATION = 'static'
-AWS_S3_CUSTOM_DOMAIN = '{}.s3.amazonaws.com'.format(AWS_STORAGE_BUCKET_NAME)
+AWS_REGION = 'eu-west-1'
+AWS_S3_CUSTOM_DOMAIN = '{}.s3-{}.amazonaws.com'.format(AWS_STORAGE_BUCKET_NAME, AWS_REGION)
 STATIC_URL = 'https://{}/{}/'.format(AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_DEFAULT_ACL = None
+AWS_S3_FILE_OVERWRITE = False
