@@ -146,9 +146,7 @@ AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_BUCKET_NAME')
 AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-    'SSEKMSKeyId': os.environ.get('KMS_KEY_ID'),
-    'ServerSideEncryption': 'aws:kms',
+    'CacheControl': 'max-age=86400'
 }
 
 AWS_LOCATION = 'static'

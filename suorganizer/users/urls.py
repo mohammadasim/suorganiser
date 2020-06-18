@@ -4,6 +4,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView
 
+from .views import DisableAccount
+
 app_name = 'dj-auth'
 
 password_url = [
@@ -53,4 +55,5 @@ urlpatterns = [
         permanent=False
     ), ),
     path('password/', include(password_url)),
+    path('disable/', DisableAccount.as_view(), name='disable')
 ]

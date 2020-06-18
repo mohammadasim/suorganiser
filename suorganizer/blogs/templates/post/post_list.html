@@ -1,7 +1,7 @@
 {% extends 'post/base_blog.html' %} {% block title %} {{ block.super }} - Blog List {% endblock %} {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-4">
+        <div class="col-sm-4">
             <h3>Post Archives</h3>
             <ul>
                 {% for y in date_list %}
@@ -11,7 +11,7 @@
                 {% endfor %}
             </ul>
         </div>
-        <div class="col-8">
+        <div class="col-sm-8">
             {% for post in post_list %}
             <article>
                 <header>
