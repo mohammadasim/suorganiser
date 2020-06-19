@@ -2,9 +2,9 @@ from django.conf.urls import include
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import AuthenticationForm
 from django.urls import path, reverse_lazy
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
 
-from .views import DisableAccount
+from .views import DisableAccount, CreateAccount, ActivateAccount
 
 app_name = 'dj-auth'
 
@@ -55,5 +55,11 @@ urlpatterns = [
         permanent=False
     ), ),
     path('password/', include(password_url)),
-    path('disable/', DisableAccount.as_view(), name='disable')
+    path('disable/', DisableAccount.as_view(), name='disable'),
+    path('create/', CreateAccount.as_view(), name='create'),
+    path('create/done/', TemplateView.as_view(
+        template_name='users/user_create_done.html'),
+         name='create_done'),
+    path('activate/<uidb64>/<token>/', ActivateAccount.as_view(),
+         name='activate'),
 ]
