@@ -1,0 +1,16 @@
+{% extends 'users/base_user.html' %}
+{% block title %}
+{{ block.super }} - Account Created
+{% endblock title %}
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <p class="text-success">
+            Your Account has been created!
+        </p>
+        <p class="text-success">
+            Please check your email for the activation link.
+        </p>
+    </div>
+</div>
+{% endblock %}

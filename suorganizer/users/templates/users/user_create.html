@@ -6,6 +6,12 @@
 {% block content %}
 <div class="row">
     <div class="col-md-8">
+        <form action="{% 'dj-auth:create' %}" method="post">
+            {% csrf_token %}
+            {% load crispy_forms_tags %}
+            {{ form|crispy }}
+            <button class="btn btn-outline-success btn-lg btn-block" type="submit">Create New Account</button>
+        </form>
 
     </div>
 </div>
