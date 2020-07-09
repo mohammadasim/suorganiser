@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView, TemplateView
 
-from .views import DisableAccount, CreateAccount, ActivateAccount
+from .views import DisableAccount, CreateAccount, ActivateAccount, ResendActivationEmail
 
 app_name = 'dj-auth'
 
@@ -62,4 +62,6 @@ urlpatterns = [
          name='create_done'),
     path('activate/<uidb64>/<token>/', ActivateAccount.as_view(),
          name='activate'),
+    path('activate/resend/', ResendActivationEmail.as_view(),
+         name='resend_activation')
 ]

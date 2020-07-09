@@ -6,6 +6,8 @@
 {% block content %}
 <div class="row">
     <div class="col-md-5">
+        <a href="{% url 'dj-auth:create' %}">Register New Account</a>
+        <hr>
         {% include 'users/login_form.html' %}
         <hr>
         <a href="{% url 'dj-auth:pw_reset_start' %}">Forgotten your Password?</a>

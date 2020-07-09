@@ -18,7 +18,7 @@ from django.views import View
 from django.views.decorators.cache import never_cache
 from django.views.decorators.debug import sensitive_post_parameters
 
-from .forms import UserCreationForm
+from .forms import UserCreationForm, ResendActivationEmailForm
 from .mixins import MailContextViewMixin
 
 
@@ -136,3 +136,40 @@ class ActivateAccount(View):
         else:
             return TemplateResponse(request,
                                     self.template_name)
+
+
+class ResendActivationEmail(MailContextViewMixin, View):
+    """
+    View class to resend activation email
+    """
+    form_class = ResendActivationEmailForm
+    success_url = reverse_lazy('dj-auth:login')
+    template_name = 'users/resend_activation.html'
+
+    def get(self, request):
+        """
+        Get method to send the form
+        :param request:
+        :return:
+        """
+        return TemplateResponse(
+            request, self.template_name,
+            {'form': self.form_class()}
+        )
+
+    def post(self, request):
+        """
+        Post method for the view
+        :param request:
+        :return:
+        """
+        bound_form = self.form_class(request.POST)
+        if bound_form.is_valid():
+            user = bound_form.save(
+                **self.get_save_kwargs(request)
+            )
+            success(
+                request,
+                'Activation email sent'
+            )
+            return redirect(self.success_url)
