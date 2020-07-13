@@ -6,7 +6,9 @@ TAGS = (
     ('augmented reality', 'augmented-reality'),
     ('terraform automation', 'terraform-automation'),
     ('jenkins pipeline', 'jenkins-pipeline'),
-    ('devops culture', 'devops-culture')
+    ('devops culture', 'devops-culture'),
+    ('mobile', 'mobile'),
+    ('django', 'django')
 )
 
 

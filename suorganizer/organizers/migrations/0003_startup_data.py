@@ -28,7 +28,7 @@ STARTUPS = [
         'website':
             'https://frighteneveryone.com'
     },
-{
+    {
         'name': 'DevTeams',
         'slug': 'devteams',
         'contact': 'contact@devteams.com',
@@ -40,7 +40,18 @@ STARTUPS = [
         'website':
             'https://devteams.co.uk'
     },
-
+    {
+        'name': 'Jambon Software',
+        'slug': 'jambon-software',
+        'contact': 'contact@jambon-software.com',
+        'description':
+            'Remote-controlled internet-enabled'
+            'internet of things',
+        'founded_date': date(2019, 10, 31),
+        'tags': ['mobile', 'django'],
+        'website':
+            'https://jambon-software.co.uk'
+    },
 
 ]
 

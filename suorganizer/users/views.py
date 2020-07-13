@@ -168,6 +168,16 @@ class ResendActivationEmail(MailContextViewMixin, View):
             user = bound_form.save(
                 **self.get_save_kwargs(request)
             )
+            if (user is not None
+                and not bound_form.mail_sent):
+                errs = (
+                    bound_form.non_field_errors()
+                )
+                for err in errs:
+                    if err:
+                        bound_form.errors.pop(
+                            '__all__'
+                        )
             success(
                 request,
                 'Activation email sent'
