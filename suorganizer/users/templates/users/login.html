@@ -11,6 +11,7 @@
         {% include 'users/login_form.html' %}
         <hr>
         <a href="{% url 'dj-auth:pw_reset_start' %}">Forgotten your Password?</a>
+        <a href="{% url 'dj-auth:resend_activation' %}">Lost Activation Email?</a>
     </div>
     <div class="col-md-7">
         <img class="rounded img-thumbnail img-fluid"

@@ -90,8 +90,12 @@ class CreateAccount(MailContextViewMixin, View):
                 errs = (
                     bound_form.non_field_errors()
                 )
+                # Adding errors to the messages
                 for err in errs:
                     error(request, err)
+                return redirect(
+                    'dj-auth:resend_activation'
+                )
         return TemplateResponse(request,
                                 self.template_name,
                                 {'form': bound_form})
@@ -173,13 +177,21 @@ class ResendActivationEmail(MailContextViewMixin, View):
                 errs = (
                     bound_form.non_field_errors()
                 )
+                # Errors are displayed in messages
+                # and then removed from the form
                 for err in errs:
-                    if err:
-                        bound_form.errors.pop(
-                            '__all__'
-                        )
-            success(
+                    error(request, err)
+                if errs:
+                    bound_form.errors.pop(
+                        '__all__'
+                    )
+                return TemplateResponse(
+                    request,
+                    self.template_name,
+                    {'form': bound_form}
+                )
+        success(
                 request,
                 'Activation email sent'
             )
-            return redirect(self.success_url)
+        return redirect(self.success_url)

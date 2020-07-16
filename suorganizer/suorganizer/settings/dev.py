@@ -13,7 +13,7 @@ DATABASES = {
         'PASSWORD': get_env_variable('PGSQL_DB_PASW'),
         'HOST': get_env_variable('PGSQL_DB_HOST'),
         'PORT': get_env_variable('PGSQL_DB_PORT'),
-        'OPTIONS': {'sslmode': 'verify-ca'},
+        #'OPTIONS': {'sslmode': 'verify-full'},
     }
 }
 # Dev email settings, enables email output to the console
