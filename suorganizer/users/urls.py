@@ -4,11 +4,20 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView, TemplateView
 
-from .views import DisableAccount, CreateAccount, ActivateAccount, ResendActivationEmail
+from .views import (DisableAccount, CreateAccount,
+                    ActivateAccount, ResendActivationEmail)
 
 app_name = 'dj-auth'
 
 password_url = [
+    # We are adding this pattern to ensure that
+    # /user/password/ pattern is resolved.
+    # This is good practice.
+    path('',
+         RedirectView.as_view(
+             pattern_name='dj-auth:pw_reset_start',
+             permanent=False
+         )),
     path('change/',
          auth_views.PasswordChangeView.as_view(
              template_name='users/password_change_form.html',
@@ -63,5 +72,14 @@ urlpatterns = [
     path('activate/<uidb64>/<token>/', ActivateAccount.as_view(),
          name='activate'),
     path('activate/resend/', ResendActivationEmail.as_view(),
-         name='resend_activation')
+         name='resend_activation'),
+    # Just like the above we have to add this path
+    # as currently /user/activate/ doesn't resolve
+    path('activate/',
+         RedirectView.as_view(
+             pattern_name=(
+                 'dj-auth:resend_activation'
+             ),
+             permanent=False
+         ))
 ]

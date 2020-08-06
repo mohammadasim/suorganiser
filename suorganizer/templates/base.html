@@ -72,14 +72,16 @@
                 </div>
                 {% else %}
                 <div>
-                    {{ message }} {% endif %}
+                    {{ message }}
                 </div>
+                {% endif %}
                 {% endfor %}
 
             </div>
         </div>
         {% endif %}
-        {% block content %} Thi is the default content. {% endblock content %}
+        {% block content %} This is the default content. {% endblock content %}
+
     </div>
 </main>
 <br>
