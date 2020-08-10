@@ -1,7 +1,24 @@
+from datetime import date
 from django.db import models
 from django.urls import reverse
 
 from organizers.models import Tag, Startup
+
+
+class PostQueryset(models.QuerySet):
+    """
+    A custome queryset class with a
+    published method.
+    """
+    def published(self):
+        """
+        A method to find all the post objects
+        with pub_date from before today
+        :return:
+        """
+        return self.filter(
+            pub_date__lte=date.today()
+        )
 
 
 class Post(models.Model):
@@ -28,7 +45,11 @@ class Post(models.Model):
             self.title,
             self.pub_date.strftime('%Y-%m-%d')
         )
-
+    # Using the as_manager method we create a
+    # new manager and attach it to the objects
+    # now we can easily call published method
+    # on Post model,e.g Post.objects.published()
+    objects = PostQueryset.as_manager()
     class Meta:
         verbose_name = 'blog post'
         ordering = ['-pub_date', 'title']

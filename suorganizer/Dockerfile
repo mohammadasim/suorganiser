@@ -14,3 +14,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy project
 COPY . /code/
+
+RUN chmod +x /code/cmd.sh && chmod +x wait-for.sh

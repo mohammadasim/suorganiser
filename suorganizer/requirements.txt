@@ -14,3 +14,5 @@ typed-ast==1.4.1
 wrapt==1.11.2
 boto3==1.14.1
 django-storages==1.9.1
+uWSGI==2.0.19.1
+django-nose==1.4.6
