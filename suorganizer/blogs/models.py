@@ -9,7 +9,14 @@ class PostQueryset(models.QuerySet):
     """
     A custome queryset class with a
     published method.
+
+    The reason we had to define a custom
+    queryset class for post and not other
+    models was because we have a method
+    published. Other models don't have
+    a custom method, like this.
     """
+
     def published(self):
         """
         A method to find all the post objects
@@ -19,6 +26,35 @@ class PostQueryset(models.QuerySet):
         return self.filter(
             pub_date__lte=date.today()
         )
+
+
+class BasePostManager(models.Manager):
+    """
+    Custom manager class for Post.
+    """
+
+    def get_by_natural_key(self, pub_date, slug):
+        """
+        Method to be used when loading data to
+        database from fixtures.
+        :param pub_date:
+        :param slug:
+        :return:
+        """
+        return self.get(
+            pub_date=pub_date,
+            slug=slug
+        )
+
+
+# The PostQueryset object needs to be
+# linked to BasePostManager object.
+# We could define get_queryset method
+# in BasePostManager class or use the
+# following easy approach.
+PostManager = BasePostManager.from_queryset(
+    PostQueryset
+)
 
 
 class Post(models.Model):
@@ -45,11 +81,31 @@ class Post(models.Model):
             self.title,
             self.pub_date.strftime('%Y-%m-%d')
         )
-    # Using the as_manager method we create a
-    # new manager and attach it to the objects
-    # now we can easily call published method
-    # on Post model,e.g Post.objects.published()
-    objects = PostQueryset.as_manager()
+
+    def natural_key(self):
+        """
+        A method to return natural key tuple
+        uniquely identifying the post object
+        We also define dependencies that post
+        has on tag and startup so they are
+        serialized first.
+        This method must return a tuple
+        :return:
+        """
+        return (
+            self.pub_date,
+            self.slug
+        )
+    natural_key.dependencies = [
+            'organizers.startup',
+            'organizers.tag',
+            'users.user'
+        ]
+
+    # we use the PostManager generated class
+    # as manager for Post model.
+    objects = PostManager()
+
     class Meta:
         verbose_name = 'blog post'
         ordering = ['-pub_date', 'title']

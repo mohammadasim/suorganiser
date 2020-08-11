@@ -1,0 +1,63 @@
+[
+{
+   "model": "organizers.startup",
+   "pk": 2,
+   "fields": {
+      "name": "Arachnobots",
+      "slug": "arachnobots",
+      "description": "Remote-controlled internet-enabledspider robots",
+      "founded_date": "2014-10-31",
+      "contact": "contact@arachnobots.com",
+      "website": "https://frightenyourroomate.com",
+      "tags": [
+         1,
+         5
+      ]
+   }
+},
+{
+   "model": "organizers.startup",
+   "pk": 3,
+   "fields": {
+      "name": "Pod Point",
+      "slug": "pod-point",
+      "description": "Remote-controlled internet-enabledinternet of things",
+      "founded_date": "2009-10-31",
+      "contact": "contact@pod-point.com",
+      "website": "https://frighteneveryone.com",
+      "tags": [
+         6,
+         5
+      ]
+   }
+},
+{
+   "model": "organizers.startup",
+   "pk": 4,
+   "fields": {
+      "name": "DevTeams",
+      "slug": "devteams",
+      "description": "Remote-controlled internet-enabledinternet of things",
+      "founded_date": "2019-10-31",
+      "contact": "contact@devteams.com",
+      "website": "https://devteams.co.uk",
+      "tags": [
+         6,
+         5
+      ]
+   }
+},
+{
+   "model": "organizers.startup",
+   "pk": 5,
+   "fields": {
+      "name": "jambon-software",
+      "slug": "jambon-software",
+      "description": "An exciting startup",
+      "founded_date": "2020-01-25",
+      "contact": "info@jambon-software",
+      "website": "https://mylink.com",
+      "tags": []
+   }
+}
+]
