@@ -12,6 +12,7 @@ from django.contrib.messages import error, success
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.views import View
@@ -68,7 +69,7 @@ class CreateAccount(MailContextViewMixin, View):
             {'form': self.form_class()}
         )
 
-    @sensitive_post_parameters('password1', 'password2')
+    @method_decorator(sensitive_post_parameters('password1', 'password2'))
     def post(self, request):
         """
         Post method dealing with form once
@@ -81,7 +82,8 @@ class CreateAccount(MailContextViewMixin, View):
             # we are using get_save_kwargs to get data from
             # request and pass it on to the save() that will
             # pass it to the send_mail method
-            bound_form.save(self.get_save_kwargs(request))
+            mail_kwargs = self.get_save_kwargs(request)
+            bound_form.save(**mail_kwargs)
             # using mail_sent from mixin we check if email
             # has been sent
             if bound_form.mail_sent:
@@ -173,7 +175,7 @@ class ResendActivationEmail(MailContextViewMixin, View):
                 **self.get_save_kwargs(request)
             )
             if (user is not None
-                and not bound_form.mail_sent):
+                    and not bound_form.mail_sent):
                 errs = (
                     bound_form.non_field_errors()
                 )
@@ -191,7 +193,7 @@ class ResendActivationEmail(MailContextViewMixin, View):
                     {'form': bound_form}
                 )
         success(
-                request,
-                'Activation email sent'
-            )
+            request,
+            'Activation email sent'
+        )
         return redirect(self.success_url)

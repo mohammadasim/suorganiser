@@ -1,9 +1,13 @@
 import logging
+
+from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import \
     UserCreationForm as BaseUserCreationForm
-from django import forms
+from django.utils.text import slugify
+
 from .mixins import ActivationMailFormMixin
+from .models import Profile
 
 logger = logging.getLogger(__name__)
 
@@ -13,12 +17,13 @@ class UserCreationForm(ActivationMailFormMixin,
     """
     Form class for user creation
     """
+
     mail_validation_error = (
         'User created. Could not send activation '
         'email. Please try again later. (Sorry!)'
     )
 
-    def save(self, **kwargs):
+    def save(self, *args, **kwargs):
         """
         Overriding save method with multiple steps
         Passing it **kwargs required by send_mail()
@@ -42,8 +47,14 @@ class UserCreationForm(ActivationMailFormMixin,
         user.save()
         # To save any many-to-many relations we call save_m2m()
         self.save_m2m
+        Profile.objects.update_or_create(
+            user=user,
+            defaults={
+                'slug': slugify(user.get_username()),
+            }
+        )
         if send_mail:
-            self.send_mail(**kwargs)
+            self.send_mail(user, **kwargs)
         return user
 
     class Meta(BaseUserCreationForm.Meta):
