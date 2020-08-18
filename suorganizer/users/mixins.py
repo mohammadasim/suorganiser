@@ -7,6 +7,7 @@ from logging import CRITICAL, ERROR
 from smtplib import SMTPException
 
 from django.conf import settings
+from django.contrib.auth import get_user
 from django.contrib.auth.tokens import \
     default_token_generator as token_generator
 from django.contrib.sites.shortcuts import get_current_site
@@ -244,3 +245,19 @@ class MailContextViewMixin:
             'subject_template_name':
                 self.subject_template_name
         }
+
+
+class ProfileGetObjectMixin:
+    """
+    Mixin for user profile
+    """
+
+    def get_object(self, queryset=None):
+        """
+        Method to get a profile associated
+        with a logged in user
+        :param queryset:
+        :return:
+        """
+        current_user = get_user(self.request)
+        return current_user.profile

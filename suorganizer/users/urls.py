@@ -5,7 +5,8 @@ from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView, TemplateView
 
 from .views import (DisableAccount, CreateAccount,
-                    ActivateAccount, ResendActivationEmail)
+                    ActivateAccount, ResendActivationEmail,
+                    ProfileDetail,)
 
 app_name = 'dj-auth'
 
@@ -59,10 +60,6 @@ urlpatterns = [
         }
     )
          , name='logout'),
-    path('', RedirectView.as_view(
-        pattern_name='dj-auth:login',
-        permanent=False
-    ), ),
     path('password/', include(password_url)),
     path('disable/', DisableAccount.as_view(), name='disable'),
     path('create/', CreateAccount.as_view(), name='create'),
@@ -73,6 +70,8 @@ urlpatterns = [
          name='activate'),
     path('activate/resend/', ResendActivationEmail.as_view(),
          name='resend_activation'),
+    path('profile/',
+         ProfileDetail.as_view(), name='profile'),
     # Just like the above we have to add this path
     # as currently /user/activate/ doesn't resolve
     path('activate/',
@@ -81,5 +80,9 @@ urlpatterns = [
                  'dj-auth:resend_activation'
              ),
              permanent=False
-         ))
+         )),
+    path('', RedirectView.as_view(
+        pattern_name='dj-auth:login',
+        permanent=False
+    ), ),
 ]

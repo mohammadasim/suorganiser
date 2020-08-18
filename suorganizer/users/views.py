@@ -1,6 +1,7 @@
 """
 View Module for Users app
 """
+from django.utils.decorators import method_decorator
 from django.conf import settings
 from django.contrib.auth import get_user, logout, get_user_model
 from django.contrib.auth.mixins import (
@@ -12,15 +13,16 @@ from django.contrib.messages import error, success
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.views import View
 from django.views.decorators.cache import never_cache
 from django.views.decorators.debug import sensitive_post_parameters
+from django.views.generic import DetailView
 
 from .forms import UserCreationForm, ResendActivationEmailForm
-from .mixins import MailContextViewMixin
+from .mixins import MailContextViewMixin, ProfileGetObjectMixin
+from .models import Profile
 
 
 class DisableAccount(LoginRequiredMixin, View):
@@ -82,8 +84,7 @@ class CreateAccount(MailContextViewMixin, View):
             # we are using get_save_kwargs to get data from
             # request and pass it on to the save() that will
             # pass it to the send_mail method
-            mail_kwargs = self.get_save_kwargs(request)
-            bound_form.save(**mail_kwargs)
+            bound_form.save(**self.get_save_kwargs(request))
             # using mail_sent from mixin we check if email
             # has been sent
             if bound_form.mail_sent:
@@ -130,7 +131,7 @@ class ActivateAccount(View):
         except (TypeError, ValueError,
                 OverflowError, user.DoesNotExist):
             user = None
-        if user is not None and token_generator.check_token(token, user):
+        if user is not None and token_generator.check_token(user, token):
             user.is_active = True
             user.save()
             success(
@@ -197,3 +198,11 @@ class ResendActivationEmail(MailContextViewMixin, View):
             'Activation email sent'
         )
         return redirect(self.success_url)
+
+
+class ProfileDetail(LoginRequiredMixin,
+                    ProfileGetObjectMixin, DetailView):
+    """
+    A view to show the profile of a logged in user.
+    """
+    model = Profile

@@ -38,7 +38,7 @@ services:
       - local
     restart: always
     ports: 
-      - "${PGADMIN_PORT:-5050}:5050"
+      - "${PGADMIN_LISTEN_PORT:-5050}:5050"
 
   nginx:
     container_name: nginx

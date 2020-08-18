@@ -1,9 +1,9 @@
 import logging
-
-from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import \
     UserCreationForm as BaseUserCreationForm
+from django import forms
+from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 
 from .mixins import ActivationMailFormMixin
@@ -17,13 +17,12 @@ class UserCreationForm(ActivationMailFormMixin,
     """
     Form class for user creation
     """
-
     mail_validation_error = (
         'User created. Could not send activation '
         'email. Please try again later. (Sorry!)'
     )
 
-    def save(self, *args, **kwargs):
+    def save(self, **kwargs):
         """
         Overriding save method with multiple steps
         Passing it **kwargs required by send_mail()
@@ -36,6 +35,7 @@ class UserCreationForm(ActivationMailFormMixin,
         :param kwargs:
         :return:
         """
+        print("Inside the save method the kwargs are {}".format(kwargs))
         user = super().save(commit=False)
         if not user.pk:
             user.is_active = False
@@ -47,6 +47,7 @@ class UserCreationForm(ActivationMailFormMixin,
         user.save()
         # To save any many-to-many relations we call save_m2m()
         self.save_m2m
+        # create or update the user profile
         Profile.objects.update_or_create(
             user=user,
             defaults={
@@ -56,6 +57,33 @@ class UserCreationForm(ActivationMailFormMixin,
         if send_mail:
             self.send_mail(user, **kwargs)
         return user
+
+    def clean_username(self):
+        """
+        Method to check that username is
+        not in the set of disallowed
+        usernames. If username of user is
+        login it means their profile will
+        be accessible with url users/login/
+        which is our login url.
+        :return:
+        """
+        username = self.cleaned_data['username']
+        disallowed = (
+            'activate',
+            'create',
+            'disable',
+            'login',
+            'logout',
+            'password',
+            'profile',
+        )
+        if username in disallowed:
+            raise ValidationError(
+                'A user with that username'
+                'already exists.'
+            )
+        return username
 
     class Meta(BaseUserCreationForm.Meta):
         """
