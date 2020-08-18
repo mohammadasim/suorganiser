@@ -18,7 +18,7 @@ from django.utils.http import urlsafe_base64_decode
 from django.views import View
 from django.views.decorators.cache import never_cache
 from django.views.decorators.debug import sensitive_post_parameters
-from django.views.generic import DetailView
+from django.views.generic import DetailView, UpdateView
 
 from .forms import UserCreationForm, ResendActivationEmailForm
 from .mixins import MailContextViewMixin, ProfileGetObjectMixin
@@ -205,4 +205,13 @@ class ProfileDetail(LoginRequiredMixin,
     """
     A view to show the profile of a logged in user.
     """
+    model = Profile
+
+
+class ProfileUpdate(LoginRequiredMixin,
+                    ProfileGetObjectMixin, UpdateView):
+    """
+    A view to update user profile
+    """
+    fields = ('about',)
     model = Profile

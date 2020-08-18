@@ -6,7 +6,7 @@ from django.views.generic import RedirectView, TemplateView
 
 from .views import (DisableAccount, CreateAccount,
                     ActivateAccount, ResendActivationEmail,
-                    ProfileDetail,)
+                    ProfileDetail, ProfileUpdate,)
 
 app_name = 'dj-auth'
 
@@ -72,6 +72,7 @@ urlpatterns = [
          name='resend_activation'),
     path('profile/',
          ProfileDetail.as_view(), name='profile'),
+    path('profile/edit/', ProfileUpdate.as_view(), name='profile_update'),
     # Just like the above we have to add this path
     # as currently /user/activate/ doesn't resolve
     path('activate/',

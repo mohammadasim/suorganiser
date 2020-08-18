@@ -3,16 +3,16 @@
 {{ block.super }}
 {{profile.user.get_username}}'s profile
 {% endblock title %}
+{% block content %}
 <div class="row">
     <div class="col-md-7">
         <h2>About {{ profile.user.get_username }}</h2>
-
     </div>
     <div class="col-md-5">
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item"><a href="{% url 'dj-auth:pw_change' %}"></a>Change Password</li>
-            <li class="list-group-item"><a href="{% url 'dj-auth:disable' %}"></a>Disable Account</li>
+        <ul>
+            <li><a href="{% url 'dj-auth:pw_change' %}">Change Password</a></li>
+            <li><a href="{% url 'dj-auth:disable' %}">Disable Account</a></li>
         </ul>
     </div>
 </div>
-{% block content %}
+{% endblock content %}
