@@ -215,3 +215,11 @@ class ProfileUpdate(LoginRequiredMixin,
     """
     fields = ('about',)
     model = Profile
+    template_name = 'users/profile_form_update.html'
+
+
+class PublicProfileDetail(DetailView):
+    """
+    A view to show profile to other users
+    """
+    model = Profile
