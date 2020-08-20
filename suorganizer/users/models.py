@@ -28,7 +28,7 @@ class Profile(models.Model):
     )
 
     def __str__(self):
-        return self.user.get_username()
+        return self.user.get_full_name()
 
     def get_update_url(self):
         """
@@ -156,6 +156,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_full_name(self):
         """
         Returns profile name
+        We are using the 1to1 relationship
         :return:
         """
         return self.profile.name
@@ -163,6 +164,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         """
         Returns profile name
+        We are using the 1to1 relationship
         :return:
         """
         return self.profile.name

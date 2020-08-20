@@ -22,6 +22,14 @@ class UserCreationForm(ActivationMailFormMixin,
         'email. Please try again later. (Sorry!)'
     )
 
+    name = forms.CharField(
+        max_length=255,
+        help_text=(
+            'The name displayed on your '
+            'public profile.'
+        )
+    )
+
     def save(self, **kwargs):
         """
         Overriding save method with multiple steps
@@ -50,24 +58,24 @@ class UserCreationForm(ActivationMailFormMixin,
         Profile.objects.update_or_create(
             user=user,
             defaults={
-                'slug': slugify(user.get_username()),
+                'slug': slugify(self.cleaned_data['name']),
             }
         )
         if send_mail:
             self.send_mail(user, **kwargs)
         return user
 
-    def clean_username(self):
+    def clean_name(self):
         """
-        Method to check that username is
+        Method to check that name is
         not in the set of disallowed
-        usernames. If username of user is
+        names. If name of user is
         login it means their profile will
         be accessible with url users/login/
         which is our login url.
         :return:
         """
-        username = self.cleaned_data['username']
+        name = self.cleaned_data['name']
         disallowed = (
             'activate',
             'create',
@@ -77,12 +85,12 @@ class UserCreationForm(ActivationMailFormMixin,
             'password',
             'profile',
         )
-        if username in disallowed:
+        if name in disallowed:
             raise ValidationError(
                 'A user with that username'
                 'already exists.'
             )
-        return username
+        return name
 
     class Meta(BaseUserCreationForm.Meta):
         """
@@ -96,7 +104,7 @@ class UserCreationForm(ActivationMailFormMixin,
         form to the field.
         """
         model = get_user_model()
-        fields = ['email']
+        fields = ['email', 'email']
 
 
 class ResendActivationEmailForm(ActivationMailFormMixin,

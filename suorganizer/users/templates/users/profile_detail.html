@@ -6,7 +6,7 @@
 {% block content %}
 <div class="row">
     <div class="col-md-7">
-        <h2>About {{ profile.user.get_username }}</h2>
+        <h2>About {{ profile.user.get_full_name }}</h2>
         {{ profile.about|default:"No Profile"|linebreaks }}
     </div>
     {% if user.pk == profile.user.pk %}
