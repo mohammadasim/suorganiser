@@ -35,7 +35,6 @@ class UserCreationForm(ActivationMailFormMixin,
         :param kwargs:
         :return:
         """
-        print("Inside the save method the kwargs are {}".format(kwargs))
         user = super().save(commit=False)
         if not user.pk:
             user.is_active = False
@@ -97,7 +96,7 @@ class UserCreationForm(ActivationMailFormMixin,
         form to the field.
         """
         model = get_user_model()
-        fields = ['username', 'email']
+        fields = ['email']
 
 
 class ResendActivationEmailForm(ActivationMailFormMixin,
