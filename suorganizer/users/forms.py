@@ -21,7 +21,9 @@ class UserCreationForm(ActivationMailFormMixin,
         'User created. Could not send activation '
         'email. Please try again later. (Sorry!)'
     )
-
+    # Name field added to the form only.
+    # The value from this field will be used
+    # to create profile for the user
     name = forms.CharField(
         max_length=255,
         help_text=(
