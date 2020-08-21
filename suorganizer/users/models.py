@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
@@ -168,6 +170,17 @@ class User(AbstractBaseUser, PermissionsMixin):
         :return:
         """
         return self.profile.name
+
+    def published_posts(self):
+        """
+        Method to return the
+        published posts of the
+        user.
+        :return:
+        """
+        return self.blog_posts.filter(
+            pub_date__lt=date.today()
+        )
 
     # overriding objects attribute to use
     # the custom manager that we have created

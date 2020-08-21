@@ -1,6 +1,7 @@
 from datetime import date
 from django.db import models
 from django.urls import reverse
+from django.conf import settings
 
 from organizers.models import Tag, Startup
 
@@ -75,6 +76,11 @@ class Post(models.Model):
     startups = models.ManyToManyField(Startup,
                                       related_name='blog_posts',
                                       blank=True)
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='blog_posts',
+        on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return '{} on {}'.format(

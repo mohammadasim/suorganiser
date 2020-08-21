@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.views.generic.dates import (
     YearMixin as BaseYearMixin, MonthMixin as BaseMonthMixin,
     DateMixin, _date_from_string)
@@ -129,3 +129,24 @@ class DateObjectMixin(YearMixin,
                 '{}__gte'.format(date_field): date,
                 '{}__lt'.format(date_field): self._get_next_month(date),
             }
+
+
+class PostFormValidMixin:
+    """
+    Mixin to override the
+    form_valid method
+    """
+
+    def form_valid(self, form):
+        """
+        Overriding the method to
+        pass request object to the
+        form. This method is called
+        when form is bound and valid.
+        :param form:
+        :return:
+        """
+        self.object = form.save(self.request)
+        return HttpResponseRedirect(
+            self.get_success_url()
+        )

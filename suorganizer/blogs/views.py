@@ -14,13 +14,13 @@ from django.views.generic import (
 )
 
 from .forms import PostForm
-from .mixins import DateObjectMixin, AllowFuturePermissionMixin
+from .mixins import DateObjectMixin, AllowFuturePermissionMixin, PostFormValidMixin
 from .models import Post
 
 
 class PostList(
     AllowFuturePermissionMixin,
-    ArchiveIndexView):
+        ArchiveIndexView):
     """List View"""
     allow_empty = True
     context_object_name = 'post_list'
@@ -38,14 +38,14 @@ class PostDetail(DateObjectMixin, DetailView):
     model = Post
 
 
-class PostCreate(CreateView):
+class PostCreate(PostFormValidMixin, CreateView):
     """Create view"""
     form_class = PostForm
     template_name = 'post/post_form.html'
     model = Post
 
 
-class PostUpdate(DateObjectMixin, UpdateView):
+class PostUpdate(DateObjectMixin, PostFormValidMixin, UpdateView):
     """Update view"""
     form_class = PostForm
     date_field = 'pub_date'
