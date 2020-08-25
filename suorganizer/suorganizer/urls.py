@@ -22,6 +22,8 @@ from organizers.urls import startup as start_urls
 from organizers.urls import tag as tag_urls
 from users import urls as user_urls
 
+admin.site.site_header = 'Startup Organizer Admin'
+admin.site.site_title = 'Startup Organizer Site Admin'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('blogs/', include(blog_urls)),
