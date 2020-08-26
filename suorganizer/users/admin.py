@@ -58,3 +58,24 @@ class UserAdmin(admin.ModelAdmin):
     # These values come form list_display
 
     list_display_links = ('get_name', 'email')
+    # form view
+    fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email',)}),
+        ('Permissions', {
+            'classes': ('collapse',),
+            'fields': (
+                'is_active',
+                'is_staff',
+                'is_superuser',
+                'groups',
+                'user_permissions'
+            )
+        }),
+        ('Important dates', {
+            'classes': ('collapse',),
+            'fields': ('last_login',)
+        }),
+    )
+    filter_horizontal = ('groups', 'user_permissions',)
