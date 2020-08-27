@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import User
+from .forms import UserCreationForm
 
 
 @admin.register(User)
@@ -58,7 +59,37 @@ class UserAdmin(admin.ModelAdmin):
     # These values come form list_display
 
     list_display_links = ('get_name', 'email')
-    # form view
+    # Using our own form instead of django admin form
+    # for creating a new user
+    # We have created this attribute
+    add_form = UserCreationForm
+
+    # override the get_form method
+    def get_form(self, request, obj=None, **kwargs):
+        """
+        This method is overridden so that our
+        UserCreationForm is used only when
+        creating a new user, when updating
+        an existing user, the admin app
+        should use its own form
+        :param request:
+        :param obj:
+        :param change:
+        :param kwargs:
+        :return:
+        """
+        print("The get form method has been called.")
+        if obj is None:
+            kwargs['form'] = self.add_form
+        print(kwargs)
+        return super().get_form(
+            request, obj, **kwargs
+        )
+
+    # form view for user update
+    # for user creation, the
+    # UserCreationForm will be used
+
     fieldsets = (
         (None, {
             'classes': ('wide',),
@@ -79,3 +110,34 @@ class UserAdmin(admin.ModelAdmin):
         }),
     )
     filter_horizontal = ('groups', 'user_permissions',)
+
+    # without defining this UserCreationForm was
+    # being replaced
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': (
+                'name',
+                'email',
+                'password1',
+                'password2'
+            )
+        }),
+    )
+
+    # The above works only if we apply
+    # it ourselves, as the ModelAdmin
+    # will not use it by default.
+
+    def get_fieldsets(self, request, obj=None):
+        """
+        Overriding the default method to use
+        our defined fieldsets when a new
+        object is being created.
+        :param request:
+        :param obj:
+        :return:
+        """
+        if not obj:
+            return self.add_fieldsets
+        return super().get_fieldsets()

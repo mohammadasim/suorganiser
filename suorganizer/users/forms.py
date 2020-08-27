@@ -60,7 +60,8 @@ class UserCreationForm(ActivationMailFormMixin,
         Profile.objects.update_or_create(
             user=user,
             defaults={
-                'slug': slugify(self.cleaned_data['name']),
+                'name': self.cleaned_data['name'],
+                'slug': slugify(self.cleaned_data['name'])
             }
         )
         if send_mail:
