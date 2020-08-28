@@ -1,7 +1,8 @@
 import logging
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import \
-    UserCreationForm as BaseUserCreationForm
+    UserCreationForm as BaseUserCreationForm, \
+    UserChangeForm as BaseUserChangeForm
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
@@ -138,3 +139,12 @@ class ResendActivationEmailForm(ActivationMailFormMixin,
             return None
         self.send_mail(user=user, **kwargs)
         return user
+
+
+class UserChangeForm(BaseUserChangeForm):
+    """
+    For UserAdmin
+    """
+
+    class Meta(BaseUserChangeForm.Meta):
+        model = get_user_model()
