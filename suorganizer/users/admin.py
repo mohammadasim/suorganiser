@@ -13,8 +13,21 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import AdminPasswordChangeForm
 from django.utils.html import escape
 
-from .models import User
+from .models import User, Profile
 from .forms import UserCreationForm, UserChangeForm
+
+
+class ProfileAdminInline(admin.StackedInline):
+    """
+    Class to display profile object associated
+    with a user as an inline admin model
+    """
+    model = Profile
+    can_delete = False
+    exclude = ('slug',)
+
+    def view_on_site(self, obj):
+        return obj.get_absolute_url()
 
 
 @admin.register(User)
@@ -265,3 +278,68 @@ class UserAdmin(admin.ModelAdmin):
             self.change_user_password_template,
             context
         )
+
+    def get_inline_instances(self, request, obj=None):
+        """
+        Overriding the method to display
+        inline only if a user object is
+        passed to the method
+        :param request:
+        :param obj:
+        :return:
+        """
+        if obj is None:
+            return tuple()
+        inline_instance = ProfileAdminInline(
+            self.model, self.admin_site
+        )
+        return (inline_instance,)
+
+    # Adding actions
+
+    # Registering actions that we create
+    actions = ['make_staff', 'remove_staff']
+
+    # Defining action
+    def make_staff(self, request, queryset):
+        """
+        Make a list of users staff
+        :param request:
+        :param queryset:
+        :return:
+        """
+        rows_updated = queryset.update(
+            is_staff=True
+        )
+        if rows_updated == 1:
+            message = '1 user was'
+        else:
+            message = '{} users were'.format(rows_updated)
+        message += ' successfully made staff'
+        self.message_user(request, message)
+
+    make_staff.short_description = (
+        'Allow user to access Admin Site.'
+    )
+
+    def remove_staff(self, request, queryset):
+        """
+        Method to withdraw staff status from
+        users
+        :param request:
+        :param queryset:
+        :return:
+        """
+        row_updated = queryset.update(
+            is_staff=False
+        )
+        if row_updated == 1:
+            message = '1 user was'
+        else:
+            message = '{} users were'.format(row_updated)
+        message += ' removed from staff list.'
+        self.message_user(request, message)
+
+    remove_staff.short_description = (
+        'Stop user access to Admin Site.'
+    )

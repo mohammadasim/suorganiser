@@ -52,4 +52,3 @@ class Command(BaseCommand):
             name=tag_name,
             slug=slugify(tag_name)
         )
-

@@ -8,7 +8,7 @@ from organizers.models import Tag, Startup
 
 class PostQueryset(models.QuerySet):
     """
-    A custome queryset class with a
+    A custom queryset class with a
     published method.
 
     The reason we had to define a custom
