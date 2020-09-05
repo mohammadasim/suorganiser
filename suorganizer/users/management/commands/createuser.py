@@ -6,7 +6,7 @@ from django.core.exceptions import (
     ObjectDoesNotExist,
     ValidationError
 )
-from django.utils.encoding import force_str
+from django.utils.encoding import smart_str
 from django.utils.text import slugify, capfirst
 from users.models import Profile
 
@@ -247,6 +247,110 @@ class Command(BaseCommand):
             if not value:
                 continue
             return value
+
+    def handle_interactive(self, name, username, **options):
+        """
+        Method to create user interactively
+        :param name: 
+        :param username: 
+        :param options: 
+        :return: 
+        """
+        password = None
+        # First we need to make sure  that we 
+        # can behave, interactively. Using the
+        # stdin attribute that we assigned in
+        # execute() we check that the management
+        # command is being called from an 
+        # interactive shell. If not we raise a
+        # commanderror
+        if (hasattr(self.stndin, 'isatty')
+                and not self.stndin.isatty()):
+            self.stdout.write(
+                'User creation skipped due to '
+                'not running in a TTY. '
+                'You can run manage.py createuser '
+                'in your project to createone '
+                'manually.'
+            )
+            sys.exit(status=1)
+            # We check the username and name
+            # arguments as it is possible for
+            # createuser to be called with
+            # certain parameters set
+            # noninteractively.
+
+        if username is not None:
+            username = self.clean_value(
+                self.username_field,
+                username,
+                halt=False
+            )
+            if username is not None:
+                username = self.check_unique(
+                    self.user,
+                    self.username_field,
+                    username,
+                    halt=False
+                )
+        if name is not None:
+            name = self.clean_value(
+                self.name_field, name, halt=False
+            )
+            if name is not None:
+                name = self.check_unique(
+                    Profile, self.name_field, halt=False
+                )
+
+        try:
+            # no we ask for the parameters interactively
+            # if they have not been passed already
+            if not username:
+                username = (
+                    self.get_field_interactive(
+                        self.user,
+                        self.username_field
+                    )
+                )
+            if not name:
+                name = (
+                    self.get_field_interactive(
+                        Profile,
+                        self.namefield
+                    )
+                )
+            while password is None:
+                password = getpass.getpass()
+                password2 = getpass.getpass(
+                    # smart_str shows the message and takes the password input
+                    smart_str(
+                        'Password (again): '
+                    )
+                )
+                if password != password2:
+                    self.stderr.write(
+                        'Error: Your '
+                        'passwords did not match'
+                    )
+                    password = None
+                    continue
+                    # strip returns copy of string
+                    # with leading and trailing
+                    # whitespace remove.
+                if password.strip() == '':
+                    self.stderr.write(
+                        'Error: Blank password '
+                        'are not allowed'
+                    )
+                    password = None
+                    continue
+            return (name, username, password)
+
+        except KeyboardInterrupt:
+            self.stderr.write(
+                '\nOperation cancelled'
+            )
+            sys.exit(status=1)
 
     def create_user(self, name, username, password):
         """
