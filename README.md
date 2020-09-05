@@ -1,7 +1,11 @@
 # suorganizer
 A Django application to write blogs that focuses on news articles relating to technology startup businesses. The goal is to help publicize startups to blog readers.
 ###
-This project is based on my learning of the book Django unleashed by Andrew Pinkham
+This project is based on my learning of the book Django unleashed by Andrew Pinkham, but is not the
+exact implementation of his project. While in his book he recommends to use Django version 1.8, I am using
+Django 3. Some of the methods that were part of the book didn't work for me and hence I implemented
+my own custom solutions, however the core functionality of this app is identical to the applicaiton 
+that he builds as part of his book.
 
 #### Docker Settings
 This application uses docker in the development env and will also be deployed as docker container. The docker-compose file has all the containers required to develop and subsequently deploy the application.
