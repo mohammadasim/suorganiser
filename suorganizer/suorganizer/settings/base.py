@@ -41,6 +41,7 @@ SECRET_KEY = get_env_variable('SECRET_KEY')
 # Application definition
 
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,7 +56,6 @@ INSTALLED_APPS = [
     'blogs.apps.BlogsConfig',
     'organizers.apps.OrganizersConfig',
     'contacts.apps.ContactsConfig',
-    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [

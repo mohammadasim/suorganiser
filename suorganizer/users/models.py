@@ -1,6 +1,7 @@
 from datetime import date
 
 from django.conf import settings
+from django.contrib.auth.password_validation import validate_password
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import (
@@ -79,9 +80,11 @@ class UserManager(BaseUserManager):
             is_superuser=is_superuser,
             **kwargs
         )
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
+        invalid_password = validate_password(password)
+        if not invalid_password:
+            user.set_password(password)
+            user.save(using=self._db)
+            return user
 
     def create_user(self,
                     email, password=None, **extra_fields):

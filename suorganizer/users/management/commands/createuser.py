@@ -51,10 +51,10 @@ class Command(BaseCommand):
         :param options:
         :return:
         """
-        self.stndin = options.get(
+        self.stdin = options.get(
             'stdin', sys.stdin
         )
-        return super().execute(self, *args, **options)
+        return super().execute(*args, **options)
 
     def add_arguments(self, parser):
         """
@@ -99,37 +99,9 @@ class Command(BaseCommand):
                  'with --noinput will not be able '
                  'to login unitil they\'re given '
                  'a valid password.'.format(
-                self.User.USERNAME_FIELD
+                self.user.USERNAME_FIELD
             )
         )
-
-    def clean_value(self, field, value, halt=True):
-        """
-        Helper method using the clean() method of
-        the model to check the input provided.
-        :param field:
-        :param value:
-        :param halt:
-        :return:
-        """
-        try:
-            value = field.clean(value, None)
-        except ValidationError as e:
-            if halt:
-                raise CommandError(
-                    '; '.join(e.message)
-                )
-            else:
-                # stderr is an attribute defined in
-                # __init__ method of BaseCommand class
-                self.stderr.write(
-                    'Error: {}'.format(
-                        '; '.join(e.message)
-                    )
-                )
-            return None
-        else:
-            return value
 
     def check_unique(self, model, field, value, halt=True):
         """
@@ -192,12 +164,6 @@ class Command(BaseCommand):
                     self.name_field.name
                 )
             )
-        username = self.clean_value(
-            self.username_field, username
-        )
-        name = self.clean_value(
-            self.name_field, name
-        )
         username = self.check_unique(
             self.user,
             self.username_field,
@@ -234,17 +200,12 @@ class Command(BaseCommand):
             # into string, stripping trailing new line
             # and returns that.
             value = input(input_msg)
-            value = self.clean_value(
-                field, value, halt=False
-            )
-            # if value is none
-            # go back to the start of the loop
-            if not value:
-                continue
             value = self.check_unique(
-                field, value, halt=False
+                model, field, value, halt=False
             )
             if not value:
+                # if value is none
+                # go back to the start of the loop
                 continue
             return value
 
@@ -264,8 +225,8 @@ class Command(BaseCommand):
         # command is being called from an 
         # interactive shell. If not we raise a
         # commanderror
-        if (hasattr(self.stndin, 'isatty')
-                and not self.stndin.isatty()):
+        if (hasattr(self.stdin, 'isatty')
+                and not self.stdin.isatty()):
             self.stdout.write(
                 'User creation skipped due to '
                 'not running in a TTY. '
@@ -281,26 +242,16 @@ class Command(BaseCommand):
             # noninteractively.
 
         if username is not None:
-            username = self.clean_value(
+            username = self.check_unique(
+                self.user,
                 self.username_field,
                 username,
                 halt=False
             )
-            if username is not None:
-                username = self.check_unique(
-                    self.user,
-                    self.username_field,
-                    username,
-                    halt=False
-                )
         if name is not None:
-            name = self.clean_value(
-                self.name_field, name, halt=False
+            name = self.check_unique(
+                Profile, self.name_field, name, halt=False
             )
-            if name is not None:
-                name = self.check_unique(
-                    Profile, self.name_field, halt=False
-                )
 
         try:
             # no we ask for the parameters interactively
@@ -316,7 +267,7 @@ class Command(BaseCommand):
                 name = (
                     self.get_field_interactive(
                         Profile,
-                        self.namefield
+                        self.name_field
                     )
                 )
             while password is None:
