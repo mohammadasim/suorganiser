@@ -7,7 +7,24 @@ from django.contrib.auth.management import create_permissions
 def generate_permissions(apps, schema_editor):
     """
     Method to create permissions for blogs
-    that are defined in it model meta class
+    that are defined in its model meta class.
+    Even though we have migration for adding
+    permission that we have created in post model
+    in file 0004, these permissions will not be
+    in the database when this method is run, so
+    the permissions.get method in the try block
+    will throw DoesNotExist exception.
+    In the except block using the apps attribute
+    passed to this function, that points to the
+    project level AppConfig instance and knows
+    about all the modules in the application, we
+    get the model for blogs.
+    We then get the models_module attribute of
+    the the model and set it to true. In order
+    to add permissions the value of this
+    attribute must be set to True. Once the
+    permission is added, we then set the
+    value to none again.
     :param apps:
     :param schema_editor:
     :return:
@@ -15,19 +32,20 @@ def generate_permissions(apps, schema_editor):
     # Retrieving the Permissions model from auth
     permissions = apps.get_model('auth', 'Permission')
     try:
+        # We check if the permissions exist
+        # If the permissions don't exist in
+        # the except block we create the
+        # permissions.
         permissions.objects.get(
             codename='add_post',
             content_type__app_label='blogs'
         )
-    except Permission.DoesNotEist:
-        models_module = getattr(
-            apps, 'models_module', None
-        )
-        if models_module is None:
-            create_permissions(
-                apps, verbosity=0
-            )
-            apps.models_module = None
+    except permissions.DoesNotExist:
+        app_config = apps.get_app_config('blogs')
+        if app_config.models_module is None:
+            app_config.models_module = True
+            create_permissions(app_config, verbosity=0)
+            app_config.models_module = None
         else:
             raise
 

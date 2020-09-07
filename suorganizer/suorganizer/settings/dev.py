@@ -1,10 +1,10 @@
 from .base import *
 from ..log_filters import ManagementFilter
+import socket
 
 DEBUG = True
 
 ALLOWED_HOSTS = ['app', '127.0.0.1']
-
 
 DATABASES = {
     'default': {
@@ -14,7 +14,7 @@ DATABASES = {
         'PASSWORD': get_env_variable('PGSQL_DB_PASW'),
         'HOST': get_env_variable('PGSQL_DB_HOST'),
         'PORT': get_env_variable('PGSQL_DB_PORT'),
-        #'OPTIONS': {'sslmode': 'verify-full'},
+        # 'OPTIONS': {'sslmode': 'verify-full'},
     }
 }
 # Dev email settings, enables email output to the console
@@ -64,4 +64,20 @@ LOGGING = {
         }
 
     }
+}
+
+# django-debug-toolbar
+INSTALLED_APPS += ('debug_toolbar',)
+MIDDLEWARE += ()
+socket_hostname = socket.gethostname()
+container_ip = socket.gethostbyname(socket_hostname)
+INTERNAL_IPS = [container_ip]
+
+
+def show_toolbar(request):
+    return True
+
+
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': show_toolbar,
 }
