@@ -2,6 +2,7 @@ from datetime import date
 
 from django.db import models
 from django.urls import reverse
+from django.utils.functional import cached_property
 
 
 class TagManager(models.Manager):
@@ -46,6 +47,7 @@ class Tag(models.Model):
     def get_delete_url(self):
         return reverse('organizers_tag_delete', kwargs={'slug': self.slug})
 
+    @cached_property
     def published_posts(self):
         """
         Method to return a queryset to
@@ -54,11 +56,14 @@ class Tag(models.Model):
         articles only for those users with
         having the corresponding permission,
         the template
+        The resulting queryset is changed
+        into a tuple, as tuple has a smaller
+        memory footprint.
         :return:
         """
-        return self.blog_posts.filter(
+        return tuple(self.blog_posts.filter(
             pub_date__lt=date.today()
-        )
+        ))
 
     def natural_key(self):
         """
