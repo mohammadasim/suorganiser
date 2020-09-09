@@ -28,7 +28,7 @@ def add_tag_data(apps, schema_editor):
     tag_list = []
     for tag_name, tag_slug in TAGS:
         tag_list.append(Tag(name=tag_name, slug=tag_slug))
-        Tag.objects.bulk_create(tag_list)
+    Tag.objects.bulk_create(tag_list)
 
 
 def remove_tag_data(apps, schema_editor):
