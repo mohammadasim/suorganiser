@@ -2,11 +2,13 @@
 
 from django.db import migrations
 from django.contrib.auth.hashers import make_password
+from django.utils.text import slugify
 
 USERS = [
     {
         'email': 'ada@email.com',
         'password': 'myRandomString',
+        'name': 'Ada',
         'is_staff': False,
         'is_active': True,
         'is_superuser': False
@@ -14,6 +16,7 @@ USERS = [
     {
         'email': 'dada@email.com',
         'password': 'myRandomString',
+        'name': 'Dada',
         'is_staff': True,
         'is_active': True,
         'is_superuser': True
@@ -31,14 +34,20 @@ def add_user_data(apps, schema_editor):
     :return:
     """
     User = apps.get_model('users', 'User')
+    Profile = apps.get_model('users', 'Profile')
+    profiles = []
     for user in USERS:
-        user_object = User.objects.create(
-            email=user.get('email'),
-            password=make_password(user.get('password')),
-            is_staff=user.get('is_staff'),
-            is_active=user.get('is_active'),
-            is_superuser=user.get('is_superuser')
-        )
+        user_obj = User.objects.create(email=user.get('email'),
+                                            password=make_password(user.get('password')),
+                                            is_staff=user.get('is_staff'),
+                                            is_active=user.get('is_active'),
+                                            is_superuser=user.get('is_superuser')
+                                            )
+        profile_obj = Profile(user=user_obj,
+                              name=user.get('name'),
+                              slug=slugify(user.get('name')))
+        profiles.append(profile_obj)
+    Profile.objects.bulk_create(profiles)
 
 
 def remove_user_data(apps, schema_editor):
