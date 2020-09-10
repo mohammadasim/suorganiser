@@ -38,11 +38,11 @@ def add_user_data(apps, schema_editor):
     profiles = []
     for user in USERS:
         user_obj = User.objects.create(email=user.get('email'),
-                                            password=make_password(user.get('password')),
-                                            is_staff=user.get('is_staff'),
-                                            is_active=user.get('is_active'),
-                                            is_superuser=user.get('is_superuser')
-                                            )
+                                       password=make_password(user.get('password')),
+                                       is_staff=user.get('is_staff'),
+                                       is_active=user.get('is_active'),
+                                       is_superuser=user.get('is_superuser')
+                                       )
         profile_obj = Profile(user=user_obj,
                               name=user.get('name'),
                               slug=slugify(user.get('name')))
