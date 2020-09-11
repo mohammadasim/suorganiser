@@ -20,7 +20,7 @@ from .models import Post
 
 class PostList(
     AllowFuturePermissionMixin,
-        ArchiveIndexView):
+    ArchiveIndexView):
     """List View"""
     allow_empty = True
     context_object_name = 'post_list'
@@ -35,7 +35,10 @@ class PostDetail(DateObjectMixin, DetailView):
     """Detail view"""
     template_name = 'post/post_detail.html'
     date_field = 'pub_date'
-    model = Post
+    queryset = Post.objects. \
+        select_related('author__profile') \
+        .prefetch_related('startups') \
+        .prefetch_related('tags')
 
 
 class PostCreate(PostFormValidMixin, CreateView):

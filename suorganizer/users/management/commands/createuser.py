@@ -234,7 +234,7 @@ class Command(BaseCommand):
                 'in your project to createone '
                 'manually.'
             )
-            sys.exit(status=1)
+            sys.exit(1)
             # We check the username and name
             # arguments as it is possible for
             # createuser to be called with
@@ -301,7 +301,7 @@ class Command(BaseCommand):
             self.stderr.write(
                 '\nOperation cancelled'
             )
-            sys.exit(status=1)
+            sys.exit(1)
 
     def create_user(self, name, username, password):
         """

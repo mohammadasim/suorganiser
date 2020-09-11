@@ -37,8 +37,9 @@ class TagList(PageLinksMixin, ListView):
 
 class TagDetail(DetailView):
     """Tag detail view"""
-    model = Tag
     template_name = 'tag/tag_detail.html'
+    queryset = Tag.objects. \
+        prefetch_related('startup_set')
 
 
 class TagCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -73,8 +74,10 @@ class StartupList(PageLinksMixin, ListView):
 
 class StartupDetail(DetailView):
     """Startup detail view"""
-    model = Startup
     template_name = 'startup/startup_detail.html'
+    queryset = Startup.objects. \
+        prefetch_related('tags') \
+        .prefetch_related('newslink_set')
 
 
 class StartupCreate(CreateView):
@@ -109,6 +112,7 @@ class NewsLinkCreate(NewsLinkGetObjectMixin,
     success_url = reverse_lazy('organizers_startup_list')
     model = NewsLink
 
+    # noinspection PyAttributeOutsideInit
     def get_initial(self):
         """
         Overriding method to add startup to
