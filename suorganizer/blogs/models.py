@@ -120,6 +120,22 @@ class Post(models.Model):
             ('view_future_post',
              'Can view unpublished Post'),
         )
+        # Post objects are unique based on
+        # slug and pub-date. While slug and
+        # pk are automatically indexed, in
+        # order to speed up the db queries
+        # and optimise our app, we want both
+        # slug and pub-date to be indexed.
+        # This will do exactly that. After
+        # making this change will need to
+        # run the makemigration/migration command.
+        # If we need to do further SQL changes
+        # django offers the benefit of RUNSQL
+        # in migration file, just like we used
+        # RUNPYTHON
+        index_together = (
+            ('slug', 'pub_date'),
+        )
 
     def get_absolute_url(self):
         return reverse('blogs_post_detail',

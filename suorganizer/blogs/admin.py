@@ -36,6 +36,8 @@ class PostAdmin(admin.ModelAdmin):
             queryset = queryset.filter(
                 pub_date__lte=datetime.now()
             )
+        # This is optimisation to reduce
+        # calls to the database.
         return queryset.annotate(
             tag_number=Count('tags')
         )
@@ -50,13 +52,22 @@ class PostAdmin(admin.ModelAdmin):
     date_hierarchy = 'pub_date'
     list_filter = ('pub_date',)
     search_fields = ('title', 'text')
-
-    # Even though the add and edit pages are different
-    # many of the admin's options configure both pages.
-    # The fieldsets option, for instance, allows us to
-    # define which fields are available on the form
-    # in each page and further allow us to organize
-    # the fields.
+    """
+    Making use of select_related
+    under the hood, that loads the
+    profile object when the post
+    object is being loaded from db.
+    This is an optimisation technique
+    """
+    list_select_related = ('profile',)
+    """
+    Even though the add and edit pages are different
+    many of the admin options configure both pages.
+    The fieldsets option, for instance, allows us to
+    define which fields are available on the form
+    in each page and further allow us to organize
+    the fields.
+    """
     fieldsets = (
         (None, {
             'fields': (
@@ -71,6 +82,3 @@ class PostAdmin(admin.ModelAdmin):
     )
     prepopulated_fields = {'slug': ('title',)}
     filter_horizontal = ('startups', 'tags')
-
-
-

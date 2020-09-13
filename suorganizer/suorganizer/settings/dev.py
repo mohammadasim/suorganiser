@@ -81,3 +81,35 @@ def show_toolbar(request):
 DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': show_toolbar,
 }
+
+# Cache settings
+"""
+We use local memory cache, which simply keeps webpages
+in memory. In deployment this setting will be changed.
+It is possible to define multiple different caches, each of
+which might fulfill a different purpose. Here we simply
+define a single cache and called it default.
+The BACKEND key tells the cache what kind of cache it is, while
+the location gives the cache a unique identifier, used separately
+from the name default. We also set how long we want the cache to
+remember webpages.
+By defining the CACHE_MIDDLEWARE_ALIAS we tell the middleware
+which cache to use.
+"""
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+        'TIMEOUT': 600,  # seconds == 10 minutes
+    }
+}
+CACHE_MIDDLEWARE_ALIAS = 'default'
+"""
+As the order of the middleware in response is
+from bottom to top of the MIDDLEWARE list we
+put updatecachemiddleware at the top so it is called 
+last.
+"""
+MIDDLEWARE = ('django.middleware.cache.UpdateCacheMiddleware',) \
+             + MIDDLEWARE \
+             + ('django.middleware.cache.FetchFromCacheMiddleware',)
