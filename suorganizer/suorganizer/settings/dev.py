@@ -98,18 +98,10 @@ which cache to use.
 """
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
         'LOCATION': 'unique-snowflake',
         'TIMEOUT': 600,  # seconds == 10 minutes
     }
 }
 CACHE_MIDDLEWARE_ALIAS = 'default'
-"""
-As the order of the middleware in response is
-from bottom to top of the MIDDLEWARE list we
-put updatecachemiddleware at the top so it is called 
-last.
-"""
-MIDDLEWARE = ('django.middleware.cache.UpdateCacheMiddleware',) \
-             + MIDDLEWARE \
-             + ('django.middleware.cache.FetchFromCacheMiddleware',)
+

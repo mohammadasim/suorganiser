@@ -57,8 +57,14 @@ INSTALLED_APPS = [
     'organizers.apps.OrganizersConfig',
     'contacts.apps.ContactsConfig',
 ]
-
+"""
+As the order of the middleware in response is
+from bottom to top of the MIDDLEWARE list we
+put updatecache middleware at the top so it is called 
+last.
+"""
 MIDDLEWARE = [
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -67,6 +73,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware'
 ]
 
 ROOT_URLCONF = 'suorganizer.urls'
@@ -99,10 +106,10 @@ TEMPLATES = [
                 # To cache any templates Django loads, we use
                 # the cached.Loader, passing in any of the loaders
                 # we want Django to use
-                ('django.template.loaders.cached.Loader', [
-                    'django.template.loaders.filesystem.Loader',
-                    'django.template.loaders.app_directories.Loader',
-                ]),
+                # ('django.template.loaders.cached.Loader', [
+                #    'django.template.loaders.filesystem.Loader',
+                #   'django.template.loaders.app_directories.Loader',
+                # ]),
             ],
         },
     },

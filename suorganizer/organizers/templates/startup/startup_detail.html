@@ -1,4 +1,5 @@
 {% extends 'organizer/base_organizer.html' %} {% block title %} {{ block.super }} - {{ startup.name }} {% endblock title %} {% block content %}
+{% load obfuscate_email %}
 <article>
     <h2 class="text-center text-info">{{ startup.name }}</h2>
     <div>
@@ -8,7 +9,7 @@
             <dt class="col-sm-3">Website</dt>
             <dd class="col-sm-9">{{ startup.website|urlize }}</dd>
             <dt class="col-sm-3">Contact</dt>
-            <dd class="col-sm-9">{{ startup.contact }}</dd>
+            <dd class="col-sm-9">{{ startup.contact|obfuscate }}</dd>
             {% with tag_list=startup.tags.all %}
             <dt class="col-sm-3">Tag{{ tag_list|pluralize }}</dt>
             <dd class="col-sm-9">
