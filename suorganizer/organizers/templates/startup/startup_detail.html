@@ -1,5 +1,6 @@
 {% extends 'organizer/base_organizer.html' %} {% block title %} {{ block.super }} - {{ startup.name }} {% endblock title %} {% block content %}
 {% load obfuscate_email %}
+{% load partial_post_list %}
 <article>
     <h2 class="text-center text-info">{{ startup.name }}</h2>
     <div>
@@ -79,32 +80,7 @@
     {% if perms.organizers.add_newslink %}
     <a class="btn btn-info btn-lg btn-block" href="{{ startup.get_newslink_create_url }}">Add Article</a>
     {% endif %}
-    {% if startup.blog_posts.all %}
-    {% with post_list=startup.blog_posts.all %}
-    <section>
-        <h3 class="text-center">Blog post{{ post_list|pluralize }}</h3>
-        <div>
-            <table class="table table-dark">
-                <thead>
-                <tr>
-                    <th scope="col">Title</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for post in post_list %}
-                <tr>
-                    <td><a href="{{ post.get_absolute_url }}">
-                        {{ post.title|title }}
-                    </a>
-                    </td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
-    {% endwith %}
-    {% endif %}
+        {% format_post_list startup %}
 </article>
 <p>
     <a href="{{ request.META.HTTP_REFERER}}">Go Back</a>

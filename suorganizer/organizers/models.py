@@ -139,6 +139,24 @@ class Startup(models.Model):
         """
         return (self.slug)
 
+    @cached_property
+    def published_posts(self):
+        """
+        Method to return a queryset to
+        filter for published posts only.
+        The method helps with showing future
+        articles only for those users with
+        having the corresponding permission,
+        the template
+        The resulting queryset is changed
+        into a tuple, as tuple has a smaller
+        memory footprint.
+        :return:
+        """
+        return tuple(self.blog_posts.filter(
+            pub_date__lt=date.today()
+        ))
+
 
 class NewsLinkManager(models.Model):
     """
