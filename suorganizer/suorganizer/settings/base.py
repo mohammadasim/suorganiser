@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'storages',
     # local
+    'core.apps.CoreConfig',
     'blogs.apps.BlogsConfig',
     'organizers.apps.OrganizersConfig',
     'contacts.apps.ContactsConfig',
