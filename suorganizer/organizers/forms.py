@@ -3,7 +3,7 @@ A module containing form classes
 for organizers app
 """
 from django import forms
-from django.forms import HiddenInput
+from django.forms import HiddenInput, SelectDateWidget
 
 from .mixins import SlugCleanMixin
 from .models import (
@@ -29,7 +29,7 @@ class NewsLinkForm(
     SlugCleanMixin,
     forms.ModelForm):
     """Form class for newslink"""
-
+    pub_date = forms.DateField(label='Date Published', initial='yyyy-mm-dd')
     class Meta:
         model = NewsLink
         fields = '__all__'
@@ -39,6 +39,8 @@ class NewsLinkForm(
 class StartupForm(SlugCleanMixin,
                   forms.ModelForm):
     """Form class for startup"""
+    founded_date = forms.DateField(label='Date Founded', initial='yyyy-mm-dd')
+
     class Meta:
         model = Startup
         fields = '__all__'

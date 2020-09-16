@@ -1,16 +1,12 @@
 {% extends 'organizer/base_organizer.html' %}
-{% load crispy_forms_tags %}
+{% load display_form %}
 {% block title %}
 {{ block.super }} - Link News Article to Startup
 {% endblock title %}
 {% block content %}
 <div>
     <div>
-        <form action="{{ startup.get_newslink_create_url }}" method="post">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <button class="btn btn-outline-success btn-lg btn-block" type="submit">Link Article</button>
-        </form>
+        {% form startup.get_newslink_create_url 'Link Article' 'post' button_classes='btn btn-outline-success btn-lg btn-block' %}
     </div>
     <p>
         <a href="{{ request.META.HTTP_REFERER}}">Go Back</a>
