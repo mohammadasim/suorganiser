@@ -1,16 +1,13 @@
 {% extends 'organizer/base_organizer.html' %}
-{% load crispy_forms_tags %}
+{% load display_form %}
 {% block title %}
 {{ block.super }} - Create Tag
 {% endblock title %}
 {% block content %}
-<div>
-    <div>
-        <form action="{% url 'organizers_tag_create' %}" method="post">
-            {% csrf_token %}
-            {{ form|crispy }}
-    <button class="btn btn-outline-success btn-lg btn-block" type="submit">Create Tag</button>
-</form>
+<div class="row">
+    <div class="col-md-8">
+        {% url 'organizers_tag_create' as form_url %}
+        {% form form_url 'Create Tag' 'post' button_classes='btn btn-outline-success btn-lg btn-block' %}
         </div>
     </div>
 {% endblock content %}

@@ -5,15 +5,6 @@
 {% endblock %}
 {% block content %}
 <div class="row">
-    <div class="col-4">
-        <h3>Archive by Month</h3>
-        <ul>
-            {% for month in date_list %}
-            <li><a href="{% url 'blogs_post_archive_month' month|date:'Y' month|date:'n' %}">{{ month|date:"F Y" }}</a> </li>
-            {% endfor %}
-        </ul>
-        
-    </div>
     <div class="col-8">
         <h2>All Posts for {{ year|date:'Y' }}</h2>
         {% for post in post_list %}
@@ -52,6 +43,15 @@
         {% endfor %}
 
     </div>
+     <div class="col-4">
+        <h3>Archive by Month</h3>
+        <ul>
+            {% for month in date_list %}
+            <li><a href="{% url 'blogs_post_archive_month' month|date:'Y' month|date:'n' %}">{{ month|date:"F Y" }}</a> </li>
+            {% endfor %}
+        </ul>
+
+    </div>
 </div>
 <div class="row">
     <div class="col-12">
@@ -78,6 +78,7 @@
         </ul>
         </nav>
     </div>
+
 </div>
 
 {% endblock content %}

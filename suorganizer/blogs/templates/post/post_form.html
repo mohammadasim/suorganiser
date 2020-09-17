@@ -4,8 +4,8 @@
 {{ block.super }} - Create Blog Post
 {% endblock %}
 {% block content %}
-<div>
-    <div>
+<div class="row">
+    <div class="col-md-8">
         {% url 'blogs_post_create' as form_url %}
         {% form form_url 'Create Blog Post' 'post' button_classes='btn btn-outline-success btn-lg btn-block' %}
         </div>

@@ -1,16 +1,6 @@
 {% extends 'post/base_blog.html' %} {% block title %} {{ block.super }} - Blog List {% endblock %} {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-sm-4">
-            <h3>Post Archives</h3>
-            <ul>
-                {% for y in date_list %}
-                <li><a href="{% url 'blogs_post_archive_year' y|date:'Y' %}">
-                    {{ y|date:"Y" }}
-                </a></li>
-                {% endfor %}
-            </ul>
-        </div>
         <div class="col-sm-8">
             {% for post in post_list %}
             <article>
@@ -52,6 +42,16 @@
                 <a class="btn btn-info btn-lg btn-block" href="{% url 'blogs_post_create' %}">Write New Blog</a>
                 {% endif %}
             </div>
+        </div>
+        <div class="col-sm-4">
+            <h3>Post Archives</h3>
+            <ul>
+                {% for y in date_list %}
+                <li><a href="{% url 'blogs_post_archive_year' y|date:'Y' %}">
+                    {{ y|date:"Y" }}
+                </a></li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 </div>
