@@ -1,48 +1,6 @@
 {% extends 'organizer/base_organizer.html' %} {% block title %} {{ block.super }} - {{ tag.name|title }} {% endblock title %} {% block content %}
+{% load partial_post_list %}
 <h2>{{ tag.name|title }}</h2>
-{% if tag.startup_set.all %}
-<section>
-    <h3>Startup{{ tag.startup_set.count|pluralize }}</h3>
-    <p>
-        Tag is associated with {{ tag.startup_set.count }} startup {{ tag.startup_set.count|pluralize }}
-    </p>
-    <ul>
-        {% for startup in tag.startup_set.all %}
-        <li><a href="{{ startup.get_absolute_url }}"> {{ startup.name }} </a></li>
-        {% endfor %}
-    </ul>
-</section>
-{% endif %} {% if tag.blog_posts.all and perms.blog.view_future_post %}
-<section>
-    <h3>Blog Post{{ tag.blog_posts.count|pluralize }}</h3>
-    <ul>
-        {% for post in tag.blog_posts.all %}
-        <li><a href="{{ post.get_absolute_url }}">
-            {{ post.title|title }}
-        </a></li>
-        {% endfor %}
-    </ul>
-</section>
-{% else %}
-{% if tag.published_posts|length > 0 %}
-<section>
-    <h3>Blog Post{{ tag.published_posts|pluralize }}</h3>
-    <ul>
-        {% for post in tag.published_posts %}
-        <li><a href="{{ post.get_absolute_url }}">
-            {{ post.title|title }}
-        </a></li>
-        {% endfor %}
-    </ul>
-</section>
-{% endif %}
-{% endif %}
-{% if not tag.startup_set.all and not tag.blog_posts.all %}
-<p>This tag is not related to any content.</p>
-{% endif %}
-{% if not tag.startup_set.all and not tag.published_posts %}
-<p>This tag is not related to any content.</p>
-{% endif %}
 <div class="d-flex justify-content-start">
     <p>
         {% if perms.organizers.chanage_tag %}
@@ -56,6 +14,28 @@
         {% endif %}
     </p>
 </div>
+{% if tag.startup_set.all %}
+<section>
+    <h3>Startup{{ tag.startup_set.count|pluralize }}</h3>
+    <p>
+        Tag is associated with {{ tag.startup_set.count }} startup {{ tag.startup_set.count|pluralize }}
+    </p>
+    <ul>
+        {% for startup in tag.startup_set.all %}
+        <li><a href="{{ startup.get_absolute_url }}"> {{ startup.name }} </a></li>
+        {% endfor %}
+    </ul>
+</section>
+{% endif %}
+{% format_post_list tag %}
+{% if not perms.blogs.view_future_post or not tag.blog_posts.all %}
+{% if not tag.published_posts|length > 0 %}
+{% if not tag.startup_set.all %}
+<p>This tag is not related to any content.</p>
+{% endif %}
+{% endif %}
+{% endif %}
+
 <p>
     <a href="{{ request.META.HTTP_REFERER}}">Go Back</a>
 </p>

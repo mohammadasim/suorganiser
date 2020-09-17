@@ -1,12 +1,13 @@
 from django.urls import path
 
 from ..views import (
-    StartupDetail, StartupUpdate, StartupDelete, StartupList,
+    StartupDetail, StartupUpdate, StartupDelete, StartupList,StartupCreate,
     NewsLinkCreate, NewsLinkDelete, NewsLinkUpdate
 )
 
 urlpatterns = [
     path('', StartupList.as_view(), name='organizers_startup_list'),
+    path('create/', StartupCreate.as_view(), name='organizers_startup_create'),
     path('<slug:slug>/', StartupDetail.as_view(), name='organizers_startup_detail'),
     path('<slug:slug>/update/', StartupUpdate.as_view(), name='organizers_startup_update'),
     path('<slug:slug>/delete/', StartupDelete.as_view(), name='organizers_startup_delete'),

@@ -1,28 +1,17 @@
 {% extends 'post/base_blog.html' %}
-{% load crispy_forms_tags %}
+{% load display_form %}
 {% block title %}
 {{ block.super }} - Delete Blog Post
 {% endblock %}
 {% block content %}
-<div>
-    <div>
-        <form action="{{ post.get_delete_url }}" method="post">
-            {% csrf_token %}
-            <p class="text-danger">
-        Are you sure you want to delete blog post {{ post.title|title }}?
-    </p>
-    <p>
-        <a href="{{ post.get_absolute_url }}">Cancel</a>
-    </p>
-    <p>
-        <button class="btn btn-outline-danger" type="submit">Delete
-            Blog Post
-        </button>
-    </p>
-</form>
+<div class="row">
+    <div class="col-md-8">
+        {% delete_form  post.get_delete_url 'Delete Blog Post' post %}
     </div>
+    <div class="col-md-4">
     <p>
         <a href="{{ request.META.HTTP_REFERER}}">Go Back</a>
     </p>
+        </div>
 </div>
 {% endblock %}

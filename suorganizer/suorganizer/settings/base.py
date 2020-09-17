@@ -15,6 +15,7 @@ import os
 from django.core.exceptions import ImproperlyConfigured
 
 
+
 def get_env_variable(var_name):
     """
     Get the environment variable or return exception
@@ -41,6 +42,7 @@ SECRET_KEY = get_env_variable('SECRET_KEY')
 # Application definition
 
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -52,37 +54,64 @@ INSTALLED_APPS = [
     'crispy_forms',
     'storages',
     # local
+    'core.apps.CoreConfig',
     'blogs.apps.BlogsConfig',
     'organizers.apps.OrganizersConfig',
     'contacts.apps.ContactsConfig',
-    'users.apps.UsersConfig',
 ]
-
+"""
+As the order of the middleware in response is
+from bottom to top of the MIDDLEWARE list we
+put updatecache middleware at the top so it is called 
+last.
+"""
 MIDDLEWARE = [
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware'
 ]
 
 ROOT_URLCONF = 'suorganizer.urls'
 
+"""
+By default, Django does not list the template loaders used
+to get and fetch files. Instead it supplies the key-value
+'APP_DIRS': True which is a shortcut to the
+app_director_directories.Loader
+We have deleted the APP_DIRS and have explicitly set the
+values for loaders under OPTIONS.
+"""
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'templates')
         ],
-        'APP_DIRS': True,
+
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+            ],
+            'loaders': [
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+                # To cache any templates Django loads, we use
+                # the cached.Loader, passing in any of the loaders
+                # we want Django to use
+                # ('django.template.loaders.cached.Loader', [
+                #    'django.template.loaders.filesystem.Loader',
+                #   'django.template.loaders.app_directories.Loader',
+                # ]),
             ],
         },
     },
@@ -157,3 +186,7 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_DEFAULT_ACL = None
 AWS_S3_FILE_OVERWRITE = False
+
+# Replacing the auth user model with our own
+AUTH_USER_MODEL = 'users.user'
+

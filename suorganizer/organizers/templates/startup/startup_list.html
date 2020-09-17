@@ -28,4 +28,9 @@
         {% endif %}
     </div>
 </div>
+{% if perms.organizers.add_startup %}
+<div>
+    <a class="text-info btn btn-outline-info btn-lg btn-block" href="{% url 'organizers_startup_create' %}" title="Add Tag">Add startup</a>
+</div>
+{% endif %}
 {% endblock content %}

@@ -1,0 +1,25 @@
+{% extends 'users/base_user.html' %}
+{% block title %}
+{{ block.super }}
+{{profile.user.get_username}}'s profile
+{% endblock title %}
+{% block content %}
+{% load partial_post_list %}
+<div class="row">
+    <div class="col-md-7">
+        <h2>About {{ profile.user.get_full_name }}</h2>
+        {{ profile.about|default:"No Profile"|linebreaks }}
+        {% format_post_list profile.user %}
+    </div>
+    {% if user.pk == profile.user.pk %}
+    <div class="col-md-5">
+        <ul>
+            <li><a href="{% url 'dj-auth:disable' %}">Disable Account</a></li>
+            <li><a href="{% url 'dj-auth:pw_change' %}">Change Password</a></li>
+            <li><a href="{% url 'dj-auth:pw_reset_start' %}">Reset Password</a></li>
+            <li><a href="{{ profile.get_update_url }}">Update Profile</a></li>
+        </ul>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}

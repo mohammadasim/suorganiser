@@ -1,6 +1,7 @@
 """
 View Module for Users app
 """
+from django.utils.decorators import method_decorator
 from django.conf import settings
 from django.contrib.auth import get_user, logout, get_user_model
 from django.contrib.auth.mixins import (
@@ -17,9 +18,11 @@ from django.utils.http import urlsafe_base64_decode
 from django.views import View
 from django.views.decorators.cache import never_cache
 from django.views.decorators.debug import sensitive_post_parameters
+from django.views.generic import DetailView, UpdateView
 
 from .forms import UserCreationForm, ResendActivationEmailForm
-from .mixins import MailContextViewMixin
+from .mixins import MailContextViewMixin, ProfileGetObjectMixin
+from .models import Profile
 
 
 class DisableAccount(LoginRequiredMixin, View):
@@ -68,7 +71,7 @@ class CreateAccount(MailContextViewMixin, View):
             {'form': self.form_class()}
         )
 
-    @sensitive_post_parameters('password1', 'password2')
+    @method_decorator(sensitive_post_parameters('password1', 'password2'))
     def post(self, request):
         """
         Post method dealing with form once
@@ -81,7 +84,7 @@ class CreateAccount(MailContextViewMixin, View):
             # we are using get_save_kwargs to get data from
             # request and pass it on to the save() that will
             # pass it to the send_mail method
-            bound_form.save(self.get_save_kwargs(request))
+            bound_form.save(**self.get_save_kwargs(request))
             # using mail_sent from mixin we check if email
             # has been sent
             if bound_form.mail_sent:
@@ -128,7 +131,7 @@ class ActivateAccount(View):
         except (TypeError, ValueError,
                 OverflowError, user.DoesNotExist):
             user = None
-        if user is not None and token_generator.check_token(token, user):
+        if user is not None and token_generator.check_token(user, token):
             user.is_active = True
             user.save()
             success(
@@ -173,7 +176,7 @@ class ResendActivationEmail(MailContextViewMixin, View):
                 **self.get_save_kwargs(request)
             )
             if (user is not None
-                and not bound_form.mail_sent):
+                    and not bound_form.mail_sent):
                 errs = (
                     bound_form.non_field_errors()
                 )
@@ -191,7 +194,32 @@ class ResendActivationEmail(MailContextViewMixin, View):
                     {'form': bound_form}
                 )
         success(
-                request,
-                'Activation email sent'
-            )
+            request,
+            'Activation email sent'
+        )
         return redirect(self.success_url)
+
+
+class ProfileDetail(LoginRequiredMixin,
+                    ProfileGetObjectMixin, DetailView):
+    """
+    A view to show the profile of a logged in user.
+    """
+    model = Profile
+
+
+class ProfileUpdate(LoginRequiredMixin,
+                    ProfileGetObjectMixin, UpdateView):
+    """
+    A view to update user profile
+    """
+    fields = ('about',)
+    model = Profile
+    template_name = 'users/profile_form_update.html'
+
+
+class PublicProfileDetail(DetailView):
+    """
+    A view to show profile to other users
+    """
+    model = Profile

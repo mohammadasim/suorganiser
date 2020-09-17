@@ -1,4 +1,6 @@
 {% extends 'organizer/base_organizer.html' %} {% block title %} {{ block.super }} - {{ startup.name }} {% endblock title %} {% block content %}
+{% load obfuscate_email %}
+{% load partial_post_list %}
 <article>
     <h2 class="text-center text-info">{{ startup.name }}</h2>
     <div>
@@ -8,15 +10,17 @@
             <dt class="col-sm-3">Website</dt>
             <dd class="col-sm-9">{{ startup.website|urlize }}</dd>
             <dt class="col-sm-3">Contact</dt>
-            <dd class="col-sm-9">{{ startup.contact }}</dd>
-            <dt class="col-sm-3">Tag{{ startup.tags.count|pluralize }}</dt>
+            <dd class="col-sm-9">{{ startup.contact|obfuscate }}</dd>
+            {% with tag_list=startup.tags.all %}
+            <dt class="col-sm-3">Tag{{ tag_list|pluralize }}</dt>
             <dd class="col-sm-9">
-                {% for tag in startup.tags.all %}
+                {% for tag in tag_list %}
                 <a href="{{ tag.get_absolute_url }}">
                     {{ tag.name|title }},
                 </a>
                 {% endfor %}
             </dd>
+            {% endwith %}
         </dl>
     </div>
     <div class="description">
@@ -76,30 +80,7 @@
     {% if perms.organizers.add_newslink %}
     <a class="btn btn-info btn-lg btn-block" href="{{ startup.get_newslink_create_url }}">Add Article</a>
     {% endif %}
-    {% if startup.blog_posts.all %}
-    <section>
-        <h3 class="text-center">Blog post{{ startup.blog_posts.count|pluralize }}</h3>
-        <div>
-            <table class="table table-dark">
-                <thead>
-                <tr>
-                    <th scope="col">Title</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for post in startup.blog_posts.all %}
-                <tr>
-                    <td><a href="{{ post.get_absolute_url }}">
-                        {{ post.title|title }}
-                    </a>
-                    </td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
-    {% endif %}
+        {% format_post_list startup %}
 </article>
 <p>
     <a href="{{ request.META.HTTP_REFERER}}">Go Back</a>

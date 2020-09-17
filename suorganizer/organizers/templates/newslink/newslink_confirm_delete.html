@@ -1,26 +1,17 @@
 {% extends 'organizer/base_organizer.html' %}
-{% load crispy_forms_tags %}
+{% load display_form %}
 {% block title %}
 {{ block.super }} - Delete Newslink
 {% endblock title %}
 {% block content %}
-<div>
-    <div>
-        <form action="{{ newslink.get_delete_url }}" method="post">
-            {% csrf_token %}
-            <p class="text-danger">
-        Are you sure you want to delete News Link {{ newslink.title|title }}?
-    </p>
-    <p>
-        <a href="{{ newslink.get_absolute_url }}">Cancel</a>
-    </p>
-    <p>
-        <button class="btn btn-outline-danger" type="submit">Delete Newslink</button>
-    </p>
-</form>
+<div class="row">
+    <div class="col-md-8">
+        {% delete_form newslink.get_delete_url 'Delete Newslink' newslink %}
     </div>
+    <div class="col-md-4">
     <p>
         <a href="{{ request.META.HTTP_REFERER}}">Go Back</a>
     </p>
+        </div>
 </div>
 {% endblock content %}

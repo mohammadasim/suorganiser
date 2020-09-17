@@ -1,0 +1,12 @@
+{% extends 'users/base_user.html' %}
+{% load display_form  %}
+{% block title %}
+{{ block.super }} - Update Profile
+{% endblock title %}
+{% block content %}
+<div class="row">
+    <div class="col-md-7">
+        {% form profile.get_update_url 'Update Profile' 'post' button_classes='btn btn-outline-success btn-lg btn-block' %}
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,35 @@
+[
+{
+   "model": "organizers.newslink",
+   "pk": 3,
+   "fields": {
+      "title": "News Link 1",
+      "pub_date": "2014-09-03",
+      "link": "https://newlink1.com",
+      "startup": 2,
+      "slug": "news-link-1"
+   }
+},
+{
+   "model": "organizers.newslink",
+   "pk": 4,
+   "fields": {
+      "title": "News Link 2",
+      "pub_date": "2017-05-23",
+      "link": "https://en.wikipedia.org/wiki/William_Shakespeare",
+      "startup": 5,
+      "slug": "news-link-2"
+   }
+},
+{
+   "model": "organizers.newslink",
+   "pk": 5,
+   "fields": {
+      "title": "News Link 3",
+      "pub_date": "2008-07-21",
+      "link": "https://en.wikipedia.org/wiki/Monkey",
+      "startup": 3,
+      "slug": "news-link-3"
+   }
+}
+]

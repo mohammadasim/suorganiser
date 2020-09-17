@@ -4,11 +4,21 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView, TemplateView
 
-from .views import DisableAccount, CreateAccount, ActivateAccount, ResendActivationEmail
+from .views import (DisableAccount, CreateAccount,
+                    ActivateAccount, ResendActivationEmail,
+                    ProfileDetail, ProfileUpdate, PublicProfileDetail)
 
 app_name = 'dj-auth'
 
 password_url = [
+    # We are adding this pattern to ensure that
+    # /user/password/ pattern is resolved.
+    # This is good practice.
+    path('',
+         RedirectView.as_view(
+             pattern_name='dj-auth:pw_reset_start',
+             permanent=False
+         )),
     path('change/',
          auth_views.PasswordChangeView.as_view(
              template_name='users/password_change_form.html',
@@ -47,13 +57,10 @@ urlpatterns = [
         template_name='users/logged_out.html',
         extra_context={
             'form': AuthenticationForm
+
         }
     )
          , name='logout'),
-    path('', RedirectView.as_view(
-        pattern_name='dj-auth:login',
-        permanent=False
-    ), ),
     path('password/', include(password_url)),
     path('disable/', DisableAccount.as_view(), name='disable'),
     path('create/', CreateAccount.as_view(), name='create'),
@@ -63,5 +70,24 @@ urlpatterns = [
     path('activate/<uidb64>/<token>/', ActivateAccount.as_view(),
          name='activate'),
     path('activate/resend/', ResendActivationEmail.as_view(),
-         name='resend_activation')
+         name='resend_activation'),
+    path('profile/',
+         ProfileDetail.as_view(), name='profile'),
+    path('profile/edit/', ProfileUpdate.as_view(),
+         name='profile_update'),
+    path('<slug:slug>/', PublicProfileDetail.as_view(),
+         name='public_profile'),
+    # Just like the above we have to add this path
+    # as currently /user/activate/ doesn't resolve
+    path('activate/',
+         RedirectView.as_view(
+             pattern_name=(
+                 'dj-auth:resend_activation'
+             ),
+             permanent=False
+         )),
+    path('', RedirectView.as_view(
+        pattern_name='dj-auth:login',
+        permanent=False
+    ), ),
 ]

@@ -1,0 +1,50 @@
+[
+{
+   "model": "organizers.tag",
+   "pk": 1,
+   "fields": {
+      "name": "augmented reality",
+      "slug": "augmented-reality"
+   }
+},
+{
+   "model": "organizers.tag",
+   "pk": 2,
+   "fields": {
+      "name": "terraform automation",
+      "slug": "terraform-automation"
+   }
+},
+{
+   "model": "organizers.tag",
+   "pk": 3,
+   "fields": {
+      "name": "jenkins pipeline",
+      "slug": "jenkins-pipeline"
+   }
+},
+{
+   "model": "organizers.tag",
+   "pk": 4,
+   "fields": {
+      "name": "devops culture",
+      "slug": "devops-culture"
+   }
+},
+{
+   "model": "organizers.tag",
+   "pk": 5,
+   "fields": {
+      "name": "mobile",
+      "slug": "mobile"
+   }
+},
+{
+   "model": "organizers.tag",
+   "pk": 6,
+   "fields": {
+      "name": "django",
+      "slug": "django"
+   }
+}
+]

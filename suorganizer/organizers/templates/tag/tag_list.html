@@ -15,10 +15,12 @@
     <li><em>There are currently no Tags available.</em></li>
     {% endfor %}
 </ul>
+{% if perms.organizers.add_tag %}
 <div class="tag_list">
     <a class="text-info btn btn-outline-info btn-lg btn-block" href="{% url 'organizers_tag_create' %}" title="Add Tag">
         <span class="material-icons">add</span></a>
 </div>
+{% endif %}
 <div>
     Page {{ page_obj.number }} of {{ paginator.num_pages }}
 </div>

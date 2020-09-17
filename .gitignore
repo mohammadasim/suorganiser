@@ -131,4 +131,5 @@ dmypy.json
 *.iml
 *.idea
 *.sqlite3
-suorganizer/app-env.env
+.vscode
+app-env.env

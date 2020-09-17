@@ -4,18 +4,6 @@
 {% endblock %}
 {% block content %}
 <div class="row">
-    <div class="col-4">
-        {% if perms.blogs.add_post %}
-        <a class="btn btn-info btn-lg btn-block" href="{% url 'blogs_post_create' %}">Write new Blog Post</a>
-        {% endif %}
-        <br>
-        <p>
-            <a href="{% url 'blogs_post_archive_year' month|date:'Y' %}">All Posts from {{ month|date:'Y' }}</a>
-        </p>
-        <p>
-            <a href="{% url 'blogs_posts_list' %}">Latest Posts</a>
-        </p>
-    </div>
     <div class="col-8">
         <h2>All Posts for {{ month|date:'F Y'}}</h2>
         {% for post in post_list %}
@@ -52,6 +40,18 @@
             </header>
         </article>
         {% endfor %}
+    </div>
+    <div class="col-4">
+        {% if perms.blogs.add_post %}
+        <a class="btn btn-info btn-lg btn-block" href="{% url 'blogs_post_create' %}">Write new Blog Post</a>
+        {% endif %}
+        <br>
+        <p>
+            <a href="{% url 'blogs_post_archive_year' month|date:'Y' %}">All Posts from {{ month|date:'Y' }}</a>
+        </p>
+        <p>
+            <a href="{% url 'blogs_posts_list' %}">Latest Posts</a>
+        </p>
     </div>
 
 </div>
