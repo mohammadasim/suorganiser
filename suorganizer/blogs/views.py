@@ -2,6 +2,7 @@
 View file for blogs app
 """
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
     CreateView,
     YearArchiveView,
@@ -31,7 +32,7 @@ class PostList(
     template_name = 'post/post_list.html'
 
 
-class PostDetail(DateObjectMixin, DetailView):
+class PostDetail(LoginRequiredMixin,DateObjectMixin, DetailView):
     """Detail view"""
     template_name = 'post/post_detail.html'
     date_field = 'pub_date'
@@ -41,14 +42,14 @@ class PostDetail(DateObjectMixin, DetailView):
         .prefetch_related('tags')
 
 
-class PostCreate(PostFormValidMixin, CreateView):
+class PostCreate(LoginRequiredMixin, PostFormValidMixin, CreateView):
     """Create view"""
     form_class = PostForm
     template_name = 'post/post_form.html'
     model = Post
 
 
-class PostUpdate(DateObjectMixin, PostFormValidMixin, UpdateView):
+class PostUpdate(LoginRequiredMixin, DateObjectMixin, PostFormValidMixin, UpdateView):
     """Update view"""
     form_class = PostForm
     date_field = 'pub_date'
@@ -56,7 +57,7 @@ class PostUpdate(DateObjectMixin, PostFormValidMixin, UpdateView):
     template_name = 'post/post_form_update.html'
 
 
-class PostDelete(DateObjectMixin, DeleteView):
+class PostDelete(LoginRequiredMixin, DateObjectMixin, DeleteView):
     """Delete view"""
     template_name = 'post/post_confirm_delete.html'
     success_url = reverse_lazy('blogs_posts_list')

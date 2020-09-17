@@ -15,6 +15,7 @@ import os
 from django.core.exceptions import ImproperlyConfigured
 
 
+
 def get_env_variable(var_name):
     """
     Get the environment variable or return exception
@@ -188,3 +189,4 @@ AWS_S3_FILE_OVERWRITE = False
 
 # Replacing the auth user model with our own
 AUTH_USER_MODEL = 'users.user'
+

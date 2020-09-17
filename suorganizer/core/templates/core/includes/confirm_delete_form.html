@@ -1,0 +1,14 @@
+<form
+    action="{{ action }}"
+    method="post">
+    {% csrf_token %}
+                <p class="text-danger">
+        Are you sure you want to delete {{ obj }}?
+    </p>
+    <p>
+        <a href="{{ obj.get_absolute_url }}">Cancel</a>
+    </p>
+    <p>
+        <button class="btn btn-outline-danger" type="submit">{{ button }}
+        </button>
+</form>

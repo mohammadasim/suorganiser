@@ -8,8 +8,10 @@
     <div class="col-md-8">
         {% form post.get_update_url 'Update Blog Post' 'post' button_classes='btn btn-outline-success btn-lg btn-block' %}
     </div>
+    <div class="col-md-4">
     <p>
         <a href="{{ request.META.HTTP_REFERER}}">Go Back</a>
     </p>
+        </div>
 </div>
 {% endblock %}

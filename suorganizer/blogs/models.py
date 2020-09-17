@@ -83,7 +83,7 @@ class Post(models.Model):
     )
 
     def __str__(self):
-        return '{} on {}'.format(
+        return 'Post {} published on {}'.format(
             self.title,
             self.pub_date.strftime('%Y-%m-%d')
         )

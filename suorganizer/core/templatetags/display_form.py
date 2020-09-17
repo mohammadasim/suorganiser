@@ -57,4 +57,32 @@ def form(context, *args, **kwargs):
     takes_context=True
 )
 def delete_form(context, *args, **kwargs):
-    pass
+    """
+    function to define delete_form custom tag.
+    We expect three args or kwargs. If
+    action is not set we raise an error
+    and then simply return these values
+    as context to the template being
+    included.
+    The form is taken from the context
+    of the template calling this template
+    tag.
+    """
+    action = (args[0] if len(args) > 0
+              else kwargs.get('action'))
+    button = (args[1] if len(args) > 1
+              else kwargs.get('button'))
+    obj = (args[2] if len(args) > 2
+           else kwargs.get('obj'))
+    form = context.get('form')
+    if action is None:
+        raise TemplateSyntaxError(
+            'form template tag requires'
+            'at least one argument: action,'
+            'which is a URL.')
+    return {
+        'action': action,
+        'button': button,
+        'obj': obj,
+        'form': form
+    }

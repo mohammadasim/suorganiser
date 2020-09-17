@@ -57,6 +57,7 @@ urlpatterns = [
         template_name='users/logged_out.html',
         extra_context={
             'form': AuthenticationForm
+
         }
     )
          , name='logout'),
