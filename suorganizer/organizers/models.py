@@ -31,7 +31,8 @@ class Tag(models.Model):
 
     def __str__(self):
         # to capitalise the first Character
-        return self.name.title()
+        return 'Tag with name {}' \
+            .format(self.name.title())
 
     objects = TagManager()
 
@@ -105,7 +106,8 @@ class Startup(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
 
     def __str__(self):
-        return self.name.title()
+        return 'Startup with Title {}' \
+            .format(self.name.title())
 
     objects = StartupManager()
 
@@ -185,7 +187,7 @@ class NewsLink(models.Model):
     slug = models.SlugField(max_length=63)
 
     def __str__(self):
-        return '{}:{}'.format(
+        return 'NewsLink for startup {}: with title {}'.format(
             self.startup,
             self.title
         )

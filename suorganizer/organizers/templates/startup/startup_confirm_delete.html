@@ -1,23 +1,17 @@
 {% extends 'organizer/base_organizer.html' %}
-{% load crispy_forms_tags %}
+{% load display_form %}
 {% block title %}
 {{ block.super }} - Delete Startup
 {% endblock title %}
 {% block content %}
-<div>
-    <div>
-        <form action="{{ startup.get_delete_url }}" method="post">
-            {% csrf_token %}
-            <p class="text-danger">
-        Are you sure you want to delete Startup {{ startup.name|title }} ?
-    </p>
+<div class="row">
+    <div class="col-md-8">
+        {% delete_form startup.get_delete_url 'Delete Startup' startup %}
+        </div>
+    <div class="col-md-4">
     <p>
-    <a href="{{ startup.get_absolute_url }}">Cancel</a>
+        <a href="{{ request.META.HTTP_REFERER}}">Go Back</a>
     </p>
-    <p>
-    <button type="submit" class="btn btn-outline-danger">Delete Startup</button>
-    </p>
-</form>
         </div>
     </div>
 {% endblock content %}

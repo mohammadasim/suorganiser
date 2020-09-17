@@ -57,7 +57,7 @@ class TagUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'organizers.change_tag'
 
 
-class TagDelete(DeleteView):
+class TagDelete(LoginRequiredMixin, DeleteView):
     """Tag delete view"""
     template_name = 'tag/tag_confirm_delete.html'
     model = Tag
@@ -80,27 +80,27 @@ class StartupDetail(DetailView):
         .prefetch_related('newslink_set')
 
 
-class StartupCreate(CreateView):
+class StartupCreate(LoginRequiredMixin, CreateView):
     """Startup create view"""
     form_class = StartupForm
     template_name = 'startup/startup_form.html'
 
 
-class StartupUpdate(UpdateView):
+class StartupUpdate(LoginRequiredMixin, UpdateView):
     """startup update view"""
     form_class = StartupForm
     model = Startup
     template_name = 'startup/startup_form_update.html'
 
 
-class StartupDelete(DeleteView):
+class StartupDelete(LoginRequiredMixin, DeleteView):
     """Startup delete view"""
     model = Startup
     template_name = 'startup/startup_confirm_delete.html'
     success_url = reverse_lazy('organizers_startup_list')
 
 
-class NewsLinkCreate(NewsLinkGetObjectMixin,
+class NewsLinkCreate(LoginRequiredMixin, NewsLinkGetObjectMixin,
                      StartupContextMixin,
                      CreateView):
     """Newslink create view"""
@@ -133,6 +133,7 @@ class NewsLinkCreate(NewsLinkGetObjectMixin,
 
 
 class NewsLinkUpdate(
+    LoginRequiredMixin,
     StartupContextMixin,
     NewsLinkGetObjectMixin,
     UpdateView):
@@ -146,6 +147,7 @@ class NewsLinkUpdate(
 
 
 class NewsLinkDelete(
+    LoginRequiredMixin,
     StartupContextMixin,
     NewsLinkGetObjectMixin,
     DeleteView):
