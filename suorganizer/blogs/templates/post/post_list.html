@@ -37,13 +37,13 @@
             {% empty %}
             <p><em>No Blog Posts Available</em></p>
             {% endfor %}
-            <div>
-                {% if perms.blogs.add_post %}
-                <a class="btn btn-info btn-lg btn-block" href="{% url 'blogs_post_create' %}">Write New Blog</a>
-                {% endif %}
-            </div>
         </div>
         <div class="col-sm-4">
+            <div class="add_post_button">
+                {% if perms.blogs.add_post %}
+                <a class="text-info btn btn-outline-info btn-lg btn-block" href="{% url 'blogs_post_create' %}">Write New Blog</a>
+                {% endif %}
+            </div>
             <h3>Post Archives</h3>
             <ul>
                 {% for y in date_list %}
