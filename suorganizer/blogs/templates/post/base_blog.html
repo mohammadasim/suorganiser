@@ -7,8 +7,9 @@
         </section>
     </div>
     <div class="col-md-4">
-        {% if perms.blogs.add_post %}
+
             <div>
+                {% if perms.blogs.add_post %}
                 <a class="text-info btn btn-outline-info btn-lg btn-block" href="{% url 'blogs_post_create' %}">Write New Blog</a>
                 {% endif %}
             </div>
