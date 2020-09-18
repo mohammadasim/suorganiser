@@ -60,13 +60,13 @@ def do_latest_posts(parser, token):
         whereas by token.content.split as ('fiction', 'hello', 'world')
         """
         tag_name, number_of_posts_str = (
-            token.split_content()
+            token.split_contents()
         )
     except ValueError:
         raise TemplateSyntaxError(
             'get_latest_posts_take 1 argument: '
             'number of posts to get'
-                    )
+        )
     try:
         number_of_posts = int(number_of_posts_str)
     except ValueError:
@@ -77,8 +77,6 @@ def do_latest_posts(parser, token):
             )
         )
     return LatestPostsNode(number_of_posts)
-
-
 
 
 class LatestPostNode(Node):
@@ -110,16 +108,14 @@ class LatestPostsNode(Node):
     a list of latest posts.
     """
 
+    def __init__(self, number_of_posts):
+        self.num = number_of_posts
 
-def __init__(self, number_of_posts):
-    self.num = number_of_posts
-
-
-def render(self, context):
-    """
-    Overriding the method
-    in the Node class
-    """
-    context['latest_post_list'] = \
-        Post.objects.published[:self.num]
-    return str()
+    def render(self, context):
+        """
+        Overriding the method
+        in the Node class
+        """
+        context['latest_post_list'] = \
+            Post.objects.published()[:self.num]
+        return str()

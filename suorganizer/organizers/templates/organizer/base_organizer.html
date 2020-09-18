@@ -12,7 +12,7 @@
         {% get_latest_posts 5 %}
         <section class="latest_post">
         <h4>Latest Posts</h4>
-            {% for latest_post in latest_posts %}
+            {% for latest_post in latest_post_list %}
         <p>
             <a href="{{ latest_post.get_absolute_url }}">
                 {{ latest_post.title }}
