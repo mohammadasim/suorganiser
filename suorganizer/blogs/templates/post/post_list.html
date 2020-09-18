@@ -1,7 +1,5 @@
-{% extends 'post/base_blog.html' %} {% block title %} {{ block.super }} - Blog List {% endblock %} {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-sm-8">
+{% extends 'post/base_blog.html' %} {% block title %} {{ block.super }} - Blog List {% endblock %}
+{% block post_content %}
             {% for post in post_list %}
             <article>
                 <header>
@@ -37,10 +35,10 @@
             {% empty %}
             <p><em>No Blog Posts Available</em></p>
             {% endfor %}
-        </div>
-        <div class="col-sm-4">
-            <div class="add_post_button">
+        {% endblock post_content %}
+        {% block col-4 %}
                 {% if perms.blogs.add_post %}
+            <div>
                 <a class="text-info btn btn-outline-info btn-lg btn-block" href="{% url 'blogs_post_create' %}">Write New Blog</a>
                 {% endif %}
             </div>
@@ -52,7 +50,4 @@
                 </a></li>
                 {% endfor %}
             </ul>
-        </div>
-    </div>
-</div>
-{% endblock %}
+        {% endblock col-4 %}
