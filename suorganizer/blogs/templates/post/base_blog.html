@@ -7,6 +7,11 @@
         </section>
     </div>
     <div class="col-md-4">
+        {% if perms.blogs.add_post %}
+            <div>
+                <a class="text-info btn btn-outline-info btn-lg btn-block" href="{% url 'blogs_post_create' %}">Write New Blog</a>
+                {% endif %}
+            </div>
         {% block col-4 %}This is the col-4 content{% endblock col-4 %}
 
     </div>

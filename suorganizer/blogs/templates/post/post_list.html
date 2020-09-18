@@ -15,6 +15,7 @@
                             <p>{{ post.text|truncatewords:20 }}</p>
                             <a href="{{ post.get_absolute_url }}">Read more&hellip;</a>
                         </div>
+                    </div>
                         <div class="d-flex justify-content-start">
                             {% if perms.blogs.change_post %}
                             <p>
@@ -37,11 +38,6 @@
             {% endfor %}
         {% endblock post_content %}
         {% block col-4 %}
-                {% if perms.blogs.add_post %}
-            <div>
-                <a class="text-info btn btn-outline-info btn-lg btn-block" href="{% url 'blogs_post_create' %}">Write New Blog</a>
-                {% endif %}
-            </div>
             <h3>Post Archives</h3>
             <ul>
                 {% for y in date_list %}
