@@ -30,7 +30,6 @@
                             </p>
                             {% endif %}
                         </div>
-                    </div>
                 </header>
             </article>
             {% empty %}
@@ -38,6 +37,7 @@
             {% endfor %}
         {% endblock post_content %}
         {% block col-4 %}
+        <section class="latest_post">
             <h3>Post Archives</h3>
             <ul>
                 {% for y in date_list %}
@@ -46,4 +46,5 @@
                 </a></li>
                 {% endfor %}
             </ul>
+        </section>
         {% endblock col-4 %}
