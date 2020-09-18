@@ -1,1 +1,41 @@
 {% extends 'base.html' %} {% load static %}
+{% load blog_latest %}
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <section>
+        {% block org_content %} This is the default content. {% endblock org_content %}
+        </section>
+    </div>
+    <div class="col-md-4">
+        {% block create_button %}This is the button content{% endblock %}
+        {% get_latest_posts 5 %}
+        <section class="latest_post">
+        <h4>Latest Posts</h4>
+            {% for latest_post in latest_posts %}
+        <p>
+            <a href="{{ latest_post.get_absolute_url }}">
+                {{ latest_post.title }}
+            </a>
+        </p>
+            {% endfor %}
+    </section>
+    </div>
+</div>
+<div>
+    <div class="row">
+        <div class="col">
+            <div>
+    {% if is_paginated %}
+    {% if page_obj.has_previous %}
+    <a href="{{ previous_page_url }}">Previous</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+    <a href="{{ next_page_url }}">Next</a>
+    {% endif %}
+    {% endif %}
+</div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

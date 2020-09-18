@@ -3,6 +3,8 @@
 {{ block.super }} - Tag List
 {% endblock title %}
 {% block content %}
+<div class="row">
+    <div class="col-md-8">
 <h2>Tag List</h2>
 <ul>
     {% for tag in tag_list %}
@@ -15,15 +17,7 @@
     <li><em>There are currently no Tags available.</em></li>
     {% endfor %}
 </ul>
-{% if perms.organizers.add_tag %}
-<div class="tag_list">
-    <a class="text-info btn btn-outline-info btn-lg btn-block" href="{% url 'organizers_tag_create' %}" title="Add Tag">
-        <span class="material-icons">add</span></a>
-</div>
-{% endif %}
-<div>
     Page {{ page_obj.number }} of {{ paginator.num_pages }}
-</div>
 <div>
     {% if is_paginated %}
     {% if page_obj.has_previous %}
@@ -34,5 +28,15 @@
     {% endif %}
     {% endif %}
 </div>
+        </div>
+{% if perms.organizers.add_tag %}
+<div class="tag_list col-md-4">
+    <a class="text-info btn btn-outline-info btn-lg btn-block" href="{% url 'organizers_tag_create' %}" title="Add Tag">
+        Add a Tag </a>
+</div>
+{% endif %}
+<div>
+
+    </div>
 {% endblock content %}
 

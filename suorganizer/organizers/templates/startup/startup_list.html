@@ -3,7 +3,8 @@
 {{ block.super }} - Startups
 {% endblock title %}
 {% block content %}
-<div class="startup_list">
+<div class="row">
+<div class="startup_list col-md-8">
     <h2>Startup List</h2>
     <ul>
         {% for startup in page_obj %}
@@ -29,8 +30,9 @@
     </div>
 </div>
 {% if perms.organizers.add_startup %}
-<div>
+<div class="col-md-4">
     <a class="text-info btn btn-outline-info btn-lg btn-block" href="{% url 'organizers_startup_create' %}" title="Add Tag">Add startup</a>
 </div>
+    </div>
 {% endif %}
 {% endblock content %}
