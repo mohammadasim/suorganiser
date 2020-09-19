@@ -144,3 +144,87 @@ class NewsLinkGetObjectMixin:
             slug__iexact=newslink_slug,
             startup__slug__iexact=startup_slug
         )
+
+
+class BaseStartupFeedMixin:
+    """
+    Class to implement methods
+    and attributes required for
+    Atom and RSS feeds for
+    Startup.
+    As this feed is for a single
+    object. We need to get that
+    object.
+    We therefore override the
+    get_object(), this method
+    is not like the get_object()
+    found in GCBV, but is more
+    like get() found in CBV.
+    """
+    def get_object(self, request, startup_slug):
+        return get_object_or_404(
+            Startup,
+            slug__iexact=startup_slug
+        )
+
+    """
+    When provided an object, the Feed class
+    will pass the object to the items() method,
+    allowing us to use Startup instance in the
+    method to get the related NewsLink objects
+    """
+
+    def items(self, startup):
+        return startup.newslink_set.all()[:10]
+
+    """
+    The item retrieved by items method is
+    the newslink, so we define methods
+    to get attributes of each newslink
+    """
+
+    def item_description(self, newslink):
+        """
+        Method that returns description
+        of the newslink item retrieved
+        by items method
+        """
+        return newslink.description()
+
+    def item_link(self, newslink):
+        """
+        Method that returns link
+        of the newslink item retrieved
+        by the items method
+        """
+        return newslink.link
+
+    def item_title(self, newslink):
+        """
+        Method that returns title of
+        the newslink item returned
+        by the items method
+        """
+        return newslink.title
+
+    def description(self, startup):
+        """
+        Method that returns the
+        description of startup
+        that this feed is for.
+        """
+        return 'News related to {}'.format(
+            startup.name
+        )
+
+    def link(self, startup):
+        """
+        Method to return the
+        url for the startup
+        detail page of the
+        startup.
+        """
+        return startup.get_absolute_url()
+
+    def subtitle(self, startup):
+        pass

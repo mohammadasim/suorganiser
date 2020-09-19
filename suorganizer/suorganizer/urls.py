@@ -24,9 +24,15 @@ from django.views.generic import TemplateView, RedirectView
 from organizers.urls import startup as start_urls
 from organizers.urls import tag as tag_urls
 from users import urls as user_urls
+from blogs.feeds import AtomPostFeed, Rss2PostFeed
 
 admin.site.site_header = 'Startup Organizer Admin'
 admin.site.site_title = 'Startup Organizer Site Admin'
+# Url configuration for new feeds
+sitenews = [
+    path('atom/', AtomPostFeed(), name='blogs_atom_feed'),
+    path('rss/', Rss2PostFeed(), name='blogs_rss_feed'),
+]
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('blogs/', include(blog_urls)),
@@ -42,6 +48,7 @@ urlpatterns = [
     )),
     path('users/', include(user_urls,
                            namespace='dj-auth')),
+    path('sitenews/', include(sitenews)),
 ]
 
 if settings.DEBUG:

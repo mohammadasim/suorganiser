@@ -102,11 +102,12 @@ class Post(models.Model):
             self.pub_date,
             self.slug
         )
+
     natural_key.dependencies = [
-            'organizers.startup',
-            'organizers.tag',
-            'users.user'
-        ]
+        'organizers.startup',
+        'organizers.tag',
+        'users.user'
+    ]
 
     # we use the PostManager generated class
     # as manager for Post model.
@@ -173,3 +174,29 @@ class Post(models.Model):
                            'month': self.pub_date.month
                        }
                        )
+
+    def formatted_title(self):
+        """
+        Method to format the title
+        of a post.
+        Method used in setting up
+        RSS feed.
+        """
+        return self.title.title()
+
+    def short_text(self):
+        """
+        Method to return the first
+        20 words of the post text.
+        If the post text is less than
+        20, the whole text is returned.
+        Method used in setting up
+        RSS feed.
+        """
+        if len(self.text) > 20:
+            # Get the first 20 words of the text
+            short = ' '.join(self.text.split()[:20])
+            short += '...'
+        else:
+            short = self.text
+        return short

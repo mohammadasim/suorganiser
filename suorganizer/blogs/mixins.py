@@ -1,7 +1,10 @@
 from django.http import Http404, HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.views.generic.dates import (
     YearMixin as BaseYearMixin, MonthMixin as BaseMonthMixin,
     DateMixin, _date_from_string)
+
+from .models import Post
 
 
 class AllowFuturePermissionMixin:
@@ -150,3 +153,64 @@ class PostFormValidMixin:
         return HttpResponseRedirect(
             self.get_success_url()
         )
+
+
+class BasePostFeedMixin:
+    """
+    Class implementing attributes
+    and methods required for RSS
+    and Atom Feeds.
+    While both RSS and Atom feeds
+    typically print the same
+    information, Django will expect
+    that we use different attributes
+    and methods for each one, despite
+    the fact that they frequently
+    serve the same purpose.
+    In case of description attribute,
+    description is for RSS and
+    subtitle is for Atom feed.
+    """
+    title = 'Latest Startup Organizer Blog Posts'
+    link = reverse_lazy('blogs_posts_list')
+    description = subtitle = (
+        'Stay up to date on the '
+        'hottest startup news.'
+    )
+
+    def items(self):
+        """
+        Method to provide the
+        list of items listed
+        in the feed.
+        This method will be
+        used by both RSS and
+        Atom.
+        """
+        # uses Post.Meta.ordering
+        return Post.objects.published()[:10]
+
+    def item_title(self, item):
+        """
+        Method that returns the
+        formatted title
+        of the item provided in
+        the args.
+        """
+        return item.formatted_title()
+
+    def item_description(self, item):
+        """
+        Method that returns a short
+        description of the item
+        provided in the argument.
+        """
+        return item.short_text()
+
+    def item_link(self, item):
+        """
+        Method that returns
+        the link for item
+        provided in the args.
+        """
+        return item.get_absolute_url()

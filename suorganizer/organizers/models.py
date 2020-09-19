@@ -1,4 +1,5 @@
 from datetime import date
+from urllib.parse import urlparse
 
 from django.db import models
 from django.urls import reverse
@@ -236,3 +237,18 @@ class NewsLink(models.Model):
         'organizers.tag',
         'users.user'
     ]
+
+    def description(self):
+        """
+        Method to return a string
+        containing date and url
+        of a newslink
+        """
+        return (
+            'Written on '
+            '{0: %A, %B} {0.day}, {0:%Y}; '
+            'hosted at {1}'.format(
+                self.pub_date,
+                urlparse(self.link).netloc
+            )
+        )
