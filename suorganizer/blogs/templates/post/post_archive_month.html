@@ -63,8 +63,7 @@
             <ul class="pagination">
                 {% if previous_month %}
                 <li class="page-item">
-                    <a class="page-link"
-                       href="{% url 'blogs_post_archive_month' previous_month|date:'Y' previous_month|date:'m' %}"
+                    <a class="page-link" href="{% url 'blogs_post_archive_month' previous_month|date:'Y' previous_month|date:'m' %}"
                        aria-label="Previous">
                         <span aria-hidden="true">&laquo; Previous</span>
                     </a>
