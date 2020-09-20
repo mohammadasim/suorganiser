@@ -160,6 +160,27 @@ class Startup(models.Model):
             pub_date__lt=date.today()
         ))
 
+    def get_feed_atom_url(self):
+        """
+        Method to return the reverse of
+        organizers_startup_atom_feed
+        for startup
+        """
+        return reverse(
+            'organizers_startup_atom_feed',
+            kwargs={'startup_slug': self.slug}
+        )
+
+    def get_feed_rss_url(self):
+        """
+        Method to return the reverse of
+        organizers_startup_rss_feed
+        for startup.
+        """
+        return reverse(
+            'organizers_startup_rss_feed',
+            kwargs={'startup_slug': self.slug}
+        )
 
 class NewsLinkManager(models.Model):
     """

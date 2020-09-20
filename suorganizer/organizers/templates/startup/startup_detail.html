@@ -21,6 +21,11 @@
                 {% endfor %}
             </dd>
             {% endwith %}
+            <dt class="col-sm-3">Feeds</dt>
+            <dd class="col-sm-9">
+                <a href="{{ startup.get_feed_atom_url }}">Atom, </a>
+                <a href="{{ startup.get_feed_rss_url }}">RSS</a>
+            </dd>
         </dl>
     </div>
     <div class="description">

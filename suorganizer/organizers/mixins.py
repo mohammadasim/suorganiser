@@ -227,4 +227,20 @@ class BaseStartupFeedMixin:
         return startup.get_absolute_url()
 
     def subtitle(self, startup):
-        pass
+        """
+        Method to return the description
+        of the Startup. We have to define
+        a subtitle method even though the
+        description method is already there,
+        because django wants subtitle method
+        for Atom feed, while the description
+        method is used by RSS Feed.
+        """
+        return self.description(startup)
+
+    def title(self, startup):
+        """
+        Method to return the name
+        of a startup.
+        """
+        return startup.name

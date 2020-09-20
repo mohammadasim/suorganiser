@@ -25,6 +25,7 @@ from organizers.urls import startup as start_urls
 from organizers.urls import tag as tag_urls
 from users import urls as user_urls
 from blogs.feeds import AtomPostFeed, Rss2PostFeed
+from organizers.feeds import AtomStartupFeed, Rss2StartupFeed
 
 admin.site.site_header = 'Startup Organizer Admin'
 admin.site.site_title = 'Startup Organizer Site Admin'
@@ -49,6 +50,8 @@ urlpatterns = [
     path('users/', include(user_urls,
                            namespace='dj-auth')),
     path('sitenews/', include(sitenews)),
+    path('<slug:startup_slug>/atom/', AtomStartupFeed(), name='organizers_startup_atom_feed'),
+    path('<slug:startup_slug>/rss/', Rss2StartupFeed(), name='organizers_startup_rss_feed'),
 ]
 
 if settings.DEBUG:
