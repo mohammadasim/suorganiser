@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.sitemaps',
     # Third party
     'crispy_forms',
     'storages',
@@ -94,7 +95,6 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, 'templates')
         ],
-
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',

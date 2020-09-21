@@ -46,6 +46,19 @@
                         <li class="nav-item">
                             <a class="nav-link"  href="{% url 'contact' %}">Contact Us</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'sitemaps' %}">Sitemap</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            About US
+                                </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{% url 'about_site' %}">About Us</a>
+                                <a class="dropdown-item" href="{% url 'site_mission' %}">Our Mission</a>
+                                <a class="dropdown-item" href="{% url 'site_work' %}">What we do</a>
+                            </div>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             User

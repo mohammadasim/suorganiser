@@ -21,6 +21,12 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView, RedirectView
+from django.contrib.sitemaps.views import (
+    index as site_index_view,
+    sitemap as sitemap_view
+)
+
+from .sitemaps import sitemaps as sitemaps_dict
 from organizers.urls import startup as start_urls
 from organizers.urls import tag as tag_urls
 from users import urls as user_urls
@@ -52,6 +58,12 @@ urlpatterns = [
     path('sitenews/', include(sitenews)),
     path('<slug:startup_slug>/atom/', AtomStartupFeed(), name='organizers_startup_atom_feed'),
     path('<slug:startup_slug>/rss/', Rss2StartupFeed(), name='organizers_startup_rss_feed'),
+    # The index view is a higher level overview of the sitemaps
+    # for each section of the application.
+    path('sitemap.xml', site_index_view, {'sitemaps': sitemaps_dict},
+         name='sitemaps'),
+    path('sitemap-<section>.xml', sitemap_view, {'sitemaps': sitemaps_dict},
+         name='django.contrib.sitemaps.views.sitemap'),
 ]
 
 if settings.DEBUG:
