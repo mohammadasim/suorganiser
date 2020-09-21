@@ -1,4 +1,5 @@
 from datetime import date
+from urllib.parse import urlparse
 
 from django.db import models
 from django.urls import reverse
@@ -159,6 +160,27 @@ class Startup(models.Model):
             pub_date__lt=date.today()
         ))
 
+    def get_feed_atom_url(self):
+        """
+        Method to return the reverse of
+        organizers_startup_atom_feed
+        for startup
+        """
+        return reverse(
+            'organizers_startup_atom_feed',
+            kwargs={'startup_slug': self.slug}
+        )
+
+    def get_feed_rss_url(self):
+        """
+        Method to return the reverse of
+        organizers_startup_rss_feed
+        for startup.
+        """
+        return reverse(
+            'organizers_startup_rss_feed',
+            kwargs={'startup_slug': self.slug}
+        )
 
 class NewsLinkManager(models.Model):
     """
@@ -236,3 +258,18 @@ class NewsLink(models.Model):
         'organizers.tag',
         'users.user'
     ]
+
+    def description(self):
+        """
+        Method to return a string
+        containing date and url
+        of a newslink
+        """
+        return (
+            'Written on '
+            '{0: %A, %B} {0.day}, {0:%Y}; '
+            'hosted at {1}'.format(
+                self.pub_date,
+                urlparse(self.link).netloc
+            )
+        )

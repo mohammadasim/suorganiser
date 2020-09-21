@@ -1,7 +1,5 @@
-{% extends 'post/base_blog.html' %} {% block title %} {{ block.super }} - Blog List {% endblock %} {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-sm-8">
+{% extends 'post/base_blog.html' %} {% block title %} {{ block.super }} - Blog List {% endblock %}
+{% block post_content %}
             {% for post in post_list %}
             <article>
                 <header>
@@ -17,6 +15,7 @@
                             <p>{{ post.text|truncatewords:20 }}</p>
                             <a href="{{ post.get_absolute_url }}">Read more&hellip;</a>
                         </div>
+                    </div>
                         <div class="d-flex justify-content-start">
                             {% if perms.blogs.change_post %}
                             <p>
@@ -31,19 +30,14 @@
                             </p>
                             {% endif %}
                         </div>
-                    </div>
                 </header>
             </article>
             {% empty %}
             <p><em>No Blog Posts Available</em></p>
             {% endfor %}
-            <div>
-                {% if perms.blogs.add_post %}
-                <a class="btn btn-info btn-lg btn-block" href="{% url 'blogs_post_create' %}">Write New Blog</a>
-                {% endif %}
-            </div>
-        </div>
-        <div class="col-sm-4">
+        {% endblock post_content %}
+        {% block col-4 %}
+        <section class="latest_post">
             <h3>Post Archives</h3>
             <ul>
                 {% for y in date_list %}
@@ -52,7 +46,7 @@
                 </a></li>
                 {% endfor %}
             </ul>
-        </div>
-    </div>
-</div>
-{% endblock %}
+        </section>
+        {% endblock col-4 %}
+        {% block pagination %}
+        {% endblock pagination %}

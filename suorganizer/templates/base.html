@@ -14,6 +14,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
+    <link rel="alternate" title="Blogs News RSS" type="application/rss+xml"
+          href="{% url 'blogs_rss_feed' %}">
+    <link rel="alternate" title="Blogs News Atom" type="application/atom+xml"
+          href="{% url 'blogs_atom_feed' %}">
 </head>
 
 <body>
@@ -33,14 +37,27 @@
                             <a href="{% url 'blogs_posts_list' %}" class="nav-link">Blogs</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" class="nav-link"
+                            <a class="nav-link"
                                href="{% url 'organizers_startup_list' %}">Startups</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" class="nav-link" href="{% url 'organizers_tag_list' %}">Tags</a>
+                            <a class="nav-link"  href="{% url 'organizers_tag_list' %}">Tags</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" class="nav-link" href="{% url 'contact' %}">Contact Us</a>
+                            <a class="nav-link"  href="{% url 'contact' %}">Contact Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'sitemaps' %}">Sitemap</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            About US
+                                </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{% url 'about_site' %}">About Us</a>
+                                <a class="dropdown-item" href="{% url 'site_mission' %}">Our Mission</a>
+                                <a class="dropdown-item" href="{% url 'site_work' %}">What we do</a>
+                            </div>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -94,7 +111,7 @@
         <hr>
 
         <div class="row justify-content-md-between">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <p class="font-weight-light text-justify">
                     &copy;2020
                     <a href="https://AndresForge.com">
@@ -102,16 +119,22 @@
                     </a>
                 </p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <p class="font-weight-light text-justify">SUORGANIZER</p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <p class="font-weight-light text-justify">
                     Created for
                     <a href="https://Django-Unleashed.com/">
-                        Django Unleashed
+                        Devteams Inc
                     </a>
                 </p>
+            </div>
+            <div class="col-md-2">
+                <a href="{% url 'blogs_rss_feed' %}">Blogs RSS Feed</a>
+            </div>
+            <div class="col-md-2">
+                <a href="{% url 'blogs_atom_feed' %}">Blogs Atom Feed</a>
             </div>
         </div>
     </div>

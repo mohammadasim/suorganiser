@@ -2,7 +2,8 @@
 {% block title %}
 {{ block.super }} - Tag List
 {% endblock title %}
-{% block content %}
+{% block org_content %}
+
 <h2>Tag List</h2>
 <ul>
     {% for tag in tag_list %}
@@ -15,24 +16,12 @@
     <li><em>There are currently no Tags available.</em></li>
     {% endfor %}
 </ul>
+{% endblock org_content %}
+{% block create_button %}
 {% if perms.organizers.add_tag %}
-<div class="tag_list">
     <a class="text-info btn btn-outline-info btn-lg btn-block" href="{% url 'organizers_tag_create' %}" title="Add Tag">
-        <span class="material-icons">add</span></a>
-</div>
+        Add a Tag </a>
 {% endif %}
-<div>
-    Page {{ page_obj.number }} of {{ paginator.num_pages }}
-</div>
-<div>
-    {% if is_paginated %}
-    {% if page_obj.has_previous %}
-    <a href="{{ previous_page_url }}">Previous</a>
-    {% endif %}
-    {% if page_obj.has_next %}
-    <a href="{{ next_page_url }}">Next</a>
-    {% endif %}
-    {% endif %}
-</div>
-{% endblock content %}
+{% endblock create_button %}
+
 

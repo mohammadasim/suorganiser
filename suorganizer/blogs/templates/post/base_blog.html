@@ -1,1 +1,25 @@
 {% extends 'base.html' %} {% load static %}
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <section>
+        {% block post_content %} This is the default content. {% endblock post_content %}
+        </section>
+    </div>
+    <div class="col-md-4">
+
+            <div>
+                {% if perms.blogs.add_post %}
+                <a class="text-info btn btn-outline-info btn-lg btn-block" href="{% url 'blogs_post_create' %}">Write New Blog</a>
+                {% endif %}
+            </div>
+        {% block col-4 %}This is the col-4 content{% endblock col-4 %}
+
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        {% block pagination %}{% endblock pagination %}
+    </div>
+</div>
+{% endblock content %}
